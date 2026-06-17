@@ -1,0 +1,229 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - link "+40 700 000 000" [ref=e6] [cursor=pointer]:
+          - /url: tel:+40700000000
+        - link "WhatsApp" [ref=e7] [cursor=pointer]:
+          - /url: https://wa.me/40700000000
+      - paragraph [ref=e8]: Evaluare si ofertare pentru proiectul tau
+    - banner [ref=e9]:
+      - generic [ref=e10]:
+        - link "PACA CONSTRUCT" [ref=e11] [cursor=pointer]:
+          - /url: /
+        - button "Deschide meniul" [ref=e12]:
+          - generic [ref=e13]: Deschide meniul
+    - main [ref=e18]:
+      - generic [ref=e19]:
+        - img "Utilaj de terasamente lucrand pe un teren in lumina calda" [ref=e20]
+        - generic [ref=e24]:
+          - paragraph [ref=e25]: AMENAJARI • TERASAMENTE • EXCAVARI
+          - heading "De la teren brut la spatiu viu." [level=1] [ref=e27]
+          - paragraph [ref=e28]: Pregatim terenul, executam lucrarile si construim cadrul potrivit pentru proiecte rezidentiale, comerciale si industriale. Tehnicitate in armonie cu natura.
+          - generic [ref=e29]:
+            - link "Solicita o evaluare" [ref=e30] [cursor=pointer]:
+              - /url: "#contact"
+            - link "Descopera serviciile" [ref=e31] [cursor=pointer]:
+              - /url: "#servicii"
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - generic [ref=e37]:
+            - paragraph [ref=e38]: Proiect
+            - paragraph [ref=e39]: Peisagistica
+          - generic [ref=e40]:
+            - paragraph [ref=e41]: 01 / Estetica organica
+            - heading "Amenajare spatii verzi" [level=2] [ref=e42]:
+              - text: Amenajare
+              - text: spatii verzi
+            - paragraph [ref=e43]: Proiectare si executie peisagistica pentru gradini, curti si spatii comerciale. Sisteme de irigatii, gazon, plantari specializate, iazuri, piscine si intretinere adaptata climei locale.
+            - link "Exploreaza divizia" [ref=e44] [cursor=pointer]:
+              - /url: "#amenajare-spatii-verzi"
+              - text: Exploreaza divizia
+              - generic [ref=e45]: "->"
+        - generic [ref=e47]:
+          - paragraph [ref=e48]: 02 / Infrastructura grea
+          - heading "Terasamente si excavari" [level=2] [ref=e49]:
+            - text: Terasamente
+            - text: si excavari
+          - paragraph [ref=e50]: Lucrari de infrastructura, sapaturi fundatii, nivelari, compactari, drenaje, bransamente si drumuri de acces. Flota proprie de utilaje pentru executie rapida si precisa.
+          - link "Exploreaza divizia" [ref=e51] [cursor=pointer]:
+            - /url: "#terasamente-excavari"
+            - text: Exploreaza divizia
+            - generic [ref=e52]: "->"
+      - generic [ref=e63]:
+        - paragraph [ref=e64]: "01"
+        - heading "Un proiect bun incepe cu un teren pregatit corect." [level=2] [ref=e65]
+        - paragraph [ref=e66]: "Fie ca vorbim de o gradina rezidentiala complexa sau de pregatirea terenului pentru o hala industriala, abordam fiecare lucrare cu aceeasi rigoare tehnica: evaluam, planificam si executam."
+      - generic [ref=e68]:
+        - generic [ref=e69]:
+          - generic [ref=e70]:
+            - paragraph [ref=e71]: EXPERTIZA COMPLETA
+            - heading "Serviciile noastre" [level=2] [ref=e73]
+          - link "Toate serviciile" [ref=e74] [cursor=pointer]:
+            - /url: "#servicii"
+        - generic [ref=e75]:
+          - article [ref=e76]:
+            - generic [ref=e78]:
+              - generic [ref=e79]:
+                - generic [ref=e80]: "01"
+                - heading "Gradini si curti" [level=3] [ref=e81]
+                - paragraph [ref=e82]: Proiectare si executie pentru spatii verzi rezidentiale, plantari, gazon, sisteme de irigatii si finisaje exterioare.
+              - link "Detalii ->" [ref=e83] [cursor=pointer]:
+                - /url: "#gradini-si-curti"
+          - article [ref=e84]:
+            - generic [ref=e85]:
+              - generic [ref=e86]:
+                - generic [ref=e87]: "02"
+                - heading "Iazuri si piscine" [level=3] [ref=e88]
+                - paragraph [ref=e89]: Sapaturi, modelare teren si pregatire infrastructura pentru iazuri decorative si piscine rezidentiale.
+              - link "Detalii ->" [ref=e90] [cursor=pointer]:
+                - /url: "#iazuri-si-piscine"
+          - article [ref=e91]:
+            - generic [ref=e92]:
+              - generic [ref=e93]:
+                - generic [ref=e94]: "03"
+                - heading "Intretinere spatii verzi" [level=3] [ref=e95]
+                - paragraph [ref=e96]: Interventii periodice pentru gazon, vegetatie, irigatii si mentinerea spatiilor exterioare in forma optima.
+              - link "Detalii ->" [ref=e97] [cursor=pointer]:
+                - /url: "#intretinere-spatii-verzi"
+          - article [ref=e98]:
+            - generic [ref=e99]:
+              - generic [ref=e100]:
+                - generic [ref=e101]: "04"
+                - heading "Excavari fundatii si pivnite" [level=3] [ref=e102]
+                - paragraph [ref=e103]: Excavatii controlate pentru fundatii, pivnite, subsoluri si lucrari pregatitoare pentru constructii.
+              - link "Detalii ->" [ref=e104] [cursor=pointer]:
+                - /url: "#fundatii-pivnite"
+          - article [ref=e105]:
+            - generic [ref=e106]:
+              - generic [ref=e107]:
+                - generic [ref=e108]: "05"
+                - heading "Sapaturi fose septice" [level=3] [ref=e109]
+                - paragraph [ref=e110]: Sapaturi pentru fose septice, camine tehnice si instalatii subterane, adaptate conditiilor din teren.
+              - link "Detalii ->" [ref=e111] [cursor=pointer]:
+                - /url: "#fose-septice"
+          - article [ref=e112]:
+            - generic [ref=e113]:
+              - generic [ref=e114]:
+                - generic [ref=e115]: "06"
+                - heading "Bransamente apa si canalizare" [level=3] [ref=e116]
+                - paragraph [ref=e117]: Santuri, trasee si pregatire teren pentru retele de apa, canalizare si utilitati conexe.
+              - link "Detalii ->" [ref=e118] [cursor=pointer]:
+                - /url: "#bransamente-apa-canalizare"
+          - article [ref=e119]:
+            - generic [ref=e120]:
+              - generic [ref=e121]:
+                - generic [ref=e122]: "07"
+                - heading "Nivelare teren" [level=3] [ref=e123]
+                - paragraph [ref=e124]: Decopertare, umplere, compactare si aducerea terenului la cota necesara proiectului.
+              - link "Detalii ->" [ref=e125] [cursor=pointer]:
+                - /url: "#nivelare-teren"
+          - article [ref=e126]:
+            - generic [ref=e127]:
+              - generic [ref=e128]:
+                - generic [ref=e129]: "08"
+                - heading "Alei, platforme si drumuri de acces" [level=3] [ref=e130]
+                - paragraph [ref=e131]: Pregatire strat suport, tasare si modelare pentru alei, platforme si cai de acces auto.
+              - link "Detalii ->" [ref=e132] [cursor=pointer]:
+                - /url: "#alei-platforme-drumuri"
+          - article [ref=e133]:
+            - generic [ref=e134]:
+              - generic [ref=e135]:
+                - generic [ref=e136]: "09"
+                - heading "Drenaje si evacuare ape pluviale" [level=3] [ref=e137]
+                - paragraph [ref=e138]: Sisteme de drenaj pentru captarea, directionarea si evacuarea eficienta a apelor pluviale.
+              - link "Detalii ->" [ref=e139] [cursor=pointer]:
+                - /url: "#drenaje-ape-pluviale"
+          - article [ref=e140]:
+            - generic [ref=e141]:
+              - generic [ref=e142]:
+                - generic [ref=e143]: "10"
+                - heading "Amenajari garduri" [level=3] [ref=e144]
+                - paragraph [ref=e145]: Pregatire teren, sapaturi si suport tehnic pentru fundatii si trasee de garduri.
+              - link "Detalii ->" [ref=e146] [cursor=pointer]:
+                - /url: "#amenajari-garduri"
+          - article [ref=e147]:
+            - generic [ref=e148]:
+              - generic [ref=e149]:
+                - generic [ref=e150]: "11"
+                - heading "Terasamente si platforme industriale" [level=3] [ref=e151]
+                - paragraph [ref=e152]: Terasamente, compactari si pregatiri de platforme pentru proiecte industriale si comerciale.
+              - link "Detalii ->" [ref=e153] [cursor=pointer]:
+                - /url: "#platforme-industriale"
+          - article [ref=e154]:
+            - generic [ref=e155]:
+              - generic [ref=e156]:
+                - generic [ref=e157]: "12"
+                - heading "Drumuri interne si infrastructura" [level=3] [ref=e158]
+                - paragraph [ref=e159]: Lucrari de infrastructura pentru circulatii interne, drumuri tehnologice si acces in santiere.
+              - link "Detalii ->" [ref=e160] [cursor=pointer]:
+                - /url: "#drumuri-interne"
+          - article [ref=e161]:
+            - generic [ref=e162]:
+              - generic [ref=e163]:
+                - generic [ref=e164]: "13"
+                - heading "Inchirieri utilaje cu operator" [level=3] [ref=e165]
+                - paragraph [ref=e166]: Excavatoare, incarcator frontal si transport agregate, operate de personal calificat.
+              - link "Detalii ->" [ref=e167] [cursor=pointer]:
+                - /url: "#inchirieri-utilaje"
+      - generic [ref=e170]:
+        - generic [ref=e171]:
+          - paragraph [ref=e172]: PROCES TEHNIC
+          - heading "O lucrare clara, din teren pana la predare." [level=2] [ref=e174]
+          - paragraph [ref=e175]: Combinam disciplina de santier cu intelegerea proiectelor exterioare, ca fiecare interventie sa fie precisa si coerenta.
+        - generic [ref=e176]:
+          - article [ref=e177]:
+            - text: "01"
+            - heading "Evaluare teren" [level=3] [ref=e178]
+            - paragraph [ref=e179]: Analizam accesul, diferentele de nivel, natura solului si cerintele tehnice.
+          - article [ref=e180]:
+            - text: "02"
+            - heading "Plan de executie" [level=3] [ref=e181]
+            - paragraph [ref=e182]: Stabilim etapele, utilajele potrivite, durata lucrarii si riscurile din santier.
+          - article [ref=e183]:
+            - text: "03"
+            - heading "Executie controlata" [level=3] [ref=e184]
+            - paragraph [ref=e185]: Lucram cu operatori calificati si verificam permanent cotele si finisajele.
+          - article [ref=e186]:
+            - text: "04"
+            - heading "Predare lucrare" [level=3] [ref=e187]
+            - paragraph [ref=e188]: "Lasam terenul pregatit pentru etapa urmatoare: constructie, plantare sau infrastructura."
+      - generic [ref=e190]:
+        - generic [ref=e191]:
+          - paragraph [ref=e192]: Estimare rapida
+          - heading "Ai un teren de pregatit sau o lucrare de excavat?" [level=2] [ref=e193]
+        - link "Suna pentru oferta" [ref=e194] [cursor=pointer]:
+          - /url: tel:+40700000000
+    - contentinfo [ref=e195]:
+      - generic [ref=e196]:
+        - generic [ref=e197]:
+          - paragraph [ref=e198]: PACA CONSTRUCT
+          - paragraph [ref=e199]: Tehnicitate in armonie cu natura. Amenajari, terasamente si excavari pentru proiecte rezidentiale, comerciale si industriale.
+        - generic [ref=e200]:
+          - generic [ref=e201]:
+            - paragraph [ref=e202]: Companie
+            - generic [ref=e203]:
+              - link "Servicii" [ref=e204] [cursor=pointer]:
+                - /url: "#servicii"
+              - link "Proiecte" [ref=e205] [cursor=pointer]:
+                - /url: "#proiecte"
+              - link "Proces" [ref=e206] [cursor=pointer]:
+                - /url: "#proces"
+              - link "Contact" [ref=e207] [cursor=pointer]:
+                - /url: "#contact"
+          - generic [ref=e208]:
+            - paragraph [ref=e209]: Legal
+            - generic [ref=e210]:
+              - link "Politica de confidentialitate" [ref=e211] [cursor=pointer]:
+                - /url: "#"
+              - link "Termeni si conditii" [ref=e212] [cursor=pointer]:
+                - /url: "#"
+        - generic [ref=e213]:
+          - paragraph [ref=e214]: Contact rapid
+          - link "+40 700 000 000" [ref=e215] [cursor=pointer]:
+            - /url: tel:+40700000000
+          - link "contact@pacaconstruct.ro" [ref=e216] [cursor=pointer]:
+            - /url: mailto:contact@pacaconstruct.ro
+      - paragraph [ref=e219]: (c) 2026 PACA CONSTRUCT SRL. Toate drepturile rezervate.
+  - button "Open Next.js Dev Tools" [ref=e225] [cursor=pointer]:
+    - img [ref=e226]
