@@ -47,7 +47,7 @@ export function Navbar({ serviceGroups }: NavbarProps) {
 
   return (
     <>
-      <div className="relative z-50 w-full bg-carbon text-white">
+      <div className="relative z-50 hidden w-full bg-carbon text-white md:block">
         <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-2 px-5 py-2 text-center text-[11px] font-bold uppercase leading-4 md:flex-row md:px-10 lg:px-16">
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1 text-white/80">
             <a href="tel:+40700000000" className="hover:text-amber">
@@ -62,10 +62,25 @@ export function Navbar({ serviceGroups }: NavbarProps) {
       </div>
 
       <header className="sticky top-0 z-40 border-b border-olive/15 bg-limestone/90 backdrop-blur-xl">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-4 md:px-10 lg:px-16">
+        <div className="mx-auto grid w-full max-w-7xl grid-cols-[44px_1fr_auto] items-center gap-3 px-5 py-4 md:flex md:justify-between md:px-10 lg:px-16">
+          <button
+            aria-expanded={isMobileOpen}
+            aria-controls="mobile-navigation"
+            className="flex h-11 w-11 items-center justify-center text-olive lg:hidden"
+            onClick={toggleMobileMenu}
+            type="button"
+          >
+            <span className="sr-only">Deschide meniul</span>
+            <span className="flex flex-col gap-1.5" aria-hidden="true">
+              <span className="block h-0.5 w-6 bg-current" />
+              <span className="block h-0.5 w-6 bg-current" />
+              <span className="block h-0.5 w-6 bg-current" />
+            </span>
+          </button>
+
           <Link
             href="/"
-            className="font-serif-display text-2xl font-semibold leading-none text-olive md:text-3xl"
+            className="justify-self-center text-center font-serif-display text-xl font-semibold leading-none text-olive md:justify-self-auto md:text-left md:text-3xl"
           >
             PACA CONSTRUCT
           </Link>
@@ -131,29 +146,14 @@ export function Navbar({ serviceGroups }: NavbarProps) {
             ))}
           </nav>
 
-          <div className="hidden items-center gap-3 md:flex">
+          <div className="flex items-center justify-end gap-3">
             <Link
               href="#contact"
-              className="bg-amber px-6 py-3 text-sm font-bold uppercase text-carbon transition hover:bg-[#fea943]"
+              className="bg-amber px-4 py-2 text-[10px] font-bold uppercase text-carbon transition hover:bg-[#fea943] md:px-6 md:py-3 md:text-sm"
             >
               Cere oferta
             </Link>
           </div>
-
-          <button
-            aria-expanded={isMobileOpen}
-            aria-controls="mobile-navigation"
-            className="flex h-11 w-11 items-center justify-center border border-olive/20 text-olive lg:hidden"
-            onClick={toggleMobileMenu}
-            type="button"
-          >
-            <span className="sr-only">Deschide meniul</span>
-            <span className="flex flex-col gap-1.5" aria-hidden="true">
-              <span className="block h-0.5 w-5 bg-current" />
-              <span className="block h-0.5 w-5 bg-current" />
-              <span className="block h-0.5 w-5 bg-current" />
-            </span>
-          </button>
         </div>
 
         {isMobileOpen ? (

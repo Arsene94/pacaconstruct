@@ -6,42 +6,54 @@ import { SectionContainer } from "./section-container";
 
 export function HeroSection() {
   return (
-    <section className="relative flex min-h-[680px] items-center overflow-hidden bg-carbon py-24 text-white md:min-h-[760px]">
+    <section className="relative order-1 flex min-h-[600px] items-end overflow-hidden bg-carbon py-12 text-white md:order-none md:min-h-[760px] md:items-center md:py-24">
       <Image
         src="/hero.png"
         alt="Utilaj de terasamente lucrand pe un teren in lumina calda"
         fill
-        preload
         loading="eager"
-        sizes="100vw"
-        className="object-cover opacity-55"
+        fetchPriority="high"
+        sizes="(min-width: 768px) 100vw, 0px"
+        className="hidden object-cover md:block"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-carbon via-carbon/85 to-carbon/20" />
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-carbon/60 to-transparent" />
+      <Image
+        src="/hero-mobile.png"
+        alt="Utilaj de terasamente lucrand pe un teren in lumina calda"
+        fill
+        loading="eager"
+        fetchPriority="high"
+        sizes="(max-width: 767px) 100vw, 0px"
+        className="object-cover md:hidden"
+      />
+      <div className="absolute inset-0 bg-carbon/65 md:hidden" />
+      <div className="absolute inset-0 hidden bg-gradient-to-r from-carbon via-carbon/85 to-carbon/20 md:block" />
+      <div className="absolute inset-x-0 bottom-0 hidden h-32 bg-gradient-to-t from-carbon/60 to-transparent md:block" />
 
       <SectionContainer className="relative z-10">
-        <div className="max-w-3xl">
-          <Eyebrow>AMENAJARI • TERASAMENTE • EXCAVARI</Eyebrow>
-          <h1 className="mt-6 font-serif-display text-5xl font-semibold leading-[1.05] text-white sm:text-6xl lg:text-7xl">
-            De la teren brut la spatiu viu.
+        <div className="mx-auto flex max-w-[320px] flex-col items-center text-center md:mx-0 md:max-w-3xl md:items-start md:text-left">
+          <div className="hidden md:block">
+            <Eyebrow>AMENAJARI • TERASAMENTE • EXCAVARI</Eyebrow>
+          </div>
+          <h1 className="font-serif-display text-4xl font-semibold leading-[1.12] text-white md:mt-6 md:text-7xl">
+            De la teren brut la spatiu viu
           </h1>
-          <p className="mt-7 max-w-2xl text-lg leading-8 text-white/80 md:text-xl">
+          <p className="mt-6 max-w-[300px] text-base leading-6 text-sage md:mt-7 md:max-w-2xl md:text-xl md:leading-8 md:text-white/80">
             Pregatim terenul, executam lucrarile si construim cadrul potrivit
             pentru proiecte rezidentiale, comerciale si industriale.
             Tehnicitate in armonie cu natura.
           </p>
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+          <div className="mt-10 flex w-full flex-col gap-4 md:w-auto md:flex-row">
             <Link
-              href="#contact"
+              href="#proiecte"
               className="bg-amber px-8 py-4 text-center text-sm font-bold uppercase text-carbon transition hover:bg-[#fea943]"
             >
-              Solicita o evaluare
+              Exploreaza proiectele
             </Link>
             <Link
               href="#servicii"
               className="border border-white/30 px-8 py-4 text-center text-sm font-bold uppercase text-white transition hover:bg-white/10"
             >
-              Descopera serviciile
+              Serviciile noastre
             </Link>
           </div>
         </div>
@@ -52,8 +64,8 @@ export function HeroSection() {
 
 export function PrimaryServicePaths() {
   return (
-    <section id="servicii" className="bg-limestone py-20 md:py-28 lg:py-32">
-      <SectionContainer>
+    <section id="servicii" className="order-3 bg-limestone py-16 md:order-none md:py-28 lg:py-32">
+      <SectionContainer className="flex flex-col gap-12 md:block">
         <ServicePath
           index="01"
           label="Estetica organica"
@@ -108,6 +120,46 @@ function ServicePath({
   imageAlign,
   dark = false,
 }: ServicePathProps) {
+  const mobileImage = (
+    <div className="relative h-[280px] w-full overflow-hidden bg-olive/10">
+      <Image
+        src="/hero.png"
+        alt=""
+        fill
+        loading="eager"
+        sizes="(max-width: 767px) 350px, 50vw"
+        className={`object-cover transition duration-700 ${
+          dark ? "opacity-80" : "opacity-95"
+        }`}
+      />
+      <div className="absolute inset-0 border border-carbon/10" />
+    </div>
+  );
+
+  const mobileCard = (
+    <article className="overflow-hidden border border-olive/15 bg-[#f6f3ed] md:hidden">
+      {mobileImage}
+      <div className="flex flex-col p-8">
+        <p className="mb-3 text-sm font-medium text-amber">SRV-{index}</p>
+        <h3 className="font-serif-display text-[28px] font-medium leading-9 text-olive">
+          {title}
+        </h3>
+        <p className="mt-4 line-clamp-3 text-base leading-6 text-stone">
+          {description}
+        </p>
+        <Link
+          href={href}
+          className="mt-8 inline-flex self-start border-b border-olive pb-1 text-xs font-bold uppercase text-olive transition hover:border-amber hover:text-amber"
+        >
+          Detalii serviciu
+          <span aria-hidden="true" className="ml-2">
+            -&gt;
+          </span>
+        </Link>
+      </div>
+    </article>
+  );
+
   const image = (
     <div
       className={`relative w-full overflow-hidden ${
@@ -123,7 +175,6 @@ function ServicePath({
           src="/hero.png"
           alt=""
           fill
-          loading="eager"
           sizes="(min-width: 1024px) 50vw, 100vw"
           className={`object-cover ${dark ? "opacity-80" : ""}`}
         />
@@ -179,7 +230,9 @@ function ServicePath({
   );
 
   return (
-    <div className="grid items-center gap-12 py-10 lg:grid-cols-2 lg:gap-16 lg:py-16">
+    <div className="py-0 md:grid md:items-center md:gap-12 md:py-10 lg:grid-cols-2 lg:gap-16 lg:py-16">
+      {mobileCard}
+      <div className="hidden md:contents">
       {imageAlign === "left" ? (
         <>
           {image}
@@ -191,22 +244,24 @@ function ServicePath({
           {image}
         </>
       )}
+      </div>
     </div>
   );
 }
 
 export function TransformationStatement() {
   return (
-    <section className="relative overflow-hidden border-y border-olive/10 bg-[#f1efe9] py-20 md:py-28">
+    <section className="relative order-2 overflow-hidden border-y border-olive/10 bg-[#fbf9f3] py-20 text-center md:order-none md:bg-[#f1efe9] md:py-28">
       <div className="bg-topo absolute right-0 top-0 h-full w-full opacity-60 md:w-1/2" />
       <SectionContainer className="relative z-10 text-center">
-        <p className="mx-auto mb-8 flex h-16 w-16 items-center justify-center border border-olive/15 text-2xl font-semibold text-amber">
+        <p className="mx-auto mb-6 flex h-12 w-12 items-center justify-center border border-transparent text-3xl font-semibold text-amber md:mb-8 md:h-16 md:w-16 md:border-olive/15 md:text-2xl">
           01
         </p>
-        <h2 className="mx-auto max-w-4xl font-serif-display text-4xl font-semibold leading-[1.14] text-olive md:text-6xl">
+        <h2 className="mx-auto max-w-[400px] font-serif-display text-3xl font-medium leading-tight text-olive md:max-w-4xl md:text-6xl md:font-semibold md:leading-[1.14]">
           Un proiect bun incepe cu un teren pregatit corect.
         </h2>
-        <p className="mx-auto mt-8 max-w-3xl text-lg leading-8 text-stone">
+        <div className="mx-auto mt-8 h-px w-12 bg-olive/20 md:hidden" />
+        <p className="mx-auto mt-8 hidden max-w-3xl text-lg leading-8 text-stone md:block">
           Fie ca vorbim de o gradina rezidentiala complexa sau de pregatirea
           terenului pentru o hala industriala, abordam fiecare lucrare cu
           aceeasi rigoare tehnica: evaluam, planificam si executam.
@@ -218,7 +273,7 @@ export function TransformationStatement() {
 
 export function ServicesMosaic() {
   return (
-    <section id="proiecte" className="bg-limestone py-20 md:py-28 lg:py-32">
+    <section id="proiecte" className="order-4 bg-limestone py-16 md:order-none md:py-28 lg:py-32">
       <SectionContainer>
         <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
@@ -250,8 +305,7 @@ export function ServicesMosaic() {
                     src="/hero.png"
                     alt=""
                     fill
-                    loading="eager"
-                    sizes="(min-width: 768px) 66vw, 100vw"
+                    sizes="(min-width: 768px) 66vw, 350px"
                     className="object-cover opacity-10 transition duration-500 group-hover:opacity-20"
                   />
                   <div className="absolute inset-0 bg-white/70" />
@@ -311,35 +365,42 @@ export function ProcessSection() {
   ];
 
   return (
-    <section id="proces" className="bg-carbon py-20 text-white md:py-28">
+    <section id="proces" className="order-5 bg-[#f0eee8] py-16 text-carbon md:order-none md:bg-carbon md:py-28 md:text-white">
       <SectionContainer>
-        <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+        <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
           <div>
-            <Eyebrow>PROCES TEHNIC</Eyebrow>
-            <h2 className="mt-5 font-serif-display text-4xl font-semibold leading-[1.12] text-white md:text-5xl">
+            <div className="hidden md:block">
+              <Eyebrow>PROCES TEHNIC</Eyebrow>
+            </div>
+            <h2 className="border-b border-olive/20 pb-4 font-serif-display text-3xl font-medium leading-[1.12] text-olive md:mt-5 md:border-0 md:pb-0 md:text-5xl md:font-semibold md:text-white">
               O lucrare clara, din teren pana la predare.
             </h2>
-            <p className="mt-6 max-w-lg text-lg leading-8 text-white/70">
+            <p className="mt-6 hidden max-w-lg text-lg leading-8 text-white/70 md:block">
               Combinam disciplina de santier cu intelegerea proiectelor
               exterioare, ca fiecare interventie sa fie precisa si coerenta.
             </p>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-0 md:grid-cols-2 md:gap-4">
             {steps.map((step, index) => (
               <article
                 key={step.title}
-                className="border border-white/10 bg-white/[0.03] p-6"
+                className="grid grid-cols-[32px_1fr_24px] gap-4 border-b border-olive/15 py-6 md:block md:border md:border-white/10 md:bg-white/[0.03] md:p-6"
               >
-                <span className="text-sm font-bold text-amber">
+                <span className="mt-1 text-sm font-bold text-amber md:mt-0">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <h3 className="mt-8 text-xl font-semibold text-white">
-                  {step.title}
-                </h3>
-                <p className="mt-3 text-sm leading-6 text-white/65">
-                  {step.text}
-                </p>
+                <div>
+                  <h3 className="text-lg font-bold text-olive md:mt-8 md:text-xl md:text-white">
+                    {step.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-stone md:mt-3 md:text-white/65">
+                    {step.text}
+                  </p>
+                </div>
+                <span className="mt-1 text-olive/60 md:hidden" aria-hidden="true">
+                  -&gt;
+                </span>
               </article>
             ))}
           </div>
@@ -351,22 +412,28 @@ export function ProcessSection() {
 
 export function ContactCta() {
   return (
-    <section className="bg-amber py-14 text-carbon">
-      <SectionContainer className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
-        <div>
-          <p className="text-xs font-bold uppercase">
+    <section className="order-6 bg-limestone py-16 text-carbon md:order-none md:bg-amber md:py-14">
+      <SectionContainer>
+        <div className="relative overflow-hidden border-l-4 border-amber bg-olive p-8 text-white shadow-xl shadow-carbon/10 md:flex md:items-center md:justify-between md:gap-6 md:border-0 md:bg-transparent md:p-0 md:text-carbon md:shadow-none">
+          <div className="absolute -right-8 -top-8 h-32 w-32 bg-amber/10 blur-2xl md:hidden" />
+          <p className="text-4xl text-amber md:hidden" aria-hidden="true">
+            13
+          </p>
+          <div className="relative">
+          <p className="mt-4 text-xs font-bold uppercase md:mt-0">
             Estimare rapida
           </p>
           <h2 className="mt-2 font-serif-display text-3xl font-semibold md:text-4xl">
             Ai un teren de pregatit sau o lucrare de excavat?
           </h2>
+          </div>
+          <Link
+            href="tel:+40700000000"
+            className="relative mt-8 inline-flex w-full justify-center bg-white px-7 py-4 text-center text-sm font-bold uppercase text-olive transition hover:bg-amber hover:text-carbon md:mt-0 md:w-auto md:border md:border-carbon/30 md:bg-transparent md:text-carbon md:hover:bg-carbon md:hover:text-white"
+          >
+            Suna pentru oferta
+          </Link>
         </div>
-        <Link
-          href="tel:+40700000000"
-          className="border border-carbon/30 px-7 py-4 text-center text-sm font-bold uppercase transition hover:bg-carbon hover:text-white"
-        >
-          Suna pentru oferta
-        </Link>
       </SectionContainer>
     </section>
   );

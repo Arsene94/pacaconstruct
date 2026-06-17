@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-limestone text-carbon">
       <Navbar serviceGroups={serviceGroups} />
-      <main>
+      <main className="flex flex-col">
         <HeroSection />
         <PrimaryServicePaths />
         <TransformationStatement />
