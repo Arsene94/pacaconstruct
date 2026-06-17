@@ -71,12 +71,15 @@ export function Navbar({ serviceGroups }: NavbarProps) {
           </Link>
 
           <nav className="hidden items-center gap-7 lg:flex">
-            <div className="relative">
+            <div
+              className="relative"
+              onMouseEnter={() => setIsServicesOpen(true)}
+              onMouseLeave={() => setIsServicesOpen(false)}
+            >
               <button
                 aria-expanded={isServicesOpen}
                 aria-haspopup="true"
                 className="flex items-center gap-2 py-3 text-sm font-semibold uppercase text-stone hover:text-amber"
-                onClick={() => setIsServicesOpen((open) => !open)}
                 type="button"
               >
                 Servicii

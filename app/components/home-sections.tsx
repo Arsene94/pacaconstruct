@@ -125,7 +125,7 @@ function ServicePath({
           fill
           loading="eager"
           sizes="(min-width: 1024px) 50vw, 100vw"
-          className={`object-cover ${dark ? "opacity-80 saturate-0" : ""}`}
+          className={`object-cover ${dark ? "opacity-80" : ""}`}
         />
         {dark ? (
           <>
