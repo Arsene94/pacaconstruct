@@ -65,7 +65,7 @@ export function PrimaryServicePaths() {
             </>
           }
           description="Proiectare si executie peisagistica pentru gradini, curti si spatii comerciale. Sisteme de irigatii, gazon, plantari specializate, iazuri, piscine si intretinere adaptata climei locale."
-          href="#amenajare-spatii-verzi"
+          href="/servicii/amenajare-spatii-verzi"
           imageAlign="left"
         />
 
@@ -80,7 +80,7 @@ export function PrimaryServicePaths() {
             </>
           }
           description="Lucrari de infrastructura, sapaturi fundatii, nivelari, compactari, drenaje, bransamente si drumuri de acces. Flota proprie de utilaje pentru executie rapida si precisa."
-          href="#terasamente-excavari"
+          href="/servicii/terasamente-excavari"
           imageAlign="right"
           dark
         />
@@ -276,7 +276,7 @@ export function ServicesMosaic() {
                   </p>
                 </div>
                 <Link
-                  href={`#${service.id}`}
+                  href={service.href}
                   className="text-sm font-bold uppercase text-olive transition group-hover:text-amber"
                 >
                   Detalii -&gt;

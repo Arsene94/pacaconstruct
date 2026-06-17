@@ -9,8 +9,8 @@ type NavbarProps = {
 };
 
 const navLinks = [
-  { label: "Proiecte", href: "#proiecte" },
-  { label: "Proces", href: "#proces" },
+  { label: "Proiecte", href: "/#proiecte" },
+  { label: "Proces", href: "/#proces" },
   { label: "Contact", href: "#contact" },
 ];
 

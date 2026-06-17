@@ -19,9 +19,9 @@ export function Footer() {
           <FooterLinks
             title="Companie"
             links={[
-              { label: "Servicii", href: "#servicii" },
-              { label: "Proiecte", href: "#proiecte" },
-              { label: "Proces", href: "#proces" },
+              { label: "Servicii", href: "/#servicii" },
+              { label: "Proiecte", href: "/#proiecte" },
+              { label: "Proces", href: "/#proces" },
               { label: "Contact", href: "#contact" },
             ]}
           />
