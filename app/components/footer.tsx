@@ -20,9 +20,10 @@ export function Footer() {
             title="Companie"
             links={[
               { label: "Servicii", href: "/#servicii" },
-              { label: "Proiecte", href: "/#proiecte" },
-              { label: "Proces", href: "/#proces" },
-              { label: "Contact", href: "#contact" },
+              { label: "Inchirieri utilaje", href: "/inchiriere-utilaje" },
+              { label: "FAQ", href: "/faq" },
+              { label: "Blog", href: "/blog" },
+              { label: "Contact", href: "/contact" },
             ]}
           />
           <FooterLinks

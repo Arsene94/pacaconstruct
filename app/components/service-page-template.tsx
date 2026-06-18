@@ -56,7 +56,7 @@ function ServiceHero({ service }: ServicePageTemplateProps) {
           {service.description}
         </p>
         <Link
-          href="#contact"
+          href="/contact#form-section"
           className="mt-8 inline-flex bg-amber px-8 py-4 text-sm font-bold uppercase text-carbon transition hover:bg-[#fea943]"
         >
           Programeaza o consultanta

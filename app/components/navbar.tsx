@@ -9,9 +9,10 @@ type NavbarProps = {
 };
 
 const navLinks = [
-  { label: "Proiecte", href: "/#proiecte" },
-  { label: "Proces", href: "/#proces" },
-  { label: "Contact", href: "#contact" },
+  { label: "Inchirieri utilaje", href: "/inchiriere-utilaje" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function Navbar({ serviceGroups }: NavbarProps) {
@@ -148,7 +149,7 @@ export function Navbar({ serviceGroups }: NavbarProps) {
 
           <div className="flex items-center justify-end gap-3">
             <Link
-              href="#contact"
+              href="/contact#form-section"
               className="bg-amber px-4 py-2 text-[10px] font-bold uppercase text-carbon transition hover:bg-[#fea943] md:px-6 md:py-3 md:text-sm"
             >
               Cere oferta
@@ -219,7 +220,7 @@ export function Navbar({ serviceGroups }: NavbarProps) {
                   </Link>
                 ))}
                 <Link
-                  href="#contact"
+                  href="/contact#form-section"
                   className="bg-amber px-5 py-3 text-center text-sm font-bold uppercase text-carbon"
                   onClick={closeMobileMenu}
                 >

@@ -1,0 +1,207 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { Footer } from "../../components/footer";
+import { Navbar } from "../../components/navbar";
+import { SectionContainer } from "../../components/section-container";
+import {
+  getRentalMachine,
+  rentalMachines,
+} from "../../data/rentals";
+import { serviceGroups } from "../../data/services";
+
+type RentalRouteProps = {
+  params: Promise<{
+    slug: string;
+  }>;
+};
+
+export function generateStaticParams() {
+  return rentalMachines.map((machine) => ({
+    slug: machine.slug,
+  }));
+}
+
+export async function generateMetadata({
+  params,
+}: RentalRouteProps): Promise<Metadata> {
+  const { slug } = await params;
+  const machine = getRentalMachine(slug);
+
+  if (!machine) {
+    return {
+      title: "Utilaj indisponibil - PACA CONSTRUCT",
+    };
+  }
+
+  return {
+    title: `${machine.title} - Inchiriere utilaje PACA CONSTRUCT`,
+    description: machine.longDescription,
+  };
+}
+
+export default async function RentalProductPage({ params }: RentalRouteProps) {
+  const { slug } = await params;
+  const machine = getRentalMachine(slug);
+
+  if (!machine) {
+    notFound();
+  }
+
+  return (
+    <div className="min-h-screen bg-limestone text-carbon">
+      <Navbar serviceGroups={serviceGroups} />
+      <main className="bg-topo flex-grow">
+        <SectionContainer className="py-10 md:py-16">
+          <nav
+            aria-label="Breadcrumb"
+            className="mb-8 flex items-center gap-2 text-sm font-medium text-stone"
+          >
+            <Link href="/" className="hover:text-amber">
+              Acasa
+            </Link>
+            <span aria-hidden="true">/</span>
+            <Link href="/inchiriere-utilaje" className="hover:text-amber">
+              Inchirieri utilaje
+            </Link>
+            <span aria-hidden="true">/</span>
+            <span className="font-bold text-olive">{machine.title}</span>
+          </nav>
+
+          <div className="grid gap-8 lg:grid-cols-12">
+            <div className="lg:col-span-8">
+              <div className="relative mb-8 h-[420px] overflow-hidden border border-olive/10 bg-white shadow-xl shadow-carbon/5 md:h-[610px]">
+                <Image
+                  src={machine.imageSrc}
+                  alt={machine.imageAlt}
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 64vw, 100vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-carbon/25 to-transparent" />
+              </div>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber">
+                Serviciu cu operator inclus
+              </p>
+              <div className="mt-3 flex flex-wrap items-center gap-3">
+                <span className="bg-olive px-3 py-1 text-xs font-bold uppercase text-white">
+                  Tarif
+                </span>
+                <span className="font-serif-display text-2xl font-semibold text-olive">
+                  {machine.price}
+                </span>
+              </div>
+              <h1 className="mt-5 font-serif-display text-5xl font-semibold leading-[1.05] text-olive md:text-6xl">
+                {machine.title}
+              </h1>
+              <p className="mt-6 max-w-3xl text-lg leading-8 text-stone">
+                {machine.longDescription}
+              </p>
+
+              <div className="mt-12 grid gap-6 md:grid-cols-2">
+                <InfoPanel title="Lucrari potrivite" items={machine.uses} />
+                <InfoPanel
+                  title="Cerinte de acces"
+                  items={machine.accessRequirements}
+                />
+              </div>
+            </div>
+
+            <aside className="lg:col-span-4">
+              <div className="sticky top-32 border border-olive/10 bg-white p-6 shadow-xl shadow-carbon/5">
+                <h2 className="font-serif-display text-3xl font-medium text-olive">
+                  Inchiriaza utilaj
+                </h2>
+                <form className="mt-6 flex flex-col gap-4">
+                  <Field label="Nume complet" placeholder="Ex: Ion Popescu" />
+                  <Field label="Telefon" placeholder="07xx xxx xxx" type="tel" />
+                  <Field label="Email" placeholder="adresa@email.com" type="email" />
+                  <Field label="Locatie" placeholder="Oras / comuna" />
+                  <Field label="Perioada dorita" type="date" />
+                  <button
+                    className="mt-3 bg-amber px-6 py-4 text-sm font-bold uppercase text-carbon transition hover:bg-[#fea943]"
+                    type="button"
+                  >
+                    Trimite solicitarea
+                  </button>
+                  <p className="text-xs leading-5 text-muted">
+                    Disponibilitatea se confirma dupa analiza proiectului si a
+                    conditiilor de acces.
+                  </p>
+                </form>
+              </div>
+            </aside>
+          </div>
+        </SectionContainer>
+
+        <section className="border-t border-olive/10 py-16 md:py-24">
+          <SectionContainer>
+            <div className="border border-olive/10 bg-[#f6f3ed] p-8">
+              <h2 className="font-serif-display text-3xl font-medium text-olive">
+                Ce influenteaza estimarea
+              </h2>
+              <div className="mt-8 grid gap-6 md:grid-cols-3">
+                {[
+                  ["01. Complexitate", "Tipul de sol si adancimea necesara."],
+                  ["02. Durata", "Numarul de ore estimate pentru lucrare."],
+                  ["03. Logistica", "Distanta, accesul si mobilizarea utilajului."],
+                ].map(([title, text]) => (
+                  <div key={title}>
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber">
+                      {title}
+                    </p>
+                    <p className="mt-2 text-base leading-7 text-stone">{text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </SectionContainer>
+        </section>
+      </main>
+      <Footer />
+    </div>
+  );
+}
+
+function InfoPanel({ title, items }: { title: string; items: string[] }) {
+  return (
+    <div className="border border-olive/10 bg-white p-6 shadow-sm shadow-carbon/5">
+      <h2 className="font-serif-display text-3xl font-medium text-olive">
+        {title}
+      </h2>
+      <ul className="mt-5 space-y-3">
+        {items.map((item) => (
+          <li key={item} className="flex items-center gap-3 text-stone">
+            <span className="h-2 w-2 bg-amber" />
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function Field({
+  label,
+  placeholder,
+  type = "text",
+}: {
+  label: string;
+  placeholder?: string;
+  type?: string;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-muted">
+        {label}
+      </span>
+      <input
+        className="w-full border border-olive/15 bg-limestone px-3 py-3 text-base text-olive outline-none transition focus:border-olive"
+        placeholder={placeholder}
+        type={type}
+      />
+    </label>
+  );
+}
