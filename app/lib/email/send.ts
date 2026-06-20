@@ -11,6 +11,7 @@ import {
   replyToDefault,
 } from "./resend";
 import { getAdminClientOrNull, resolveTemplate } from "./templates";
+import { isSuppressed } from "./suppression";
 
 /**
  * Nucleul de trimitere: randează template-ul brandat, jurnalizează în
@@ -68,6 +69,14 @@ export async function sendEmail<K extends EmailTemplateKey>(
     return { ok: false, skipped: true, reason: "no_recipient" };
   }
   const toEmailLog = recipients.join(", ");
+
+  // Supresie: pentru o singură adresă (tx + broadcast), verifică lista neagră.
+  if (recipients.length === 1 && (await isSuppressed(recipients[0], category))) {
+    logger.warn("email skipped — destinatar suprimat", {
+      templateKey: input.templateKey,
+    });
+    return { ok: false, skipped: true, reason: "suppressed" };
+  }
 
   const admin = getAdminClientOrNull();
 
