@@ -27,6 +27,7 @@ function Field({
         type={type}
         placeholder={placeholder}
         required={required}
+        aria-required={required || undefined}
         className="w-full border border-olive/15 bg-limestone px-3 py-3 text-base text-olive outline-none transition focus:border-olive"
       />
     </label>
@@ -54,7 +55,11 @@ export function RentalRequestForm({ machineTitle }: { machineTitle: string }) {
 
   if (state?.ok) {
     return (
-      <div className="border border-olive/15 bg-white p-6 text-center shadow-xl shadow-carbon/5">
+      <div
+        className="border border-olive/15 bg-white p-6 text-center shadow-xl shadow-carbon/5"
+        role="status"
+        aria-live="polite"
+      >
         <h2 className="font-serif-display text-2xl font-medium text-olive">
           Solicitare trimisă
         </h2>

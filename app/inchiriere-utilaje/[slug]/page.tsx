@@ -86,7 +86,7 @@ export default async function RentalProductPage({ params }: RentalRouteProps) {
         id="breadcrumb"
       />
       <Navbar serviceGroups={serviceGroups} />
-      <main className="bg-topo flex-grow">
+      <main id="main" className="bg-topo flex-grow">
         <SectionContainer className="py-10 md:py-16">
           <nav
             aria-label="Breadcrumb"

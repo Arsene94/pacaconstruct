@@ -102,7 +102,7 @@ export default async function BlogArticlePage(props: PageProps<"/blog/[slug]">) 
         id="breadcrumb"
       />
       <Navbar serviceGroups={serviceGroups} />
-      <main className="bg-topo pb-20 pt-12 md:pb-28">
+      <main id="main" className="bg-topo pb-20 pt-12 md:pb-28">
         <article>
           <SectionContainer>
             <div className="flex flex-col justify-between gap-6 border-b border-olive/15 pb-6 md:flex-row md:items-center">

@@ -62,7 +62,7 @@ export default async function DesprePage() {
         id="breadcrumb"
       />
       <Navbar serviceGroups={serviceGroups} />
-      <main className="bg-topo">
+      <main id="main" className="bg-topo">
         <section className="py-20 md:py-28">
           <SectionContainer>
             <nav

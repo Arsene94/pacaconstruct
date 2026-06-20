@@ -35,7 +35,7 @@ export default async function AdminLayout({
     >
       <AdminSidebar />
 
-      <main className="flex min-h-[100dvh] flex-col bg-[#f1efe9] md:ml-[240px] md:h-full md:min-h-0 md:overflow-hidden">
+      <main id="main" className="flex min-h-[100dvh] flex-col bg-[#f1efe9] md:ml-[240px] md:h-full md:min-h-0 md:overflow-hidden">
         <header className="sticky top-0 z-40 flex h-14 w-full shrink-0 items-center justify-between border-b border-[#e6e1d7] bg-white px-4 md:px-6">
           <div className="flex min-w-0 flex-1 items-center gap-4">
             <div className="hidden font-serif-display text-xs font-semibold uppercase leading-4 text-[#6b706a] lg:block">

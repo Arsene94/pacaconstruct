@@ -21,7 +21,7 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-limestone text-carbon">
       <Navbar serviceGroups={serviceGroups} />
-      <main className="flex flex-col">
+      <main id="main" className="flex flex-col">
         <HeroSection />
         <PrimaryServicePaths />
         <TransformationStatement />

@@ -70,7 +70,7 @@ export default async function ProiectDetailPage({ params }: ProiectRouteProps) {
         id="breadcrumb"
       />
       <Navbar serviceGroups={serviceGroups} />
-      <main className="bg-topo">
+      <main id="main" className="bg-topo">
         <section className="py-16 md:py-24">
           <SectionContainer>
             <nav

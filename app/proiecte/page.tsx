@@ -91,7 +91,7 @@ export default async function ProiectePage() {
         id="itemlist"
       />
       <Navbar serviceGroups={serviceGroups} />
-      <main className="bg-topo">
+      <main id="main" className="bg-topo">
         <section className="py-20 md:py-28">
           <SectionContainer>
             <nav

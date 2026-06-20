@@ -122,7 +122,7 @@ export default async function ContactPage() {
   return (
     <div className="min-h-screen bg-limestone text-carbon">
       <Navbar serviceGroups={serviceGroups} />
-      <main className="pb-24 md:pb-0">
+      <main id="main" className="pb-24 md:pb-0">
         <ContactHero />
         <IntentSelector />
         <ContactStrip />

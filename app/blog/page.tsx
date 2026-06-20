@@ -81,7 +81,7 @@ export default async function BlogPage({
         />
       ) : null}
       <Navbar serviceGroups={serviceGroups} />
-      <main className="overflow-hidden">
+      <main id="main" className="overflow-hidden">
         <BlogHero query={query} />
 
         {query ? (

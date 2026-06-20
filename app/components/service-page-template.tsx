@@ -12,7 +12,7 @@ type ServicePageTemplateProps = {
 
 export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
   return (
-    <main className="bg-topo flex-grow bg-limestone">
+    <main id="main" className="bg-topo flex-grow bg-limestone">
       <ServiceHero service={service} />
       <ServiceProcess service={service} />
       <ServiceSpecs service={service} />

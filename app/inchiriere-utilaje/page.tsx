@@ -68,7 +68,7 @@ export default async function RentalListingPage() {
         id="itemlist"
       />
       <Navbar serviceGroups={serviceGroups} />
-      <main className="flex flex-col">
+      <main id="main" className="flex flex-col">
         <section className="relative isolate overflow-hidden bg-topo">
           <div className="absolute inset-0 -z-10 bg-limestone/80" />
           <SectionContainer className="grid min-h-[680px] items-center gap-10 py-20 md:grid-cols-12 lg:py-28">

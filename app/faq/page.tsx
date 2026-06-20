@@ -70,7 +70,7 @@ export default async function FaqPage() {
         id="breadcrumb"
       />
       <Navbar serviceGroups={serviceGroups} />
-      <main className="bg-topo">
+      <main id="main" className="bg-topo">
         <FaqHero />
         <ShortcutCards />
         <CategoryNav sections={faqSections} />

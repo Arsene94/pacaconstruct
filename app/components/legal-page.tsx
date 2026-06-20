@@ -37,7 +37,7 @@ export async function LegalPage({
         id="breadcrumb"
       />
       <Navbar serviceGroups={serviceGroups} />
-      <main className="bg-topo py-20 md:py-28">
+      <main id="main" className="bg-topo py-20 md:py-28">
         <SectionContainer>
           <nav
             aria-label="Breadcrumb"

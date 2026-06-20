@@ -28,6 +28,7 @@ function Field({
         type={type}
         placeholder={placeholder}
         required={required}
+        aria-required={required || undefined}
         className="h-12 w-full border-0 border-b border-olive/20 bg-transparent px-0 text-base text-carbon outline-none transition placeholder:text-muted focus:border-amber"
       />
     </label>
@@ -56,7 +57,11 @@ export function ContactForm() {
 
   if (state?.ok) {
     return (
-      <div className="border border-olive/15 bg-white p-8 shadow-xl shadow-carbon/5 md:p-12">
+      <div
+        className="border border-olive/15 bg-white p-8 shadow-xl shadow-carbon/5 md:p-12"
+        role="status"
+        aria-live="polite"
+      >
         <p className="text-xs font-bold uppercase tracking-[0.14em] text-amber">
           Solicitare trimisă
         </p>

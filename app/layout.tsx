@@ -104,6 +104,13 @@ export default function RootLayout({
       className={`${manrope.variable} ${sourceSerif.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        {/* Skip-to-content: primul element focusabil, vizibil doar la focus. */}
+        <a
+          href="#main"
+          className="sr-only z-[100] bg-amber px-4 py-2 text-sm font-bold uppercase text-carbon focus:not-sr-only focus:absolute focus:left-4 focus:top-4"
+        >
+          Sari la conținut
+        </a>
         {/* Date structurate globale: prezente pe toate paginile (server-rendered). */}
         <JsonLd data={organizationSchema()} id="organization" />
         <JsonLd data={websiteSchema()} id="website" />
