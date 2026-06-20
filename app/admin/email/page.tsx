@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { AdminContent, PageHeader, SecondaryLinkButton } from "@/app/admin/admin-ui";
+import {
+  AdminContent,
+  PageHeader,
+  PrimaryLinkButton,
+  SecondaryLinkButton,
+} from "@/app/admin/admin-ui";
 
 export const metadata: Metadata = {
   title: "Email | Admin PACA CONSTRUCT",
@@ -20,6 +25,9 @@ export default function AdminEmailHubPage() {
             <SecondaryLinkButton icon="personAdd" href="/admin/email/groups">
               Grupuri
             </SecondaryLinkButton>
+            <PrimaryLinkButton icon="add" href="/admin/email/campaigns/new">
+              Campanie nouă
+            </PrimaryLinkButton>
           </>
         }
       />

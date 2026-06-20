@@ -1,5 +1,8 @@
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { createClient } from "@/app/lib/supabase/server";
 import type { Database } from "@/app/lib/supabase/database.types";
+
+type DbClient = SupabaseClient<Database>;
 
 /**
  * Stratul de date pentru contacte, grupuri și segmente.
@@ -260,6 +263,20 @@ export async function resolveAudience(
   id: string,
 ): Promise<Contact[]> {
   const supabase = await createClient();
+  return resolveAudienceWith(supabase, kind, id);
+}
+
+/**
+ * Variantă cu client injectat — folosită din contexte fără sesiune (broadcast
+ * via service_role). `marketingOnly` reține doar contactele cu consimțământ.
+ */
+export async function resolveAudienceWith(
+  supabase: DbClient,
+  kind: AudienceKind,
+  id: string,
+  marketingOnly = false,
+): Promise<Contact[]> {
+  const keepConsent = (c: Contact) => !marketingOnly || c.marketingConsent;
 
   if (kind === "group") {
     const { data, error } = await supabase
@@ -274,7 +291,8 @@ export async function resolveAudience(
       .map((m) => m.contacts)
       .filter((c): c is ContactRow => Boolean(c))
       .map(mapContact)
-      .filter((c) => c.status === "active");
+      .filter((c) => c.status === "active")
+      .filter(keepConsent);
   }
 
   // segment: traduce definiția în query
@@ -309,5 +327,8 @@ export async function resolveAudience(
   if (error) {
     throw new Error(`Nu am putut rezolva segmentul: ${error.message}`);
   }
-  return (data ?? []).map(mapContact).filter((c) => c.status === "active");
+  return (data ?? [])
+    .map(mapContact)
+    .filter((c) => c.status === "active")
+    .filter(keepConsent);
 }

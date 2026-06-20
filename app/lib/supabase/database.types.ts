@@ -160,6 +160,7 @@ export type Database = {
           audience_kind: string;
           created_at: string;
           id: string;
+          payload: Json;
           scheduled_at: string | null;
           sent_count: number;
           status: Database["public"]["Enums"]["campaign_status"];
@@ -172,6 +173,7 @@ export type Database = {
           audience_kind: string;
           created_at?: string;
           id?: string;
+          payload?: Json;
           scheduled_at?: string | null;
           sent_count?: number;
           status?: Database["public"]["Enums"]["campaign_status"];
@@ -184,6 +186,7 @@ export type Database = {
           audience_kind?: string;
           created_at?: string;
           id?: string;
+          payload?: Json;
           scheduled_at?: string | null;
           sent_count?: number;
           status?: Database["public"]["Enums"]["campaign_status"];
