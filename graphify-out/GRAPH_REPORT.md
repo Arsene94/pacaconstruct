@@ -1,16 +1,16 @@
 # Graph Report - paca-construct  (2026-06-20)
 
 ## Corpus Check
-- 253 files · ~295,531 words
+- 254 files · ~313,147 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1449 nodes · 3315 edges · 84 communities (77 shown, 7 thin omitted)
-- Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 96 edges (avg confidence: 0.8)
+- 1470 nodes · 3351 edges · 81 communities (72 shown, 9 thin omitted)
+- Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 107 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `8639bcf4`
+- Built from commit: `c7d389e8`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -93,21 +93,18 @@
 - [[_COMMUNITY_Community 78|Community 78]]
 - [[_COMMUNITY_Community 79|Community 79]]
 - [[_COMMUNITY_Community 80|Community 80]]
-- [[_COMMUNITY_Community 81|Community 81]]
-- [[_COMMUNITY_Community 82|Community 82]]
-- [[_COMMUNITY_Community 83|Community 83]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `createClient()` - 102 edges
 2. `requireAdmin` - 52 edges
 3. `AdminContent()` - 30 edges
 4. `PageHeader()` - 30 edges
-5. `getServiceGroups` - 27 edges
-6. `siteConfig` - 24 edges
-7. `errorContext()` - 23 edges
-8. `breadcrumbSchema()` - 23 edges
+5. `getServiceGroups` - 29 edges
+6. `breadcrumbSchema()` - 25 edges
+7. `siteConfig` - 24 edges
+8. `errorContext()` - 23 edges
 9. `getAdminClientOrNull()` - 20 edges
-10. `Navbar()` - 19 edges
+10. `Footer()` - 18 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `saveSection()` --calls--> `revalidateTag()`  [INFERRED]
@@ -124,31 +121,31 @@
 ## Import Cycles
 - None detected.
 
-## Communities (84 total, 7 thin omitted)
+## Communities (81 total, 9 thin omitted)
 
 ### Community 0 - "Community 0"
-Cohesion: 0.11
-Nodes (37): AdminIcon(), AdminIconName, AdminIconProps, icons, BadgeTone, cx(), FilterSelect(), IconButton() (+29 more)
+Cohesion: 0.17
+Nodes (29): BadgeTone, cx(), FilterSelect(), IconButton(), IconLink(), PrimaryLinkButton(), SearchField(), SecondaryButton() (+21 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.09
-Nodes (44): createFaqItem(), createPost(), createProject(), createRental(), createService(), deleteFaqItem(), deletePost(), deleteProject() (+36 more)
+Nodes (45): createFaqItem(), createPost(), createProject(), createRental(), createService(), deleteFaqItem(), deletePost(), deleteProject() (+37 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.09
-Nodes (17): AdminContent(), PageHeader(), metadata, metadata, metadata, metadata, metadata, metadata (+9 more)
+Cohesion: 0.18
+Nodes (10): AdminContent(), metadata, metadata, PostForm(), getPostById(), getSettingsAdmin(), readSettingsRow(), EditBlogPostPage() (+2 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.18
-Nodes (18): fromMarketing(), fromTransactional(), getResend(), isResendConfigured(), replyToDefault(), ALREADY_SENT_STATUSES, sendEmail(), SendEmailInput (+10 more)
+Cohesion: 0.28
+Nodes (11): fromMarketing(), fromTransactional(), getResend(), isResendConfigured(), replyToDefault(), ALREADY_SENT_STATUSES, sendEmail(), SendEmailInput (+3 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.18
-Nodes (9): CompositeTypes, Constants, Database, DatabaseWithoutInternals, DefaultSchema, Enums, Tables, TablesInsert (+1 more)
+Cohesion: 0.14
+Nodes (14): devDependencies, eslint, eslint-config-next, lint-staged, @next/bundle-analyzer, @playwright/test, prettier, tailwindcss (+6 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.23
-Nodes (11): ArticleSchema, invalidateBlog(), publishArticle(), roDateLabel(), slugify(), Source, TopicRow, writeArticle() (+3 more)
+Cohesion: 0.06
+Nodes (61): enqueueArticleGeneration(), GenerateArticlePayload, assertGatewayConfigured(), ArticleSchema, generateAndUploadImage(), generateArticleForTopic(), invalidateBlog(), loadTopic() (+53 more)
 
 ### Community 6 - "Community 6"
 Cohesion: 0.36
@@ -156,23 +153,23 @@ Nodes (10): FormState, AdminFormFrame(), CheckboxField(), FormGrid(), SelectFiel
 
 ### Community 7 - "Community 7"
 Cohesion: 0.10
-Nodes (25): contactSchema, createContact(), createGroup(), createSegment(), deleteContact(), deleteGroup(), deleteSegment(), EmailFormState (+17 more)
+Nodes (23): contactSchema, createContact(), createSegment(), deleteContact(), deleteGroup(), deleteSegment(), EmailFormState, emailSchema (+15 more)
 
 ### Community 8 - "Community 8"
-Cohesion: 0.11
-Nodes (18): metadata, generateMetadata(), generateStaticParams(), ArticleCardProps, categories, AdminPost, BLOG_CACHE, BlogPost (+10 more)
+Cohesion: 0.13
+Nodes (18): generateMetadata(), generateStaticParams(), generateMetadata(), generateStaticParams(), helpfulLinks, metadata, NotFound(), getBlogPost (+10 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.23
-Nodes (12): EmailStatus, HARD, isSuppressed(), suppressContact(), getAdminClientOrNull(), handleResendEvent(), ResendEvent, STATUS_MAP (+4 more)
+Cohesion: 0.18
+Nodes (7): metadata, FaqSection, getFaqSections, FaqPage(), frequentQuestions, shortcuts, faqPageSchema()
 
 ### Community 10 - "Community 10"
 Cohesion: 0.09
 Nodes (22): 1. Rezumat executiv, 2. Inventarul proiectului (ce există acum), 3.1 Lipsește `robots.txt`, 3.2 Lipsește `sitemap.xml`, 3.3 Zero date structurate (JSON‑LD) pe tot site-ul, 3.4 `metadataBase` absent, 3.5 Imagini remote neconfigurate în `next/image`, 3.6 Pagini private indexabile (+14 more)
 
 ### Community 11 - "Community 11"
-Cohesion: 0.26
-Nodes (8): Home(), HeroSection(), PrimaryServicePaths(), ProcessSection(), ServicePathProps, ServicesMosaic(), TransformationStatement(), getFeaturedServices
+Cohesion: 0.11
+Nodes (20): Home(), metadata, reassuranceItems, ContactCta(), HeroSection(), PrimaryServicePaths(), ProcessSection(), ServicePathProps (+12 more)
 
 ### Community 12 - "Community 12"
 Cohesion: 0.10
@@ -195,8 +192,8 @@ Cohesion: 0.16
 Nodes (13): cx(), DesktopLogin(), EmailField(), EmailFieldProps, FieldVariant, ForgotPasswordScreen(), LoginFormProps, MobileLogin() (+5 more)
 
 ### Community 17 - "Community 17"
-Cohesion: 0.05
-Nodes (36): devDependencies, eslint, eslint-config-next, husky, lint-staged, @next/bundle-analyzer, @playwright/test, prettier (+28 more)
+Cohesion: 0.33
+Nodes (5): AdminIcon(), AdminIconName, AdminIconProps, icons, RunNowButton()
 
 ### Community 18 - "Community 18"
 Cohesion: 0.12
@@ -208,11 +205,11 @@ Nodes (13): logout(), AdminBreadcrumb(), AdminSidebar(), BLOG_SUBSECTIONS, bread
 
 ### Community 20 - "Community 20"
 Cohesion: 0.11
-Nodes (25): generateMetadata(), Footer(), FooterLinksProps, ContactCta(), Navbar(), NavbarProps, navLinks, ServiceCta() (+17 more)
+Nodes (23): Navbar(), NavbarProps, navLinks, ServiceCta(), SiteNavbar(), buildContactDetails(), ContactDetail, ContactPage() (+15 more)
 
 ### Community 21 - "Community 21"
-Cohesion: 0.12
-Nodes (18): metadata, FaqSection, getFaqSections, FaqPage(), frequentQuestions, shortcuts, blogPostingSchema(), faqPageSchema() (+10 more)
+Cohesion: 0.21
+Nodes (13): blogPostingSchema(), imageUrl(), Json, organizationSchema(), parsePrice(), productSchema(), projectSchema(), serviceSchema() (+5 more)
 
 ### Community 22 - "Community 22"
 Cohesion: 0.25
@@ -225,10 +222,6 @@ Nodes (8): constructor(), get(), _maxTagStamp(), memEntries, memTags, { Redis },
 ### Community 24 - "Community 24"
 Cohesion: 0.20
 Nodes (9): 1. Cum funcționează (pe scurt), 2. Variabile de mediu, 3. Crearea conturilor de admin, 4. Configurare în panoul Supabase pentru resetarea parolei, 5. Fișiere relevante, 6. Rute, 7. Verificare locală, 8. Note de securitate (+1 more)
-
-### Community 25 - "Community 25"
-Cohesion: 0.23
-Nodes (3): ArticleSkeleton(), CardGridSkeleton(), HeroSkeleton()
 
 ### Community 26 - "Community 26"
 Cohesion: 0.07
@@ -255,24 +248,24 @@ Cohesion: 0.33
 Nodes (5): contentSecurityPolicy(), nextConfig, SECURITY_HEADERS, supabaseOrigin(), withBundleAnalyzer
 
 ### Community 37 - "Community 37"
-Cohesion: 0.11
-Nodes (30): helpfulLinks, metadata, NotFound(), metadata, generateMetadata(), BlogPage(), JsonLd(), SectionContainer() (+22 more)
+Cohesion: 0.19
+Nodes (13): metadata, reassuranceItems, metadata, Footer(), FooterLinksProps, JsonLd(), SectionContainer(), SectionContainerProps (+5 more)
 
 ### Community 38 - "Community 38"
 Cohesion: 0.07
 Nodes (28): 10. Reziliență & observabilitate, 11. Plan de implementare pe faze (recomandat), 12. Definiție de „gata" (cum verifici), 1. Rezumat executiv, 2. Diagnoza sistemului actual, 3. Traducerea cerințelor tale în componente de arhitectură, 4.1 Stratul de template — React Email (de ce), 4.2 Modelul „hibrid" template (decizie cheie) (+20 more)
 
 ### Community 39 - "Community 39"
-Cohesion: 0.11
-Nodes (20): size, Image(), size, size, Image(), size, Image(), size (+12 more)
+Cohesion: 0.05
+Nodes (46): size, Image(), size, size, Image(), size, Image(), size (+38 more)
 
 ### Community 40 - "Community 40"
-Cohesion: 0.11
-Nodes (20): generateMetadata(), generateStaticParams(), ServiceFaqSection(), ServicePageTemplate(), ServicePageTemplateProps, FeaturedService, getServicePage, getServicePages (+12 more)
+Cohesion: 0.16
+Nodes (12): generateMetadata(), generateStaticParams(), ServiceFaqSection(), ServicePageTemplate(), ServicePageTemplateProps, getServicePage, getServicePages, qaFaqPageSchema() (+4 more)
 
 ### Community 41 - "Community 41"
-Cohesion: 0.09
-Nodes (21): generateMetadata(), generateStaticParams(), AI_BOTS, DISALLOW, fetchPublishedProjectSlugs(), fetchSlugs(), sitemap(), SlugRow (+13 more)
+Cohesion: 0.14
+Nodes (11): metadata, metadata, AdminRental, getRentalById(), getRentalsAdmin(), RentalMachine, RentalRow, RENTALS_CACHE (+3 more)
 
 ### Community 42 - "Community 42"
 Cohesion: 0.17
@@ -283,24 +276,24 @@ Cohesion: 0.17
 Nodes (11): 0. Esența pe care o codifică logo-ul (din aplicație + domeniu + design), 1. ⭐ PROMPTUL MASTER (copy-paste), 2. Construcție & simbolistică (raționamentul de design), 3. Sistem de culoare (roluri exacte), 4. Tipografie (wordmark), 5. Geometrie, grilă & spațiu liber, 6. Specificații tehnice & livrabile, 7. Reguli DO / DON'T (+3 more)
 
 ### Community 44 - "Community 44"
-Cohesion: 0.10
-Nodes (23): CampaignRow, CampaignStatus, EMAIL_STATUSES, EmailCampaign, EmailMessage, EmailMessageFilter, EmailStats, EmailTemplate (+15 more)
+Cohesion: 0.06
+Nodes (33): SecondaryLinkButton(), CampaignRow, CampaignStatus, EMAIL_STATUSES, EmailCampaign, EmailMessage, EmailMessageFilter, EmailStats (+25 more)
 
 ### Community 45 - "Community 45"
 Cohesion: 0.33
 Nodes (5): printWidth, semi, singleQuote, tabWidth, trailingComma
 
 ### Community 46 - "Community 46"
-Cohesion: 0.13
-Nodes (21): addToGroup(), removeFromGroup(), metadata, GET(), AdminContactsPage(), ContactFilter, ContactGroup, ContactRow (+13 more)
+Cohesion: 0.12
+Nodes (24): addToGroup(), removeFromGroup(), metadata, GET(), AdminContactsPage(), AudienceKind, ContactFilter, ContactGroup (+16 more)
 
 ### Community 50 - "Community 50"
-Cohesion: 0.20
-Nodes (17): analyzeTopicsAction(), createSchedule(), createTopic(), deleteSchedule(), deleteTopic(), generateSelectedTopics(), intOrNull(), lines() (+9 more)
+Cohesion: 0.23
+Nodes (16): analyzeTopicsAction(), createSchedule(), createTopic(), deleteSchedule(), deleteTopic(), generateSelectedTopics(), intOrNull(), lines() (+8 more)
 
 ### Community 51 - "Community 51"
-Cohesion: 0.12
-Nodes (3): SubmitButton(), DAYS, SECTIONS
+Cohesion: 0.11
+Nodes (4): SubmitButton(), DAYS, SECTIONS, SettingsForms()
 
 ### Community 52 - "Community 52"
 Cohesion: 0.09
@@ -311,15 +304,15 @@ Cohesion: 0.12
 Nodes (21): announcementSchema, contactSchema, DAY_VALUES, floatingSchema, hoursSchema, optionalEmail, optionalTime, optionalUrl (+13 more)
 
 ### Community 54 - "Community 54"
-Cohesion: 0.13
-Nodes (16): PrimaryLinkButton(), metadata, metadata, BlogSchedule, BlogTopic, getScheduleById(), getSchedules(), getTopicById() (+8 more)
+Cohesion: 0.09
+Nodes (21): PageHeader(), metadata, metadata, metadata, metadata, BlogSchedule, BlogTopic, getScheduleById() (+13 more)
 
 ### Community 55 - "Community 55"
 Cohesion: 0.14
 Nodes (28): Address, Announcement, asBool(), asNumber(), asString(), ContactInfo, defaultAnnouncement(), defaultContact() (+20 more)
 
 ### Community 56 - "Community 56"
-Cohesion: 0.13
+Cohesion: 0.11
 Nodes (16): metadata, metadata, getProject(), getProjects(), mapProject(), Project, PROJECT_STATUSES, PROJECT_TYPES (+8 more)
 
 ### Community 57 - "Community 57"
@@ -331,116 +324,100 @@ Cohesion: 0.11
 Nodes (17): CONTEXT (respectă exact), CRITERII DE ACCEPTARE (Definition of Done), INSTALARE, Note pentru tine (Arsene), PASUL 1 — Tokeni de brand (`emails/brand.ts`), PASUL 2 — Layout + componente partajate, PASUL 3 — Template-uri (toate; cu props tipate + `PreviewProps`), PASUL 4 — Registry (`emails/registry.ts`) (+9 more)
 
 ### Community 59 - "Community 59"
-Cohesion: 0.21
-Nodes (14): ActionResult, countMarketingAudience(), createCampaign(), CreateCampaignInput, PreviewResult, renderEmailPreview(), sendBroadcast(), sendTestEmail() (+6 more)
+Cohesion: 0.12
+Nodes (19): ActionResult, countMarketingAudience(), createCampaign(), CreateCampaignInput, PreviewResult, renderEmailPreview(), sendBroadcast(), sendTestEmail() (+11 more)
 
 ### Community 60 - "Community 60"
-Cohesion: 0.20
-Nodes (12): metadata, metadata, AdminFaqItem, FAQ_CACHE, FaqItem, FaqItemRow, FaqSectionRow, getFaqItemById() (+4 more)
+Cohesion: 0.17
+Nodes (14): metadata, metadata, AdminFaqItem, FAQ_CACHE, FaqItem, FaqItemRow, FaqSectionRow, getFaqItemById() (+6 more)
 
 ### Community 61 - "Community 61"
-Cohesion: 0.29
-Nodes (9): SecondaryLinkButton(), metadata, Composer(), getGroups(), getSegments(), adminTo(), EMAIL_TEMPLATE_KEYS, AdminGroupsPage() (+1 more)
+Cohesion: 0.14
+Nodes (14): scripts, analyze, build, check, dev, email, format, format:check (+6 more)
 
 ### Community 62 - "Community 62"
-Cohesion: 0.14
-Nodes (16): IntakeState, submitRentalRequest(), submitServiceRequest(), ContactForm(), captureContact(), dispatchIntakeEmails(), firstIssueMessage(), ATTRIBUTION_PARAMS (+8 more)
+Cohesion: 0.13
+Nodes (10): IntakeState, ContactForm(), ATTRIBUTION_PARAMS, AttributionParam, cleanAttributionValue(), CLICK_ID_PARAMS, AttributionFields(), AttributionState (+2 more)
 
 ### Community 63 - "Community 63"
 Cohesion: 0.12
 Nodes (17): dependencies, ai, next, @next/third-parties, react, react-dom, react-email, @react-email/components (+9 more)
 
 ### Community 64 - "Community 64"
-Cohesion: 0.23
-Nodes (12): BroadcastPayload, { POST }, AudienceKind, resolveAudience(), resolveAudienceWith(), BroadcastPlan, BroadcastTarget, chunk() (+4 more)
+Cohesion: 0.13
+Nodes (18): metadata, LegalPage(), BlogPost, getFeaturedBlogPost, getServiceGroups, DesprePage(), metadata, stats (+10 more)
 
 ### Community 65 - "Community 65"
 Cohesion: 0.13
 Nodes (14): CONTEXT EXACT AL REPO-ULUI (respectă), CRITERII GLOBALE DE ACCEPTARE (Definition of Done), FAZA 1 — Schema DB + RLS + seed, FAZA 2 — Strat de date (`app/data/settings.ts`), FAZA 3 — Acțiuni server (`app/actions/settings.ts`), FAZA 4 — Pagina de admin `/admin/settings`, FAZA 5 — Componenta Floating Buttons (site public), FAZA 6 — Înlocuirea valorilor hardcodate + legături (+6 more)
 
 ### Community 66 - "Community 66"
-Cohesion: 0.21
-Nodes (13): enqueueEmail(), adminUrl(), CaptureContactInput, IntakeLead, LifecycleInput, RentalLead, ServiceLead, STATUS_TO_TEMPLATE (+5 more)
+Cohesion: 0.23
+Nodes (10): EmailStatus, HARD, suppressContact(), handleResendEvent(), ResendEvent, STATUS_MAP, SvixHeaders, verifySvix() (+2 more)
 
 ### Community 67 - "Community 67"
-Cohesion: 0.28
-Nodes (3): LogContext, logger, LogLevel
+Cohesion: 0.33
+Nodes (8): metadata, Composer(), getGroups(), getSegments(), adminTo(), EMAIL_TEMPLATE_KEYS, AdminGroupsPage(), NewCampaignPage()
 
 ### Community 68 - "Community 68"
-Cohesion: 0.17
-Nodes (10): AdminCereriServiciiPage(), dateFormatter, getServiceRequests(), RentalRequest, RentalRequestRow, REQUEST_STATUSES, RequestChannel, RequestStatus (+2 more)
+Cohesion: 0.15
+Nodes (11): AdminCereriInchirierePage(), AdminCereriServiciiPage(), dateFormatter, getRentalRequests(), getServiceRequests(), RentalRequest, RentalRequestRow, RequestChannel (+3 more)
 
 ### Community 69 - "Community 69"
 Cohesion: 0.27
 Nodes (10): AuthState, login(), requestPasswordReset(), resolveOrigin(), updatePassword(), @upstash/ratelimit, checkRateLimit(), clientIp() (+2 more)
 
 ### Community 70 - "Community 70"
-Cohesion: 0.17
-Nodes (11): 1. Arhitectură (cod), 2. Evenimente `pc_*` (dataLayer), 3.1 Variabile — Data Layer Variables, 3.2 Triggere — Custom Event, 3.3 Tag-uri pe platformă (toate în GTM), 3. Configurare în GTM (se face în interfața GTM, nu în cod), 4. QA & verificare (Faza 8), 5. (Opțional) Banner de consimțământ — Consent Mode Advanced (+3 more)
+Cohesion: 0.06
+Nodes (30): 0. Import & publicare (o singură dată), 1. ⚠️ Constante de înlocuit (OBLIGATORIU), 2.1 Consimțământ (Consent Mode v2) — folder `00 · Consent`, 2.2 Variabile — folder `01 · Variabile`, 2.3 Triggere — folder `02 · Triggere`, 2.4 Tag-uri, 2.5 Consimțământ pe tag-uri (important), 2. Ce e deja construit în container (+22 more)
 
 ### Community 71 - "Community 71"
 Cohesion: 0.33
-Nodes (7): metadata, metadata, getServiceById(), getServiceGroupOptions(), EditServicePage(), NewServicePage(), ServiceForm()
+Nodes (8): @upstash/search, blogIndexOrNull(), BlogSearchContent, BlogSearchHit, BlogSearchMetadata, getSearch(), isSearchConfigured(), searchBlogPosts()
 
 ### Community 72 - "Community 72"
 Cohesion: 0.22
 Nodes (8): 1. Verificarea domeniului în Resend, 2. SPF + DKIM + DMARC, 3. Variabile de mediu (după verificare), 4. Webhook Resend, 5. Compliance 2026, 6. Verificare finală, 7. Securitate (rezumat), Deliverability & compliance email — PACA CONSTRUCT
 
 ### Community 73 - "Community 73"
-Cohesion: 0.33
-Nodes (9): enqueueArticleGeneration(), GenerateArticlePayload, generateAndUploadImage(), generateArticleForTopic(), loadTopic(), markTopicFailed(), { POST }, createAdminClient() (+1 more)
+Cohesion: 0.25
+Nodes (14): submitRentalRequest(), submitServiceRequest(), getAdminClientOrNull(), adminUrl(), captureContact(), CaptureContactInput, dispatchIntakeEmails(), IntakeLead (+6 more)
 
 ### Community 74 - "Community 74"
-Cohesion: 0.32
-Nodes (11): b64url(), fromB64url(), secret(), sign(), signToken(), unsubscribeUrl(), verifyToken(), GET() (+3 more)
+Cohesion: 0.33
+Nodes (7): metadata, metadata, getServiceById(), getServiceGroupOptions(), EditServicePage(), NewServicePage(), ServiceForm()
 
 ### Community 75 - "Community 75"
-Cohesion: 0.24
-Nodes (9): getSettingsAdmin(), readSettingsRow(), SETTINGS_CACHE, SETTINGS_COLUMNS, ResolvedSettings, SettingsRow, metadata, SettingsPage() (+1 more)
+Cohesion: 0.29
+Nodes (6): lint-staged, *.{json,css,md,mjs,yml,yaml}, *.{ts,tsx}, name, private, version
 
 ### Community 76 - "Community 76"
-Cohesion: 0.33
-Nodes (8): @upstash/search, blogIndexOrNull(), BlogSearchContent, BlogSearchHit, BlogSearchMetadata, getSearch(), isSearchConfigured(), searchBlogPosts()
+Cohesion: 0.36
+Nodes (8): dbSubject(), interpolate(), resolveTemplate(), emailRegistry, RenderedEmail, renderEmail(), EmailPropsMap, EmailTemplateKey
 
 ### Community 77 - "Community 77"
-Cohesion: 0.27
-Nodes (7): assertGatewayConfigured(), researchTopic(), AnalyzedTopic, analyzeTopics(), gatherSignals(), TopicSchema, TopicsSchema
-
-### Community 78 - "Community 78"
-Cohesion: 0.39
-Nodes (4): DueSchedule, GET(), computeNextRun(), ScheduleConfig
-
-### Community 79 - "Community 79"
-Cohesion: 0.60
-Nodes (5): @upstash/redis, getRedis(), getRedisOrNull(), isRedisConfigured(), reserveOnce()
-
-### Community 80 - "Community 80"
 Cohesion: 0.40
 Nodes (4): AuthIcon(), AuthIconName, AuthIconProps, icons
 
-### Community 83 - "Community 83"
-Cohesion: 0.26
-Nodes (7): LegalPage(), ConfidentialitatePage(), metadata, metadata, addressLine(), metadata, TermeniPage()
-
 ## Knowledge Gaps
-- **545 isolated node(s):** `husky.sh script`, `printWidth`, `tabWidth`, `semi`, `singleQuote` (+540 more)
+- **563 isolated node(s):** `husky.sh script`, `printWidth`, `tabWidth`, `semi`, `singleQuote` (+558 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **7 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **9 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `createClient()` connect `Community 46` to `Community 0`, `Community 1`, `Community 2`, `Community 7`, `Community 8`, `Community 19`, `Community 40`, `Community 41`, `Community 44`, `Community 50`, `Community 53`, `Community 54`, `Community 56`, `Community 59`, `Community 60`, `Community 61`, `Community 62`, `Community 64`, `Community 68`, `Community 69`, `Community 71`, `Community 75`?**
-  _High betweenness centrality (0.143) - this node is a cross-community bridge._
-- **Why does `dependencies` connect `Community 63` to `Community 66`, `Community 69`, `Community 76`, `Community 79`, `Community 17`?**
-  _High betweenness centrality (0.042) - this node is a cross-community bridge._
-- **Why does `@upstash/search` connect `Community 76` to `Community 63`?**
+- **Why does `createClient()` connect `Community 46` to `Community 0`, `Community 1`, `Community 2`, `Community 7`, `Community 11`, `Community 19`, `Community 20`, `Community 39`, `Community 41`, `Community 44`, `Community 50`, `Community 53`, `Community 54`, `Community 56`, `Community 59`, `Community 60`, `Community 67`, `Community 68`, `Community 69`, `Community 73`, `Community 74`?**
+  _High betweenness centrality (0.141) - this node is a cross-community bridge._
+- **Why does `dependencies` connect `Community 63` to `Community 75`, `Community 69`, `Community 5`, `Community 71`?**
+  _High betweenness centrality (0.050) - this node is a cross-community bridge._
+- **Why does `@upstash/search` connect `Community 71` to `Community 63`?**
   _High betweenness centrality (0.026) - this node is a cross-community bridge._
-- **Are the 8 inferred relationships involving `getServiceGroups` (e.g. with `BlogPage()` and `FaqPage()`) actually correct?**
-  _`getServiceGroups` has 8 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 10 inferred relationships involving `getServiceGroups` (e.g. with `FaqPage()` and `BlogPage()`) actually correct?**
+  _`getServiceGroups` has 10 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `husky.sh script`, `printWidth`, `tabWidth` to the rest of the system?**
-  _545 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Community 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.1130952380952381 - nodes in this community are weakly interconnected._
+  _563 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.08695652173913043 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.0851063829787234 - nodes in this community are weakly interconnected._
+- **Should `Community 4` be split into smaller, more focused modules?**
+  _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._

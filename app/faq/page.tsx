@@ -89,8 +89,7 @@ function FaqHero() {
         src="/hero.png"
         alt=""
         fill
-        preload
-        loading="eager"
+        priority
         sizes="100vw"
         className="-z-10 object-cover opacity-20"
       />

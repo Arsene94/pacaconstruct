@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Footer } from "../components/footer";
-import { SiteNavbar } from "../components/site-navbar";
-import { SectionContainer } from "../components/section-container";
-import { getServiceGroups } from "../data/services";
-import { getRentalMachines } from "../data/rentals";
+import { Footer } from "@/app/components/footer";
+import { SiteNavbar } from "@/app/components/site-navbar";
+import { SectionContainer } from "@/app/components/section-container";
+import { getServiceGroups } from "@/app/data/services";
+import { getRentalMachines } from "@/app/data/rentals";
 import { JsonLd } from "@/app/components/json-ld";
 import { breadcrumbSchema, itemListSchema } from "@/app/lib/schema";
 
@@ -282,7 +282,9 @@ export default async function RentalListingPage() {
                     >
                       {row.map((cell, index) => (
                         <td
-                          key={`${row[0]}-${cell}`}
+                          // Indexul coloanei, nu valoarea: celule cu același text
+                          // (ex. „Da", „Da") ar produce chei duplicate pe același rând.
+                          key={`${row[0]}-${index}`}
                           className={`py-5 ${index === 0 ? "pr-6 font-semibold text-olive" : "px-6 text-stone"}`}
                         >
                           {cell}

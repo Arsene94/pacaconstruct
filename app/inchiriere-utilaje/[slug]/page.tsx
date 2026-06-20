@@ -36,10 +36,12 @@ export async function generateMetadata({ params }: RentalRouteProps): Promise<Me
   const { slug } = await params;
   const machine = await getRentalMachine(slug);
 
+  // Slug inexistent → 404. Ruta de detaliu nu are `loading.tsx` (skeletonul
+  // listei stă în route group-ul `(list)`), deci nu se face streaming și
+  // `notFound()` setează status HTTP 404 real, nu soft-404 (200).
+  // Vezi docs Next 16: loading#status-codes.
   if (!machine) {
-    return {
-      title: "Utilaj indisponibil",
-    };
+    notFound();
   }
 
   const canonical = `/inchiriere-utilaje/${slug}`;

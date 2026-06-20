@@ -19,6 +19,7 @@ type NavbarProps = {
 };
 
 const navLinks = [
+  { label: "Despre noi", href: "/despre" },
   { label: "Inchirieri utilaje", href: "/inchiriere-utilaje" },
   { label: "FAQ", href: "/faq" },
   { label: "Blog", href: "/blog" },
@@ -183,6 +184,20 @@ export function Navbar({ serviceGroups, settings }: NavbarProps) {
           </Link>
 
           <nav className="hidden items-center gap-7 lg:flex">
+            <Link
+              href="/"
+              className="py-3 text-sm font-semibold uppercase text-stone hover:text-amber"
+              onClick={() =>
+                pushMarketingEvent({
+                  event: "pc_nav_click",
+                  placement: "navbar",
+                  source: "navbar",
+                  link_id: "/",
+                })
+              }
+            >
+              Acasa
+            </Link>
             <div
               className="relative"
               onMouseEnter={() => setIsServicesOpen(true)}
@@ -279,6 +294,21 @@ export function Navbar({ serviceGroups, settings }: NavbarProps) {
             className="absolute inset-x-0 top-full max-h-[calc(100dvh-8.5rem)] overflow-y-auto overscroll-contain border-t border-olive/15 bg-white px-5 py-5 shadow-2xl shadow-carbon/15 lg:hidden"
           >
             <div className="space-y-5">
+              <Link
+                href="/"
+                className="block text-xs font-bold uppercase text-amber"
+                onClick={() => {
+                  pushMarketingEvent({
+                    event: "pc_nav_click",
+                    placement: "mobile_menu",
+                    source: "navbar",
+                    link_id: "/",
+                  });
+                  closeMobileMenu();
+                }}
+              >
+                Acasa
+              </Link>
               <div>
                 <button
                   aria-expanded={isMobileServicesOpen}

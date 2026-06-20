@@ -1,10 +1,10 @@
-import { HeroSkeleton, ArticleSkeleton } from "@/app/components/skeleton";
+import { HeroSkeleton, CardGridSkeleton } from "@/app/components/skeleton";
 
 export default function Loading() {
   return (
     <div className="flex-1">
       <HeroSkeleton />
-      <ArticleSkeleton />
+      <CardGridSkeleton count={6} />
     </div>
   );
 }

@@ -34,6 +34,11 @@ function supabaseOrigin(): string {
 
 const isDev = process.env.NODE_ENV === "development";
 
+// CSP livrat în Report-Only: monitorizăm violările fără să blocăm. Comutarea pe
+// enforce se face dintr-un singur loc (afectează și header-ul, și directivele
+// care n-au efect în Report-Only, ex. `upgrade-insecure-requests`).
+const CSP_REPORT_ONLY = true;
+
 /**
  * Content-Security-Policy. Pornește în Report-Only (vezi `headers()` mai jos):
  * raportează violările fără să blocheze, ca să nu regresăm nimic la activare.
@@ -44,25 +49,37 @@ const isDev = process.env.NODE_ENV === "development";
  * static + streaming), păstrăm PPR și folosim o politică statică, compatibilă
  * cu shell-ul prerandate. Fonturile sunt self-hosted (next/font) → `'self'`.
  */
+// Origini terțe pentru tracking & consimțământ. Tot ce încarcă pe paginile
+// publice trece prin GTM (container) + GA4 (tag-uri) + cookie-script (CMP/banner
+// de cookie-uri, încărcat din GTM). Le declarăm explicit ca CSP-ul să nu mai
+// raporteze violări pentru resursele legitime. Vezi [[paca-tracking]].
+const GTM = "https://www.googletagmanager.com";
+const GA =
+  "https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com";
+const COOKIE_SCRIPT = "https://cdn.cookie-script.com https://*.cookie-script.com";
+
 function contentSecurityPolicy(): string {
   const supabase = supabaseOrigin();
   const supabaseWs = supabase.replace(/^http/, "ws");
-  return [
+  const directives = [
     `default-src 'self'`,
     // 'unsafe-inline' rămâne necesar pentru scripturile de bootstrap RSC
     // injectate inline de Next în shell-ul static (nu pot purta nonce sub PPR).
-    `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
-    `style-src 'self' 'unsafe-inline'`,
-    `img-src 'self' blob: data: ${supabase}`,
-    `font-src 'self'`,
-    `connect-src 'self' ${supabase} ${supabaseWs}`,
-    `frame-src 'self'`,
+    `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} ${GTM} ${COOKIE_SCRIPT}`,
+    `style-src 'self' 'unsafe-inline' ${COOKIE_SCRIPT}`,
+    `img-src 'self' blob: data: ${supabase} ${GTM} ${GA} ${COOKIE_SCRIPT}`,
+    `font-src 'self' ${COOKIE_SCRIPT}`,
+    `connect-src 'self' ${supabase} ${supabaseWs} ${GTM} ${GA} ${COOKIE_SCRIPT}`,
+    `frame-src 'self' ${GTM}`,
     `object-src 'none'`,
     `base-uri 'self'`,
     `form-action 'self'`,
     `frame-ancestors 'self'`,
-    `upgrade-insecure-requests`,
-  ].join("; ");
+  ];
+  // `upgrade-insecure-requests` e ignorat în politicile Report-Only (per spec) și
+  // doar produce un warning în consolă — îl adăugăm doar când CSP-ul e enforced.
+  if (!CSP_REPORT_ONLY) directives.push(`upgrade-insecure-requests`);
+  return directives.join("; ");
 }
 
 const SECURITY_HEADERS = [
@@ -78,9 +95,11 @@ const SECURITY_HEADERS = [
     value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
   },
   { key: "X-DNS-Prefetch-Control", value: "on" },
-  // Report-Only: monitorizăm violările înainte de a comuta pe enforce.
+  // Report-Only cât timp monitorizăm violările; comută pe enforce din CSP_REPORT_ONLY.
   {
-    key: "Content-Security-Policy-Report-Only",
+    key: CSP_REPORT_ONLY
+      ? "Content-Security-Policy-Report-Only"
+      : "Content-Security-Policy",
     value: contentSecurityPolicy(),
   },
 ];

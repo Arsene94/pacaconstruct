@@ -1,15 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Footer } from "../components/footer";
-import { SiteNavbar } from "../components/site-navbar";
-import { SectionContainer } from "../components/section-container";
+import { Footer } from "@/app/components/footer";
+import { SiteNavbar } from "@/app/components/site-navbar";
+import { SectionContainer } from "@/app/components/section-container";
 import {
   getBlogPosts,
   getFeaturedBlogPost,
   searchBlogPosts,
   type BlogPost,
-} from "../data/blog";
-import { getServiceGroups } from "../data/services";
+} from "@/app/data/blog";
+import { getServiceGroups } from "@/app/data/services";
 import { JsonLd } from "@/app/components/json-ld";
 import { SearchTracker } from "@/app/components/marketing/search-tracker";
 import { breadcrumbSchema, itemListSchema } from "@/app/lib/schema";

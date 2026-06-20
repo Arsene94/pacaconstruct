@@ -9,12 +9,16 @@ import { SectionContainer } from "./section-container";
 export function HeroSection() {
   return (
     <section className="relative order-1 flex min-h-[600px] items-end overflow-hidden bg-carbon py-12 text-white md:order-none md:min-h-[760px] md:items-center md:py-24">
+      {/* Hero LCP art-directed (desktop + mobil): `priority` => eager + fetch
+          high + preload. Ambele imagini sunt oricum încărcate eager, iar `sizes`
+          cu `0px` ține varianta din afara viewport-ului la cel mai mic candidat,
+          deci preload-ul nu adaugă fetch real. `priority` e și fix-ul pe care îl
+          cere detectorul LCP din Next (verifică `priority`, nu `loading`). */}
       <Image
         src="/hero.png"
         alt="Utilaj de terasamente lucrand pe un teren in lumina calda"
         fill
-        loading="eager"
-        fetchPriority="high"
+        priority
         sizes="(min-width: 768px) 100vw, 0px"
         className="hidden object-cover md:block"
       />
@@ -22,8 +26,7 @@ export function HeroSection() {
         src="/hero-mobile.png"
         alt="Utilaj de terasamente lucrand pe un teren in lumina calda"
         fill
-        loading="eager"
-        fetchPriority="high"
+        priority
         sizes="(max-width: 767px) 100vw, 0px"
         className="object-cover md:hidden"
       />

@@ -25,6 +25,7 @@ export async function Footer() {
           <FooterLinks
             title="Companie"
             links={[
+              { label: "Acasa", href: "/" },
               { label: "Despre noi", href: "/despre" },
               { label: "Servicii", href: "/#servicii" },
               { label: "Proiecte", href: "/proiecte" },

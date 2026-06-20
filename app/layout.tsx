@@ -106,6 +106,9 @@ export default async function RootLayout({
   return (
     <html
       lang="ro"
+      // `scroll-behavior: smooth` e setat în CSS pe <html>; atributul confirmă
+      // intenția și oprește warning-ul Next despre scroll-ul în tranzițiile de rută.
+      data-scroll-behavior="smooth"
       className={`${manrope.variable} ${sourceSerif.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
