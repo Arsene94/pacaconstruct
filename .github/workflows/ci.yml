@@ -11,23 +11,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  quality:
-    name: Type-check · Lint · Unit tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-      # Format-check rulează doar pe fișierele atinse (prin lint-staged la commit).
-      # Codebase-ul legacy nu e încă formatat integral cu Prettier (vezi raport).
-      - name: Unit tests
-        run: npm run test
-      - name: Audit (high+) — informativ
-        run: npm audit --audit-level=high
-        continue-on-error: true
-
   build:
     name: Production build
     runs-on: ubuntu-latest

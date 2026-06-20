@@ -1,16 +1,16 @@
 # Graph Report - paca-construct  (2026-06-20)
 
 ## Corpus Check
-- 253 files · ~295,388 words
+- 253 files · ~295,531 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1449 nodes · 3315 edges · 83 communities (76 shown, 7 thin omitted)
+- 1449 nodes · 3315 edges · 84 communities (77 shown, 7 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 96 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `758828b0`
+- Built from commit: `8639bcf4`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -95,6 +95,7 @@
 - [[_COMMUNITY_Community 80|Community 80]]
 - [[_COMMUNITY_Community 81|Community 81]]
 - [[_COMMUNITY_Community 82|Community 82]]
+- [[_COMMUNITY_Community 83|Community 83]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `createClient()` - 102 edges
@@ -123,11 +124,11 @@
 ## Import Cycles
 - None detected.
 
-## Communities (83 total, 7 thin omitted)
+## Communities (84 total, 7 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.11
-Nodes (35): AdminIcon(), AdminIconName, AdminIconProps, icons, BadgeTone, cx(), IconButton(), IconLink() (+27 more)
+Nodes (37): AdminIcon(), AdminIconName, AdminIconProps, icons, BadgeTone, cx(), FilterSelect(), IconButton() (+29 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.09
@@ -135,7 +136,7 @@ Nodes (44): createFaqItem(), createPost(), createProject(), createRental(), crea
 
 ### Community 2 - "Community 2"
 Cohesion: 0.09
-Nodes (19): AdminContent(), PageHeader(), metadata, metadata, metadata, metadata, metadata, metadata (+11 more)
+Nodes (17): AdminContent(), PageHeader(), metadata, metadata, metadata, metadata, metadata, metadata (+9 more)
 
 ### Community 3 - "Community 3"
 Cohesion: 0.18
@@ -254,16 +255,16 @@ Cohesion: 0.33
 Nodes (5): contentSecurityPolicy(), nextConfig, SECURITY_HEADERS, supabaseOrigin(), withBundleAnalyzer
 
 ### Community 37 - "Community 37"
-Cohesion: 0.10
-Nodes (32): helpfulLinks, metadata, NotFound(), metadata, generateMetadata(), BlogPage(), JsonLd(), LegalPage() (+24 more)
+Cohesion: 0.11
+Nodes (30): helpfulLinks, metadata, NotFound(), metadata, generateMetadata(), BlogPage(), JsonLd(), SectionContainer() (+22 more)
 
 ### Community 38 - "Community 38"
 Cohesion: 0.07
 Nodes (28): 10. Reziliență & observabilitate, 11. Plan de implementare pe faze (recomandat), 12. Definiție de „gata" (cum verifici), 1. Rezumat executiv, 2. Diagnoza sistemului actual, 3. Traducerea cerințelor tale în componente de arhitectură, 4.1 Stratul de template — React Email (de ce), 4.2 Modelul „hibrid" template (decizie cheie) (+20 more)
 
 ### Community 39 - "Community 39"
-Cohesion: 0.09
-Nodes (25): size, Image(), size, size, Image(), size, Image(), size (+17 more)
+Cohesion: 0.11
+Nodes (20): size, Image(), size, size, Image(), size, Image(), size (+12 more)
 
 ### Community 40 - "Community 40"
 Cohesion: 0.11
@@ -310,8 +311,8 @@ Cohesion: 0.12
 Nodes (21): announcementSchema, contactSchema, DAY_VALUES, floatingSchema, hoursSchema, optionalEmail, optionalTime, optionalUrl (+13 more)
 
 ### Community 54 - "Community 54"
-Cohesion: 0.18
-Nodes (9): metadata, metadata, BlogSchedule, BlogTopic, getScheduleById(), getSchedules(), EditSchedulePage(), AdminSchedulePage() (+1 more)
+Cohesion: 0.13
+Nodes (16): PrimaryLinkButton(), metadata, metadata, BlogSchedule, BlogTopic, getScheduleById(), getSchedules(), getTopicById() (+8 more)
 
 ### Community 55 - "Community 55"
 Cohesion: 0.14
@@ -366,8 +367,8 @@ Cohesion: 0.28
 Nodes (3): LogContext, logger, LogLevel
 
 ### Community 68 - "Community 68"
-Cohesion: 0.14
-Nodes (17): FilterSelect(), Toolbar(), StatusSelect(), AdminCereriInchirierePage(), metadata, AdminCereriServiciiPage(), metadata, dateFormatter (+9 more)
+Cohesion: 0.17
+Nodes (10): AdminCereriServiciiPage(), dateFormatter, getServiceRequests(), RentalRequest, RentalRequestRow, REQUEST_STATUSES, RequestChannel, RequestStatus (+2 more)
 
 ### Community 69 - "Community 69"
 Cohesion: 0.27
@@ -417,6 +418,10 @@ Nodes (5): @upstash/redis, getRedis(), getRedisOrNull(), isRedisConfigured(), re
 Cohesion: 0.40
 Nodes (4): AuthIcon(), AuthIconName, AuthIconProps, icons
 
+### Community 83 - "Community 83"
+Cohesion: 0.26
+Nodes (7): LegalPage(), ConfidentialitatePage(), metadata, metadata, addressLine(), metadata, TermeniPage()
+
 ## Knowledge Gaps
 - **545 isolated node(s):** `husky.sh script`, `printWidth`, `tabWidth`, `semi`, `singleQuote` (+540 more)
   These have ≤1 connection - possible missing edges or undocumented components.
@@ -436,6 +441,6 @@ _Questions this graph is uniquely positioned to answer:_
 - **What connects `husky.sh script`, `printWidth`, `tabWidth` to the rest of the system?**
   _545 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.1072463768115942 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.1130952380952381 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.08695652173913043 - nodes in this community are weakly interconnected._
