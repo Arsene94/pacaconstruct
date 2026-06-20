@@ -27,7 +27,7 @@ const navItems: NavItem[] = [
 ];
 
 const utilityNavItems: NavItem[] = [
-  { label: "Setări", icon: "settings", href: "#" },
+  { label: "Setări", icon: "settings", href: "/admin/settings" },
   { label: "Suport", icon: "help", href: "#" },
 ];
 
@@ -83,6 +83,7 @@ const breadcrumbLabels: Record<string, string> = {
   "/admin/email": "Campanii email",
   "/admin/email/contacts": "Contacte email",
   "/admin/email/groups": "Grupuri & segmente",
+  "/admin/settings": "Setări",
 };
 
 export function AdminBreadcrumb() {
