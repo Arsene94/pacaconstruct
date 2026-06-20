@@ -1,4 +1,10 @@
 import type { NextConfig } from "next";
+import bundleAnalyzer from "@next/bundle-analyzer";
+
+// Rulează `npm run analyze` (ANALYZE=true) pentru rapoarte de bundle.
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
 
 /**
  * Derivă originea Supabase (din NEXT_PUBLIC_SUPABASE_URL) sub două forme:
@@ -7,23 +13,23 @@ import type { NextConfig } from "next";
  * Dacă variabila lipsește la build, cădem pe wildcard-ul `*.supabase.co`.
  */
 function supabaseHostname(): string {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    try {
-        if (url) return new URL(url).hostname;
-    } catch {
-        // ignore — folosim fallback-ul de mai jos
-    }
-    return "*.supabase.co";
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  try {
+    if (url) return new URL(url).hostname;
+  } catch {
+    // ignore — folosim fallback-ul de mai jos
+  }
+  return "*.supabase.co";
 }
 
 function supabaseOrigin(): string {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    try {
-        if (url) return new URL(url).origin;
-    } catch {
-        // ignore
-    }
-    return "https://*.supabase.co";
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  try {
+    if (url) return new URL(url).origin;
+  } catch {
+    // ignore
+  }
+  return "https://*.supabase.co";
 }
 
 const isDev = process.env.NODE_ENV === "development";
@@ -39,71 +45,71 @@ const isDev = process.env.NODE_ENV === "development";
  * cu shell-ul prerandate. Fonturile sunt self-hosted (next/font) → `'self'`.
  */
 function contentSecurityPolicy(): string {
-    const supabase = supabaseOrigin();
-    const supabaseWs = supabase.replace(/^http/, "ws");
-    return [
-        `default-src 'self'`,
-        // 'unsafe-inline' rămâne necesar pentru scripturile de bootstrap RSC
-        // injectate inline de Next în shell-ul static (nu pot purta nonce sub PPR).
-        `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
-        `style-src 'self' 'unsafe-inline'`,
-        `img-src 'self' blob: data: ${supabase}`,
-        `font-src 'self'`,
-        `connect-src 'self' ${supabase} ${supabaseWs}`,
-        `frame-src 'self'`,
-        `object-src 'none'`,
-        `base-uri 'self'`,
-        `form-action 'self'`,
-        `frame-ancestors 'self'`,
-        `upgrade-insecure-requests`,
-    ].join("; ");
+  const supabase = supabaseOrigin();
+  const supabaseWs = supabase.replace(/^http/, "ws");
+  return [
+    `default-src 'self'`,
+    // 'unsafe-inline' rămâne necesar pentru scripturile de bootstrap RSC
+    // injectate inline de Next în shell-ul static (nu pot purta nonce sub PPR).
+    `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+    `style-src 'self' 'unsafe-inline'`,
+    `img-src 'self' blob: data: ${supabase}`,
+    `font-src 'self'`,
+    `connect-src 'self' ${supabase} ${supabaseWs}`,
+    `frame-src 'self'`,
+    `object-src 'none'`,
+    `base-uri 'self'`,
+    `form-action 'self'`,
+    `frame-ancestors 'self'`,
+    `upgrade-insecure-requests`,
+  ].join("; ");
 }
 
 const SECURITY_HEADERS = [
-    {
-        key: "Strict-Transport-Security",
-        value: "max-age=63072000; includeSubDomains; preload",
-    },
-    { key: "X-Content-Type-Options", value: "nosniff" },
-    { key: "X-Frame-Options", value: "SAMEORIGIN" },
-    { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-    {
-        key: "Permissions-Policy",
-        value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
-    },
-    { key: "X-DNS-Prefetch-Control", value: "on" },
-    // Report-Only: monitorizăm violările înainte de a comuta pe enforce.
-    {
-        key: "Content-Security-Policy-Report-Only",
-        value: contentSecurityPolicy(),
-    },
+  {
+    key: "Strict-Transport-Security",
+    value: "max-age=63072000; includeSubDomains; preload",
+  },
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "X-Frame-Options", value: "SAMEORIGIN" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  {
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
+  },
+  { key: "X-DNS-Prefetch-Control", value: "on" },
+  // Report-Only: monitorizăm violările înainte de a comuta pe enforce.
+  {
+    key: "Content-Security-Policy-Report-Only",
+    value: contentSecurityPolicy(),
+  },
 ];
 
 const nextConfig: NextConfig = {
-    allowedDevOrigins: ['127.0.0.1'],
-    // Cache-ul de date al Next (unstable_cache / ISR / route handlers) e mutat
-    // pe Upstash Redis, partajat intre toate instantele. Degradeaza la in-memory
-    // daca UPSTASH_REDIS_REST_* lipsesc (vezi handler).
-    cacheHandler: require.resolve('./cache-handlers/upstash-incremental.js'),
-    cacheMaxMemorySize: 0, // dezactiveaza cache-ul implicit in-memory (folosim Redis)
-    images: {
-        formats: ["image/avif", "image/webp"],
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: supabaseHostname(),
-                pathname: '/storage/v1/object/public/**',
-            },
-        ],
-    },
-    async headers() {
-        return [
-            {
-                source: "/:path*",
-                headers: SECURITY_HEADERS,
-            },
-        ];
-    },
+  allowedDevOrigins: ["127.0.0.1"],
+  // Cache-ul de date al Next (unstable_cache / ISR / route handlers) e mutat
+  // pe Upstash Redis, partajat intre toate instantele. Degradeaza la in-memory
+  // daca UPSTASH_REDIS_REST_* lipsesc (vezi handler).
+  cacheHandler: require.resolve("./cache-handlers/upstash-incremental.js"),
+  cacheMaxMemorySize: 0, // dezactiveaza cache-ul implicit in-memory (folosim Redis)
+  images: {
+    formats: ["image/avif", "image/webp"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: supabaseHostname(),
+        pathname: "/storage/v1/object/public/**",
+      },
+    ],
+  },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: SECURITY_HEADERS,
+      },
+    ];
+  },
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);
