@@ -21,6 +21,9 @@ const navItems: NavItem[] = [
   { label: "Proiecte", icon: "architecture", href: "/admin/proiecte" },
   { label: "Cereri servicii", icon: "personSearch", href: "/admin/cereri-servicii" },
   { label: "Cereri închiriere", icon: "truck", href: "/admin/cereri-inchiriere" },
+  { label: "Contacte email", icon: "mail", href: "/admin/email/contacts" },
+  { label: "Grupuri & segmente", icon: "personAdd", href: "/admin/email/groups" },
+  { label: "Campanii email", icon: "notifications", href: "/admin/email" },
 ];
 
 const utilityNavItems: NavItem[] = [
@@ -34,6 +37,10 @@ const BLOG_SUBSECTIONS = ["/admin/blog/topice", "/admin/blog/schedule"];
 function isActive(pathname: string, href: string) {
   if (href === "/admin") {
     return pathname === "/admin";
+  }
+  // Dashboard de campanii: activ doar pe ruta exactă (sub-rutele au intrări proprii).
+  if (href === "/admin/email") {
+    return pathname === "/admin/email";
   }
   if (href === "/admin/blog") {
     const inSub = BLOG_SUBSECTIONS.some(
@@ -73,12 +80,17 @@ const breadcrumbLabels: Record<string, string> = {
   "/admin/proiecte": "Proiecte",
   "/admin/cereri-servicii": "Cereri servicii",
   "/admin/cereri-inchiriere": "Cereri închiriere",
+  "/admin/email": "Campanii email",
+  "/admin/email/contacts": "Contacte email",
+  "/admin/email/groups": "Grupuri & segmente",
 };
 
 export function AdminBreadcrumb() {
   const pathname = usePathname();
   const match = Object.keys(breadcrumbLabels)
-    .filter((href) => href === "/admin" ? pathname === "/admin" : pathname.startsWith(href))
+    .filter((href) =>
+      href === "/admin" ? pathname === "/admin" : pathname.startsWith(href),
+    )
     .sort((a, b) => b.length - a.length)[0];
   const label = (match && breadcrumbLabels[match]) ?? "Admin";
 
