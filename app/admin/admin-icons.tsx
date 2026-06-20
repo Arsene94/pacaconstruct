@@ -23,6 +23,8 @@ import {
   IconHelp,
   IconHistory,
   IconLayoutDashboard,
+  IconPhoto,
+  IconUpload,
   IconLogout,
   IconMail,
   IconMapPin,
@@ -81,7 +83,9 @@ export type AdminIconName =
   | "warning"
   | "web"
   | "check"
-  | "delete";
+  | "delete"
+  | "image"
+  | "upload";
 
 const icons: Record<AdminIconName, TablerIcon> = {
   add: IconPlus,
@@ -123,6 +127,8 @@ const icons: Record<AdminIconName, TablerIcon> = {
   web: IconWorld,
   check: IconCheck,
   delete: IconTrash,
+  image: IconPhoto,
+  upload: IconUpload,
 };
 
 type AdminIconProps = IconProps & {

@@ -1,6 +1,7 @@
 import type { FormState } from "@/app/actions/content";
 import type { AdminService } from "@/app/data/services";
 import { AdminFormFrame } from "@/app/admin/form-client";
+import { ImageUploadField } from "@/app/admin/image-upload-field";
 import {
   CheckboxField,
   FormGrid,
@@ -26,12 +27,7 @@ export function ServiceForm({
       {service ? <input defaultValue={service.id} name="id" type="hidden" /> : null}
 
       <FormGrid>
-        <TextField
-          defaultValue={service?.title}
-          label="Titlu"
-          name="title"
-          required
-        />
+        <TextField defaultValue={service?.title} label="Titlu" name="title" required />
         <TextField
           defaultValue={service?.slug}
           hint="Lasă gol pentru generare automată din titlu."
@@ -43,11 +39,7 @@ export function ServiceForm({
           label="Titlu scurt"
           name="short_title"
         />
-        <TextField
-          defaultValue={service?.eyebrow}
-          label="Eyebrow"
-          name="eyebrow"
-        />
+        <TextField defaultValue={service?.eyebrow} label="Eyebrow" name="eyebrow" />
         <SelectField
           defaultValue={service?.group_slug ?? ""}
           includeEmpty="— Fără grup (serviciu cap de grup) —"
@@ -61,9 +53,10 @@ export function ServiceForm({
           name="sort_order"
           type="number"
         />
-        <TextField
+        <ImageUploadField
           defaultValue={service?.image_src ?? ""}
-          label="Imagine (src)"
+          folder="servicii"
+          label="Imagine"
           name="image_src"
         />
         <TextField

@@ -1,10 +1,7 @@
 import type { FormState } from "@/app/actions/content";
-import {
-  PROJECT_STATUSES,
-  PROJECT_TYPES,
-  type Project,
-} from "@/app/data/projects";
+import { PROJECT_STATUSES, PROJECT_TYPES, type Project } from "@/app/data/projects";
 import { AdminFormFrame } from "../form-client";
+import { ImageUploadField } from "../image-upload-field";
 import {
   CheckboxField,
   FormGrid,
@@ -25,9 +22,7 @@ export function ProjectForm({
       action={action}
       submitLabel={project ? "Salvează modificările" : "Creează proiectul"}
     >
-      {project ? (
-        <input defaultValue={project.id} name="id" type="hidden" />
-      ) : null}
+      {project ? <input defaultValue={project.id} name="id" type="hidden" /> : null}
 
       <FormGrid>
         <TextField
@@ -37,12 +32,7 @@ export function ProjectForm({
           placeholder="PRJ-2026-001"
           required
         />
-        <TextField
-          defaultValue={project?.name}
-          label="Denumire"
-          name="name"
-          required
-        />
+        <TextField defaultValue={project?.name} label="Denumire" name="name" required />
         <TextField defaultValue={project?.client} label="Client" name="client" />
         <SelectField
           defaultValue={project?.type ?? PROJECT_TYPES[0]}
@@ -58,11 +48,7 @@ export function ProjectForm({
           options={PROJECT_STATUSES.map((s) => ({ value: s, label: s }))}
           required
         />
-        <TextField
-          defaultValue={project?.location}
-          label="Locație"
-          name="location"
-        />
+        <TextField defaultValue={project?.location} label="Locație" name="location" />
         <TextField
           defaultValue={project?.value}
           label="Valoare"
@@ -87,10 +73,11 @@ export function ProjectForm({
           label="Slug"
           name="slug"
         />
-        <TextField
+        <ImageUploadField
           defaultValue={project?.imageBeforeSrc ?? ""}
+          folder="proiecte"
           hint="Opțional. Apare în galeria înainte/după pe pagina proiectului."
-          label="Imagine ÎNAINTE (src)"
+          label="Imagine ÎNAINTE"
           name="image_before_src"
         />
         <TextField
@@ -98,10 +85,11 @@ export function ProjectForm({
           label="Imagine ÎNAINTE (alt)"
           name="image_before_alt"
         />
-        <TextField
+        <ImageUploadField
           defaultValue={project?.imageSrc ?? ""}
+          folder="proiecte"
           hint="Imaginea principală / „după”. Apare și ca thumbnail în listă."
-          label="Imagine DUPĂ (src)"
+          label="Imagine DUPĂ"
           name="image_src"
         />
         <TextField

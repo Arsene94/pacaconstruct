@@ -1,11 +1,7 @@
 import type { FormState } from "@/app/actions/content";
-import {
-  CheckboxField,
-  FormGrid,
-  TextAreaField,
-  TextField,
-} from "@/app/admin/form-ui";
+import { CheckboxField, FormGrid, TextAreaField, TextField } from "@/app/admin/form-ui";
 import { AdminFormFrame } from "@/app/admin/form-client";
+import { ImageUploadField } from "@/app/admin/image-upload-field";
 import type { AdminPost } from "@/app/data/blog";
 
 export function PostForm({
@@ -22,23 +18,14 @@ export function PostForm({
     >
       {post ? <input name="id" type="hidden" defaultValue={post.id} /> : null}
       <FormGrid>
-        <TextField
-          name="title"
-          label="Titlu"
-          required
-          defaultValue={post?.title}
-        />
+        <TextField name="title" label="Titlu" required defaultValue={post?.title} />
         <TextField
           name="slug"
           label="Slug"
           defaultValue={post?.slug}
           hint="Lasă gol pentru generare din titlu."
         />
-        <TextField
-          name="category"
-          label="Categorie"
-          defaultValue={post?.category}
-        />
+        <TextField name="category" label="Categorie" defaultValue={post?.category} />
         <TextField
           name="read_time"
           label="Timp citire"
@@ -63,10 +50,11 @@ export function PostForm({
           type="number"
           defaultValue={post?.sort_order ?? 0}
         />
-        <TextField
+        <ImageUploadField
           name="image_src"
-          label="Imagine (src)"
+          label="Imagine"
           defaultValue={post?.image_src ?? ""}
+          folder="blog"
         />
         <TextField
           name="image_alt"

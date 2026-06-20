@@ -8,6 +8,7 @@ import {
   sendBroadcast,
   countMarketingAudience,
 } from "@/app/actions/campaigns";
+import { ImageUploadField } from "@/app/admin/image-upload-field";
 
 type Option = { value: string; label: string };
 
@@ -239,14 +240,12 @@ export function Composer({
               <label className={labelClass}>URL articol</label>
               <input value={fields.url} onChange={set("url")} className={inputClass} />
             </div>
-            <div>
-              <label className={labelClass}>URL imagine (opțional)</label>
-              <input
-                value={fields.imageUrl}
-                onChange={set("imageUrl")}
-                className={inputClass}
-              />
-            </div>
+            <ImageUploadField
+              label="Imagine (opțional)"
+              folder="email"
+              value={fields.imageUrl}
+              onValueChange={(url) => setFields((f) => ({ ...f, imageUrl: url }))}
+            />
           </>
         ) : (
           <>

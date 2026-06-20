@@ -1,12 +1,8 @@
 import type { FormState } from "@/app/actions/content";
 import type { AdminRental } from "@/app/data/rentals";
 import { AdminFormFrame } from "@/app/admin/form-client";
-import {
-  CheckboxField,
-  FormGrid,
-  TextAreaField,
-  TextField,
-} from "@/app/admin/form-ui";
+import { ImageUploadField } from "@/app/admin/image-upload-field";
+import { CheckboxField, FormGrid, TextAreaField, TextField } from "@/app/admin/form-ui";
 
 export function RentalForm({
   action,
@@ -23,23 +19,14 @@ export function RentalForm({
       {machine ? <input defaultValue={machine.id} name="id" type="hidden" /> : null}
 
       <FormGrid>
-        <TextField
-          defaultValue={machine?.title}
-          label="Titlu"
-          name="title"
-          required
-        />
+        <TextField defaultValue={machine?.title} label="Titlu" name="title" required />
         <TextField
           defaultValue={machine?.slug}
           hint="Lasă gol pentru generare din titlu."
           label="Slug"
           name="slug"
         />
-        <TextField
-          defaultValue={machine?.category}
-          label="Categorie"
-          name="category"
-        />
+        <TextField defaultValue={machine?.category} label="Categorie" name="category" />
         <TextField
           defaultValue={machine?.price}
           label="Tarif"
@@ -52,9 +39,10 @@ export function RentalForm({
           name="sort_order"
           type="number"
         />
-        <TextField
+        <ImageUploadField
           defaultValue={machine?.image_src ?? ""}
-          label="Imagine (src)"
+          folder="utilaje"
+          label="Imagine"
           name="image_src"
         />
         <TextField
