@@ -1,6 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ServicePage } from "../data/services";
+import { serviceFaq } from "../lib/service-faq";
+import { serviceAreas } from "../data/service-areas";
+import { siteConfig } from "../lib/site-config";
 import { SectionContainer } from "./section-container";
 
 type ServicePageTemplateProps = {
@@ -13,6 +16,8 @@ export function ServicePageTemplate({ service }: ServicePageTemplateProps) {
       <ServiceHero service={service} />
       <ServiceProcess service={service} />
       <ServiceSpecs service={service} />
+      <ServiceFaqSection service={service} />
+      <ServiceAreas service={service} />
       <ServiceCta service={service} />
     </main>
   );
@@ -156,6 +161,68 @@ function ServiceSpecs({ service }: ServicePageTemplateProps) {
   );
 }
 
+function ServiceFaqSection({ service }: ServicePageTemplateProps) {
+  // Întrebări editate din admin; dacă lipsesc, folosim setul generat automat.
+  const faq = service.faqs.length > 0 ? service.faqs : serviceFaq(service.title);
+  return (
+    <section className="mb-20 md:mb-28">
+      <SectionContainer>
+        <h2 className="border-b border-olive/15 pb-4 font-serif-display text-3xl font-medium text-olive md:text-4xl">
+          Întrebări frecvente despre {service.title.toLowerCase()}
+        </h2>
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          {faq.map((item) => (
+            <details
+              key={item.question}
+              className="group border border-olive/15 bg-white p-6 open:border-amber/60"
+            >
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
+                <h3 className="font-serif-display text-xl font-medium text-olive transition group-open:text-amber">
+                  {item.question}
+                </h3>
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center border border-olive/15 text-lg text-olive transition group-open:rotate-45 group-open:border-amber group-open:text-amber">
+                  +
+                </span>
+              </summary>
+              <p className="mt-4 border-t border-olive/10 pt-4 text-base leading-7 text-stone">
+                {item.answer}
+              </p>
+            </details>
+          ))}
+        </div>
+      </SectionContainer>
+    </section>
+  );
+}
+
+function ServiceAreas({ service }: ServicePageTemplateProps) {
+  return (
+    <section className="mb-20 md:mb-28">
+      <SectionContainer>
+        <h2 className="font-serif-display text-3xl font-medium text-olive md:text-4xl">
+          Executăm {service.title.toLowerCase()} în zona ta
+        </h2>
+        <p className="mt-3 max-w-2xl text-base leading-7 text-stone">
+          Acoperim {siteConfig.address.addressLocality} și județele din jur.
+          Vezi detalii pentru fiecare zonă:
+        </p>
+        <ul className="mt-6 flex flex-wrap gap-3">
+          {serviceAreas.map((area) => (
+            <li key={area.slug}>
+              <Link
+                href={`/zona/${area.slug}`}
+                className="inline-flex border border-olive/20 bg-white px-4 py-2 text-sm font-semibold text-olive transition hover:border-amber hover:text-amber"
+              >
+                {area.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </SectionContainer>
+    </section>
+  );
+}
+
 function ServiceCta({ service }: ServicePageTemplateProps) {
   return (
     <section className="bg-amber py-14 text-carbon">
@@ -167,7 +234,7 @@ function ServiceCta({ service }: ServicePageTemplateProps) {
           </h2>
         </div>
         <Link
-          href="tel:+40700000000"
+          href={`tel:${siteConfig.phone}`}
           className="border border-carbon/30 px-7 py-4 text-center text-sm font-bold uppercase transition hover:bg-carbon hover:text-white"
         >
           Suna pentru oferta

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SectionContainer } from "./section-container";
+import { siteConfig } from "@/app/lib/site-config";
 
 export function Footer() {
   return (
@@ -19,7 +20,9 @@ export function Footer() {
           <FooterLinks
             title="Companie"
             links={[
+              { label: "Despre noi", href: "/despre" },
               { label: "Servicii", href: "/#servicii" },
+              { label: "Proiecte", href: "/proiecte" },
               { label: "Inchirieri utilaje", href: "/inchiriere-utilaje" },
               { label: "FAQ", href: "/faq" },
               { label: "Blog", href: "/blog" },
@@ -27,10 +30,13 @@ export function Footer() {
             ]}
           />
           <FooterLinks
-            title="Legal"
+            title="Zone deservite"
             links={[
-              { label: "Politica de confidentialitate", href: "#" },
-              { label: "Termeni si conditii", href: "#" },
+              { label: "Bucuresti", href: "/zona/bucuresti" },
+              { label: "Ilfov", href: "/zona/ilfov" },
+              { label: "Prahova", href: "/zona/prahova" },
+              { label: "Confidentialitate", href: "/confidentialitate" },
+              { label: "Termeni si conditii", href: "/termeni" },
             ]}
           />
         </div>
@@ -40,16 +46,16 @@ export function Footer() {
             Contact rapid
           </p>
           <a
-            href="tel:+40700000000"
+            href={`tel:${siteConfig.phone}`}
             className="mt-4 block text-xl font-semibold text-sage hover:text-amber"
           >
-            +40 700 000 000
+            {siteConfig.phoneDisplay}
           </a>
           <a
-            href="mailto:contact@pacaconstruct.ro"
+            href={`mailto:${siteConfig.email}`}
             className="mt-2 block text-sm text-white/70 hover:text-white"
           >
-            contact@pacaconstruct.ro
+            {siteConfig.email}
           </a>
         </div>
       </SectionContainer>

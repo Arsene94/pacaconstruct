@@ -4,12 +4,26 @@ import Link from "next/link";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
 import { SectionContainer } from "../components/section-container";
-import { serviceGroups } from "../data/services";
+import { getServiceGroups } from "../data/services";
+import { getFaqSections, type FaqSection } from "../data/faq";
+import { JsonLd } from "@/app/components/json-ld";
+import { breadcrumbSchema, faqPageSchema } from "@/app/lib/schema";
+
+// Conținut din DB, randare dinamică; datele vin din cache-ul Upstash.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Intrebari frecvente - PACA CONSTRUCT",
+  title: "Întrebări frecvente",
   description:
-    "Raspunsuri despre evaluari, costuri, excavari, fundatii si amenajari exterioare executate de PACA CONSTRUCT.",
+    "Răspunsuri despre evaluări, costuri, excavări, fundații și amenajări exterioare executate de PACA CONSTRUCT.",
+  alternates: { canonical: "/faq" },
+  openGraph: {
+    type: "website",
+    title: "Întrebări frecvente | PACA CONSTRUCT",
+    description:
+      "Răspunsuri despre evaluări, costuri, excavări, fundații și amenajări exterioare.",
+    url: "/faq",
+  },
 };
 
 const shortcuts = [
@@ -36,100 +50,32 @@ const frequentQuestions = [
   "Este necesara o vizita la locatie?",
 ];
 
-const faqSections = [
-  {
-    id: "evaluare",
-    index: "01",
-    title: "Evaluare si costuri",
-    description:
-      "Transparenta in calcularea bugetelor pentru lucrari de terasament, excavare si amenajare.",
-    items: [
-      {
-        question: "Cum se calculeaza pretul unei lucrari?",
-        answer:
-          "Pretul depinde de volumul de pamant dislocat, tipul de sol, accesul in santier si utilajele necesare. Putem oferi o estimare initiala pe baza fotografiilor si detaliilor trimise, dar oferta finala se stabileste dupa vizita la locatie.",
-        highlights: ["Volum si tip de sol", "Acces pentru utilaje", "Durata si logistica"],
-      },
-      {
-        question: "De ce este importanta evaluarea tehnica pe teren?",
-        answer:
-          "Evaluarea confirma structura solului, diferentele de nivel, accesul si riscurile de executie. Astfel evitam modificari neprevazute de pret si alegem utilajele potrivite pentru lucrare.",
-        highlights: ["Masuratori reale", "Solutie tehnica clara", "Oferta ferma"],
-      },
-      {
-        question: "Puteti face o estimare fara proiect tehnic?",
-        answer:
-          "Da, pentru orientare. Avem nevoie de locatie, fotografii, dimensiuni aproximative si obiectivul lucrarii. Pentru executie, cerintele finale sunt confirmate prin masuratori si verificare in teren.",
-        highlights: ["Fotografii", "Dimensiuni aproximative", "Obiectivul lucrarii"],
-      },
-    ],
-  },
-  {
-    id: "excavari",
-    index: "02",
-    title: "Excavari si fundatii",
-    description:
-      "Raspunsuri despre sapaturi, evacuarea pamantului, fundatii si siguranta in santier.",
-    items: [
-      {
-        question: "Evacuati pamantul rezultat?",
-        answer:
-          "Da, putem coordona evacuarea pamantului excedentar la depozite autorizate. Acest serviciu este ofertat separat, in functie de distanta, volum si numarul de curse necesare.",
-        highlights: ["Depozite autorizate", "Transport calculat separat", "Logistica inclusa"],
-      },
-      {
-        question: "Cat de adanc puteti excava pentru o fundatie?",
-        answer:
-          "Adancimea depinde de proiect, studiul geotehnic si conditiile reale din teren. Pentru sapaturi adanci stabilim solutii de sprijinire a malurilor si reguli de lucru care previn surparile.",
-        highlights: ["Studiu geotehnic", "Sprijiniri de maluri", "Norme de siguranta"],
-      },
-      {
-        question: "Lucrati si in spatii inguste?",
-        answer:
-          "Da. Pentru curti sau zone cu acces limitat folosim utilaje compacte, iar planul de executie este adaptat la latimea accesului si la protectia elementelor existente.",
-        highlights: ["Miniutilaje", "Protectie pentru curte", "Plan adaptat accesului"],
-      },
-    ],
-  },
-  {
-    id: "amenajari",
-    index: "03",
-    title: "Amenajari exterioare",
-    description:
-      "Etape si criterii pentru pregatirea terenului inainte de gradini, alei, drenaje sau spatii verzi.",
-    items: [
-      {
-        question: "Ce include pregatirea terenului?",
-        answer:
-          "Pregatirea poate include decopertare, nivelare, compactare, drenaj si modelarea cotelor. Etapele exacte se aleg dupa evaluarea terenului si dupa obiectivul final al amenajarii.",
-        highlights: ["Decopertare", "Nivelare", "Drenaj corect"],
-      },
-      {
-        question: "Puteti prelua si partea de spatii verzi?",
-        answer:
-          "Da. Executam lucrari de amenajare peisagistica, plantari, gazon, irigatii si intretinere, in functie de proiect si de conditiile terenului.",
-        highlights: ["Gazon si plantari", "Irigatii", "Intretinere"],
-      },
-      {
-        question: "Cand este potrivit sa planific lucrarea?",
-        answer:
-          "Pentru amenajari exterioare, perioadele stabile meteo sunt cele mai eficiente. Recomandam planificarea din timp, mai ales cand lucrarea depinde de utilaje, transport si materiale.",
-        highlights: ["Planificare meteo", "Utilaje disponibile", "Materiale pregatite"],
-      },
-    ],
-  },
-];
 
-export default function FaqPage() {
+export default async function FaqPage() {
+  const [serviceGroups, faqSections] = await Promise.all([
+    getServiceGroups(),
+    getFaqSections(),
+  ]);
+
   return (
     <div className="min-h-screen bg-limestone text-carbon">
+      {faqSections.length > 0 ? (
+        <JsonLd data={faqPageSchema(faqSections)} id="faq" />
+      ) : null}
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Acasă", path: "/" },
+          { name: "Întrebări frecvente", path: "/faq" },
+        ])}
+        id="breadcrumb"
+      />
       <Navbar serviceGroups={serviceGroups} />
       <main className="bg-topo">
         <FaqHero />
         <ShortcutCards />
-        <CategoryNav />
+        <CategoryNav sections={faqSections} />
         <FrequentQuestions />
-        <FaqCategories />
+        <FaqCategories sections={faqSections} />
         <FaqCta />
       </main>
       <Footer />
@@ -212,14 +158,14 @@ function ShortcutCards() {
   );
 }
 
-function CategoryNav() {
+function CategoryNav({ sections }: { sections: FaqSection[] }) {
   return (
     <div className="sticky top-[76px] z-30 mt-16 hidden border-y border-olive/10 bg-limestone/90 backdrop-blur lg:block">
       <SectionContainer className="flex h-16 items-center justify-center gap-10">
         <a className="text-xs font-bold uppercase text-olive hover:text-amber" href="#frecvente">
           Cele mai frecvente
         </a>
-        {faqSections.map((section) => (
+        {sections.map((section) => (
           <a
             key={section.id}
             className="text-xs font-bold uppercase text-stone transition hover:text-amber"
@@ -289,10 +235,10 @@ function FrequentQuestions() {
   );
 }
 
-function FaqCategories() {
+function FaqCategories({ sections }: { sections: FaqSection[] }) {
   return (
     <SectionContainer className="space-y-24 pb-20 md:pb-28">
-      {faqSections.map((section) => (
+      {sections.map((section) => (
         <section key={section.id} id={section.id}>
           <div className="mb-10 flex items-start gap-5">
             <span className="font-serif-display text-6xl font-semibold leading-none text-olive/10 md:text-8xl">

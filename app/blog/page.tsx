@@ -3,13 +3,32 @@ import Link from "next/link";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
 import { SectionContainer } from "../components/section-container";
-import { blogPosts, featuredBlogPost } from "../data/blog";
-import { serviceGroups } from "../data/services";
+import {
+  getBlogPosts,
+  getFeaturedBlogPost,
+  searchBlogPosts,
+  type BlogPost,
+} from "../data/blog";
+import { getServiceGroups } from "../data/services";
+import { JsonLd } from "@/app/components/json-ld";
+import { breadcrumbSchema, itemListSchema } from "@/app/lib/schema";
+
+// Date din DB + searchParams (?q): randare dinamică; datele de listă vin din
+// cache-ul Upstash (`unstable_cache`), căutarea din Upstash Search.
+export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Blog | PACA CONSTRUCT",
+  title: "Blog",
   description:
-    "Ghiduri practice despre excavari, nivelare teren si amenajari peisagistice.",
+    "Ghiduri practice despre excavări, nivelare teren și amenajări peisagistice.",
+  alternates: { canonical: "/blog" },
+  openGraph: {
+    type: "website",
+    title: "Blog | PACA CONSTRUCT",
+    description:
+      "Ghiduri practice despre excavări, nivelare teren și amenajări peisagistice.",
+    url: "/blog",
+  },
 };
 
 const categories = [
@@ -19,65 +38,57 @@ const categories = [
   "Amenajari peisagistice",
 ];
 
-export default function BlogPage() {
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>;
+}) {
+  const { q } = await searchParams;
+  const query = (q ?? "").trim();
+
+  const [serviceGroups, blogPosts, featured] = await Promise.all([
+    getServiceGroups(),
+    query ? Promise.resolve<BlogPost[]>([]) : getBlogPosts(),
+    query ? Promise.resolve(null) : getFeaturedBlogPost(),
+  ]);
+
+  const searchResults = query ? await searchBlogPosts(query) : [];
+
+  const featuredBlogPost = featured ?? blogPosts[0];
   const compactPosts = blogPosts.filter(
-    (post) => post.slug !== featuredBlogPost.slug,
+    (post) => post.slug !== featuredBlogPost?.slug,
   );
 
   return (
     <div className="min-h-screen bg-limestone text-carbon">
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Acasă", path: "/" },
+          { name: "Blog", path: "/blog" },
+        ])}
+        id="breadcrumb"
+      />
+      {!query && blogPosts.length > 0 ? (
+        <JsonLd
+          data={itemListSchema(
+            "Articole blog PACA CONSTRUCT",
+            blogPosts.map((post) => ({
+              name: post.title,
+              path: `/blog/${post.slug}`,
+            })),
+          )}
+          id="itemlist"
+        />
+      ) : null}
       <Navbar serviceGroups={serviceGroups} />
       <main className="overflow-hidden">
-        <section className="bg-[#fbf9f3] py-16 md:py-24">
-          <SectionContainer>
-            <div className="max-w-4xl">
-              <nav className="flex gap-2 text-sm font-medium text-muted">
-                <Link href="/" className="hover:text-olive">
-                  Acasa
-                </Link>
-                <span>/</span>
-                <span className="font-bold text-olive">Blog</span>
-              </nav>
-              <h1 className="mt-6 font-serif-display text-4xl font-semibold leading-tight text-olive md:text-6xl">
-                Tot ce trebuie sa stii inainte sa incepi lucrarea
-              </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-stone">
-                Ghiduri practice si informatii tehnice despre excavare, nivelare
-                si amenajare peisagistica. Fundatia corecta pentru proiectul tau.
-              </p>
-            </div>
+        <BlogHero query={query} />
 
-            <div className="mt-14 flex flex-col gap-8 border-b border-olive/15 pb-6 md:flex-row md:items-end">
-              <label className="relative block w-full md:w-96">
-                <span className="sr-only">Cauta articole</span>
-                <span className="absolute left-0 top-1/2 -translate-y-1/2 text-muted">
-                  /
-                </span>
-                <input
-                  className="w-full border-0 border-b border-olive/20 bg-transparent py-3 pl-7 pr-4 text-base outline-none transition placeholder:text-muted focus:border-olive"
-                  placeholder="Cauta articole..."
-                  type="search"
-                />
-              </label>
-              <nav className="flex gap-6 overflow-x-auto whitespace-nowrap pb-2 text-xs font-bold uppercase text-stone">
-                {categories.map((category, index) => (
-                  <Link
-                    key={category}
-                    href="/blog"
-                    className={`border-b-2 pb-2 transition ${
-                      index === 0
-                        ? "border-olive text-olive"
-                        : "border-transparent hover:border-amber hover:text-olive"
-                    }`}
-                  >
-                    {category}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-          </SectionContainer>
-        </section>
-
+        {query ? (
+          <SearchResults query={query} results={searchResults} />
+        ) : (
+          <>
+        {featuredBlogPost ? (
         <section className="bg-[#fbf9f3] py-12">
           <SectionContainer className="grid items-center gap-10 lg:grid-cols-12">
             <div className="order-2 lg:order-1 lg:col-span-5 lg:pr-10">
@@ -115,6 +126,7 @@ export default function BlogPage() {
             </Link>
           </SectionContainer>
         </section>
+        ) : null}
 
         <section className="bg-olive py-20 text-white md:py-28">
           <SectionContainer>
@@ -226,14 +238,117 @@ export default function BlogPage() {
             </div>
           </SectionContainer>
         </section>
+          </>
+        )}
       </main>
       <Footer />
     </div>
   );
 }
 
+function BlogHero({ query }: { query: string }) {
+  return (
+    <section className="bg-[#fbf9f3] py-16 md:py-24">
+      <SectionContainer>
+        <div className="max-w-4xl">
+          <nav className="flex gap-2 text-sm font-medium text-muted">
+            <Link href="/" className="hover:text-olive">
+              Acasa
+            </Link>
+            <span>/</span>
+            <span className="font-bold text-olive">Blog</span>
+          </nav>
+          <h1 className="mt-6 font-serif-display text-4xl font-semibold leading-tight text-olive md:text-6xl">
+            Tot ce trebuie sa stii inainte sa incepi lucrarea
+          </h1>
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-stone">
+            Ghiduri practice si informatii tehnice despre excavare, nivelare si
+            amenajare peisagistica. Fundatia corecta pentru proiectul tau.
+          </p>
+        </div>
+
+        <div className="mt-14 flex flex-col gap-8 border-b border-olive/15 pb-6 md:flex-row md:items-end">
+          <form action="/blog" className="relative block w-full md:w-96">
+            <label className="sr-only" htmlFor="blog-search">
+              Cauta articole
+            </label>
+            <span className="absolute left-0 top-1/2 -translate-y-1/2 text-muted">
+              /
+            </span>
+            <input
+              id="blog-search"
+              name="q"
+              defaultValue={query}
+              className="w-full border-0 border-b border-olive/20 bg-transparent py-3 pl-7 pr-4 text-base outline-none transition placeholder:text-muted focus:border-olive"
+              placeholder="Cauta articole..."
+              type="search"
+            />
+          </form>
+          <nav className="flex gap-6 overflow-x-auto whitespace-nowrap pb-2 text-xs font-bold uppercase text-stone">
+            {categories.map((category, index) => (
+              <Link
+                key={category}
+                href={index === 0 ? "/blog" : `/blog?q=${encodeURIComponent(category)}`}
+                className={`border-b-2 pb-2 transition ${
+                  (index === 0 && !query) || category === query
+                    ? "border-olive text-olive"
+                    : "border-transparent hover:border-amber hover:text-olive"
+                }`}
+              >
+                {category}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      </SectionContainer>
+    </section>
+  );
+}
+
+function SearchResults({
+  query,
+  results,
+}: {
+  query: string;
+  results: BlogPost[];
+}) {
+  return (
+    <section className="bg-[#fbf9f3] py-16 md:py-24">
+      <SectionContainer>
+        <p className="mb-2 text-xs font-bold uppercase text-amber">
+          Rezultate cautare
+        </p>
+        <h2 className="font-serif-display text-3xl font-semibold text-olive md:text-4xl">
+          {results.length}{" "}
+          {results.length === 1 ? "articol gasit" : "articole gasite"} pentru
+          &bdquo;{query}&rdquo;
+        </h2>
+
+        {results.length === 0 ? (
+          <p className="mt-8 text-lg text-stone">
+            Nu am gasit articole pentru cautarea ta.{" "}
+            <Link href="/blog" className="font-bold text-olive hover:text-amber">
+              Vezi toate articolele
+            </Link>
+            .
+          </p>
+        ) : (
+          <div className="mt-12 grid gap-8 md:grid-cols-3">
+            {results.map((post) => (
+              <ArticleCard
+                key={post.slug}
+                post={{ ...post, imageSrc: post.imageSrc || "/hero.png" }}
+              />
+            ))}
+          </div>
+        )}
+      </SectionContainer>
+    </section>
+  );
+}
+
 type ArticleCardProps = {
-  post: (typeof blogPosts)[number];
+  post: BlogPost;
   className?: string;
   dark?: boolean;
   large?: boolean;
@@ -277,7 +392,7 @@ function TextArticleCard({
   post,
   dark = false,
 }: {
-  post: (typeof blogPosts)[number];
+  post: BlogPost;
   dark?: boolean;
 }) {
   return (

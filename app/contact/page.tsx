@@ -5,12 +5,24 @@ import type { ReactNode } from "react";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
 import { SectionContainer } from "../components/section-container";
-import { serviceGroups } from "../data/services";
+import { getServiceGroups } from "../data/services";
+import { ContactForm } from "./contact-form";
+
+// Conținut din DB, randare dinamică; datele vin din cache-ul Upstash.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Contact si evaluare proiect - PACA CONSTRUCT",
+  title: "Contact și evaluare proiect",
   description:
-    "Trimite detaliile proiectului tau pentru evaluare tehnica, oferta si planificare lucrari de excavare, terasamente sau amenajari exterioare.",
+    "Trimite detaliile proiectului tău pentru evaluare tehnică, ofertă și planificare lucrări de excavare, terasamente sau amenajări exterioare.",
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    type: "website",
+    title: "Contact și evaluare proiect | PACA CONSTRUCT",
+    description:
+      "Trimite detaliile proiectului tău pentru evaluare tehnică, ofertă și planificare lucrări.",
+    url: "/contact",
+  },
 };
 
 const contactDetails = [
@@ -104,7 +116,9 @@ const timeline = [
   },
 ];
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const serviceGroups = await getServiceGroups();
+
   return (
     <div className="min-h-screen bg-limestone text-carbon">
       <Navbar serviceGroups={serviceGroups} />
@@ -141,9 +155,11 @@ function ContactHero() {
             <span className="h-px w-8 bg-amber" />
             Initiere proiect
           </p>
-          <h1 className="font-serif-display text-4xl font-semibold leading-tight text-olive">
+          {/* Variantă mobilă a titlului: <p> ca să rămână un singur <h1> per
+              pagina (cel din hero-ul desktop). Stilurile sunt identice. */}
+          <p className="font-serif-display text-4xl font-semibold leading-tight text-olive">
             Spune-ne ce vrei sa construiesti sau sa amenajezi.
-          </h1>
+          </p>
           <p className="mt-5 max-w-[22rem] text-base leading-7 text-stone">
             De la excavatii de precizie la arhitectura peisagistica complexa,
             suntem pregatiti sa evaluam terenul tau.
@@ -349,112 +365,9 @@ function ProjectForm() {
           </p>
         </div>
 
-        <form className="border border-olive/10 bg-white p-5 shadow-xl shadow-carbon/5 md:p-8">
-          <div className="mb-8">
-            <div className="mb-2 flex items-center justify-between">
-              <span className="text-xs font-bold uppercase text-olive">
-                Pasul 1 din 3
-              </span>
-              <span className="font-mono text-xs uppercase text-muted">
-                Date proiect
-              </span>
-            </div>
-            <div className="h-1 overflow-hidden bg-limestone">
-              <div className="h-full w-1/3 bg-amber" />
-            </div>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2">
-            <Field
-              id="name"
-              label="Nume si prenume"
-              placeholder="Ex: Andrei Popescu"
-            />
-            <Field
-              id="phone"
-              label="Telefon"
-              placeholder="+40 ..."
-              type="tel"
-            />
-            <Field
-              id="location"
-              label="Locatie (oras / judet)"
-              placeholder="Ex: Bucuresti, Ilfov"
-            />
-            <Field
-              id="surface"
-              label="Suprafata aproximativa (mp)"
-              placeholder="Ex: 500"
-              type="number"
-            />
-          </div>
-
-          <label className="mt-6 block">
-            <span className="mb-2 block font-mono text-xs uppercase tracking-[0.12em] text-stone">
-              Descriere pe scurt
-            </span>
-            <textarea
-              id="description"
-              name="description"
-              rows={4}
-              placeholder="Ce doresti sa realizezi?"
-              className="min-h-32 w-full resize-y border-0 border-b border-olive/20 bg-transparent px-0 py-3 text-base text-carbon outline-none transition placeholder:text-muted focus:border-amber"
-            />
-          </label>
-
-          <div className="mt-8 border border-dashed border-olive/25 bg-limestone p-6 text-center">
-            <Icon name="camera" className="mx-auto h-8 w-8 text-muted" />
-            <h3 className="mt-3 text-sm font-bold uppercase tracking-[0.12em] text-olive">
-              Adauga fotografii
-            </h3>
-            <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-stone">
-              Ajuta-ne sa intelegem starea actuala a terenului, accesul si
-              diferentele de nivel.
-            </p>
-            <label className="mt-5 inline-flex w-full cursor-pointer items-center justify-center gap-2 border border-olive/15 bg-white px-5 py-3 text-xs font-bold uppercase text-olive transition hover:border-amber md:w-auto">
-              <Icon name="upload" className="h-4 w-4" />
-              Fa o poza / incarca
-              <input className="sr-only" type="file" accept="image/*" multiple />
-            </label>
-          </div>
-
-          <button
-            type="button"
-            className="mt-8 inline-flex w-full items-center justify-center gap-2 bg-amber px-6 py-4 text-sm font-bold uppercase text-carbon transition hover:bg-[#fea943] md:w-auto"
-          >
-            Urmatorul pas
-            <span aria-hidden="true">-&gt;</span>
-          </button>
-        </form>
+        <ContactForm />
       </SectionContainer>
     </section>
-  );
-}
-
-function Field({
-  id,
-  label,
-  placeholder,
-  type = "text",
-}: {
-  id: string;
-  label: string;
-  placeholder: string;
-  type?: string;
-}) {
-  return (
-    <label className="block">
-      <span className="mb-2 block font-mono text-xs uppercase tracking-[0.12em] text-stone">
-        {label}
-      </span>
-      <input
-        id={id}
-        name={id}
-        type={type}
-        placeholder={placeholder}
-        className="h-12 w-full border-0 border-b border-olive/20 bg-transparent px-0 text-base text-carbon outline-none transition placeholder:text-muted focus:border-amber"
-      />
-    </label>
   );
 }
 

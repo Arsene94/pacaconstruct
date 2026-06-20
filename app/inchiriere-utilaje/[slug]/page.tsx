@@ -5,11 +5,25 @@ import { notFound } from "next/navigation";
 import { Footer } from "../../components/footer";
 import { Navbar } from "../../components/navbar";
 import { SectionContainer } from "../../components/section-container";
-import {
-  getRentalMachine,
-  rentalMachines,
-} from "../../data/rentals";
-import { serviceGroups } from "../../data/services";
+import { getRentalMachine, getRentalMachines } from "../../data/rentals";
+import { getServiceGroups } from "../../data/services";
+import { RentalRequestForm } from "./rental-request-form";
+import { JsonLd } from "@/app/components/json-ld";
+import { breadcrumbSchema, productSchema } from "@/app/lib/schema";
+
+// Pagini pre-randate (ISR). Datele vin din cache-ul Upstash; revalidare la 1h.
+export const revalidate = 3600;
+
+/** Pre-randează slug-urile utilajelor publicate. Tolerant la DB indisponibil
+ *  la build (paginile se randează atunci on-demand prin ISR). */
+export async function generateStaticParams() {
+  try {
+    const machines = await getRentalMachines();
+    return machines.map((machine) => ({ slug: machine.slug }));
+  } catch {
+    return [];
+  }
+}
 
 type RentalRouteProps = {
   params: Promise<{
@@ -17,33 +31,44 @@ type RentalRouteProps = {
   }>;
 };
 
-export function generateStaticParams() {
-  return rentalMachines.map((machine) => ({
-    slug: machine.slug,
-  }));
-}
-
 export async function generateMetadata({
   params,
 }: RentalRouteProps): Promise<Metadata> {
   const { slug } = await params;
-  const machine = getRentalMachine(slug);
+  const machine = await getRentalMachine(slug);
 
   if (!machine) {
     return {
-      title: "Utilaj indisponibil - PACA CONSTRUCT",
+      title: "Utilaj indisponibil",
     };
   }
 
+  const canonical = `/inchiriere-utilaje/${slug}`;
+  const title = `${machine.title} - Închiriere utilaje cu operator`;
   return {
-    title: `${machine.title} - Inchiriere utilaje PACA CONSTRUCT`,
+    title,
     description: machine.longDescription,
+    alternates: { canonical },
+    openGraph: {
+      type: "article",
+      title: `${title} | PACA CONSTRUCT`,
+      description: machine.longDescription,
+      url: canonical,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | PACA CONSTRUCT`,
+      description: machine.longDescription,
+    },
   };
 }
 
 export default async function RentalProductPage({ params }: RentalRouteProps) {
   const { slug } = await params;
-  const machine = getRentalMachine(slug);
+  const [machine, serviceGroups] = await Promise.all([
+    getRentalMachine(slug),
+    getServiceGroups(),
+  ]);
 
   if (!machine) {
     notFound();
@@ -51,6 +76,15 @@ export default async function RentalProductPage({ params }: RentalRouteProps) {
 
   return (
     <div className="min-h-screen bg-limestone text-carbon">
+      <JsonLd data={productSchema(machine)} id="product" />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Acasă", path: "/" },
+          { name: "Închirieri utilaje", path: "/inchiriere-utilaje" },
+          { name: machine.title, path: `/inchiriere-utilaje/${slug}` },
+        ])}
+        id="breadcrumb"
+      />
       <Navbar serviceGroups={serviceGroups} />
       <main className="bg-topo flex-grow">
         <SectionContainer className="py-10 md:py-16">
@@ -114,23 +148,7 @@ export default async function RentalProductPage({ params }: RentalRouteProps) {
                 <h2 className="font-serif-display text-3xl font-medium text-olive">
                   Inchiriaza utilaj
                 </h2>
-                <form className="mt-6 flex flex-col gap-4">
-                  <Field label="Nume complet" placeholder="Ex: Ion Popescu" />
-                  <Field label="Telefon" placeholder="07xx xxx xxx" type="tel" />
-                  <Field label="Email" placeholder="adresa@email.com" type="email" />
-                  <Field label="Locatie" placeholder="Oras / comuna" />
-                  <Field label="Perioada dorita" type="date" />
-                  <button
-                    className="mt-3 bg-amber px-6 py-4 text-sm font-bold uppercase text-carbon transition hover:bg-[#fea943]"
-                    type="button"
-                  >
-                    Trimite solicitarea
-                  </button>
-                  <p className="text-xs leading-5 text-muted">
-                    Disponibilitatea se confirma dupa analiza proiectului si a
-                    conditiilor de acces.
-                  </p>
-                </form>
+                <RentalRequestForm machineTitle={machine.title} />
               </div>
             </aside>
           </div>
@@ -183,25 +201,3 @@ function InfoPanel({ title, items }: { title: string; items: string[] }) {
   );
 }
 
-function Field({
-  label,
-  placeholder,
-  type = "text",
-}: {
-  label: string;
-  placeholder?: string;
-  type?: string;
-}) {
-  return (
-    <label className="block">
-      <span className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-muted">
-        {label}
-      </span>
-      <input
-        className="w-full border border-olive/15 bg-limestone px-3 py-3 text-base text-olive outline-none transition focus:border-olive"
-        placeholder={placeholder}
-        type={type}
-      />
-    </label>
-  );
-}

@@ -4,13 +4,26 @@ import Link from "next/link";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
 import { SectionContainer } from "../components/section-container";
-import { serviceGroups } from "../data/services";
-import { rentalMachines } from "../data/rentals";
+import { getServiceGroups } from "../data/services";
+import { getRentalMachines } from "../data/rentals";
+import { JsonLd } from "@/app/components/json-ld";
+import { breadcrumbSchema, itemListSchema } from "@/app/lib/schema";
+
+// Conținut din DB, randare dinamică; datele vin din cache-ul Upstash.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Inchirieri utilaje - PACA CONSTRUCT",
+  title: "Închirieri utilaje cu operator",
   description:
-    "Inchiriere utilaje cu operator pentru excavatii, nivelari, transport pamant si agregate.",
+    "Închiriere utilaje cu operator pentru excavații, nivelări, transport pământ și agregate.",
+  alternates: { canonical: "/inchiriere-utilaje" },
+  openGraph: {
+    type: "website",
+    title: "Închirieri utilaje cu operator | PACA CONSTRUCT",
+    description:
+      "Închiriere utilaje cu operator pentru excavații, nivelări, transport pământ și agregate.",
+    url: "/inchiriere-utilaje",
+  },
 };
 
 const reassuranceItems = [
@@ -28,11 +41,32 @@ const comparisonRows = [
   ["Incarcare camioane", "Da", "Da", "Excelent"],
 ];
 
-export default function RentalListingPage() {
+export default async function RentalListingPage() {
+  const [serviceGroups, rentalMachines] = await Promise.all([
+    getServiceGroups(),
+    getRentalMachines(),
+  ]);
   const featuredMachine = rentalMachines[0];
 
   return (
     <div className="min-h-screen bg-limestone text-carbon">
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Acasă", path: "/" },
+          { name: "Închirieri utilaje", path: "/inchiriere-utilaje" },
+        ])}
+        id="breadcrumb"
+      />
+      <JsonLd
+        data={itemListSchema(
+          "Flotă utilaje de închiriat",
+          rentalMachines.map((m) => ({
+            name: m.title,
+            path: `/inchiriere-utilaje/${m.slug}`,
+          })),
+        )}
+        id="itemlist"
+      />
       <Navbar serviceGroups={serviceGroups} />
       <main className="flex flex-col">
         <section className="relative isolate overflow-hidden bg-topo">

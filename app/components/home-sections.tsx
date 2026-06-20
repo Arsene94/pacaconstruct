@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { featuredServices } from "../data/services";
+import { getFeaturedServices } from "../data/services";
 import { SectionContainer } from "./section-container";
 
 export function HeroSection() {
@@ -271,7 +271,9 @@ export function TransformationStatement() {
   );
 }
 
-export function ServicesMosaic() {
+export async function ServicesMosaic() {
+  const featuredServices = await getFeaturedServices();
+
   return (
     <section id="proiecte" className="order-4 bg-limestone py-16 md:order-none md:py-28 lg:py-32">
       <SectionContainer>
