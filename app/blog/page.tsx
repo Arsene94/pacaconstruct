@@ -11,6 +11,7 @@ import {
 } from "../data/blog";
 import { getServiceGroups } from "../data/services";
 import { JsonLd } from "@/app/components/json-ld";
+import { SearchTracker } from "@/app/components/marketing/search-tracker";
 import { breadcrumbSchema, itemListSchema } from "@/app/lib/schema";
 
 // Date din DB + searchParams (?q): randare dinamică; datele de listă vin din
@@ -83,7 +84,10 @@ export default async function BlogPage({
         <BlogHero query={query} />
 
         {query ? (
-          <SearchResults query={query} results={searchResults} />
+          <>
+            <SearchTracker term={query} />
+            <SearchResults query={query} results={searchResults} />
+          </>
         ) : (
           <>
             {featuredBlogPost ? (

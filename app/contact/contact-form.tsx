@@ -1,8 +1,10 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { submitServiceRequest, type IntakeState } from "@/app/actions/intake";
+import { pushMarketingEvent } from "@/app/lib/marketing/data-layer";
+import { AttributionFields } from "@/app/components/marketing/attribution-fields";
 
 function Field({
   id,
@@ -54,6 +56,26 @@ export function ContactForm() {
     submitServiceRequest,
     undefined,
   );
+  const [newsletter, setNewsletter] = useState(false);
+
+  // Conversie: la submit reușit împinge lead-ul (fără PII) și, dacă a fost
+  // bifat, opt-in-ul de newsletter. Pixelii GA4/Ads/Meta/TikTok se declanșează
+  // din aceste evenimente în GTM.
+  useEffect(() => {
+    if (!state?.ok) return;
+    pushMarketingEvent({
+      event: "pc_lead_submit",
+      lead_type: "serviciu",
+      source: "contact_form",
+      currency: "RON",
+    });
+    if (newsletter) {
+      pushMarketingEvent({
+        event: "pc_newsletter_optin",
+        source: "contact_form",
+      });
+    }
+  }, [state?.ok, newsletter]);
 
   if (state?.ok) {
     return (
@@ -81,6 +103,7 @@ export function ContactForm() {
       action={formAction}
       className="border border-olive/10 bg-white p-5 shadow-xl shadow-carbon/5 md:p-8"
     >
+      <AttributionFields />
       <div className="mb-8">
         <div className="mb-2 flex items-center justify-between">
           <span className="text-xs font-bold uppercase text-olive">Date proiect</span>
@@ -147,6 +170,8 @@ export function ContactForm() {
           type="checkbox"
           name="newsletter"
           value="on"
+          checked={newsletter}
+          onChange={(e) => setNewsletter(e.target.checked)}
           className="mt-0.5 h-4 w-4 shrink-0 accent-amber"
         />
         <span>

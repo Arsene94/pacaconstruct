@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { SectionContainer } from "./section-container";
 import { getSiteSettings } from "@/app/data/settings";
 import { getPrimaryPhone, telLink } from "@/app/lib/settings-shared";
+import { TrackedAnchor, TrackedLink } from "@/app/components/ui/tracked-link";
 
 export async function Footer() {
   const settings = await getSiteSettings();
@@ -41,6 +41,7 @@ export async function Footer() {
               { label: "Ilfov", href: "/zona/ilfov" },
               { label: "Prahova", href: "/zona/prahova" },
               { label: "Confidentialitate", href: "/confidentialitate" },
+              { label: "Cookie-uri", href: "/cookies" },
               { label: "Termeni si conditii", href: "/termeni" },
             ]}
           />
@@ -49,19 +50,25 @@ export async function Footer() {
         <div className="md:text-right">
           <p className="text-xs font-bold uppercase text-white/50">Contact rapid</p>
           {phone ? (
-            <a
+            <TrackedAnchor
               href={telLink(phone)}
               className="mt-4 block text-xl font-semibold text-sage hover:text-amber"
+              trackingEvent="pc_phone_click"
+              trackingPlacement="footer"
+              trackingSource="footer"
             >
               {phone.display}
-            </a>
+            </TrackedAnchor>
           ) : null}
-          <a
+          <TrackedAnchor
             href={`mailto:${email}`}
             className="mt-2 block text-sm text-white/70 hover:text-white"
+            trackingEvent="pc_email_click"
+            trackingPlacement="footer"
+            trackingSource="footer"
           >
             {email}
-          </a>
+          </TrackedAnchor>
         </div>
       </SectionContainer>
       <div className="border-t border-white/10 py-5">
@@ -89,13 +96,17 @@ function FooterLinks({ title, links }: FooterLinksProps) {
       <p className="mb-4 text-xs font-bold uppercase text-white/50">{title}</p>
       <div className="grid gap-3">
         {links.map((link) => (
-          <Link
+          <TrackedLink
             key={link.label}
             href={link.href}
             className="text-sm leading-6 text-white/70 transition hover:text-white"
+            trackingEvent="pc_footer_link_click"
+            trackingPlacement="footer"
+            trackingSource="footer"
+            trackingLinkId={link.href}
           >
             {link.label}
-          </Link>
+          </TrackedLink>
         ))}
       </div>
     </div>

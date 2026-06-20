@@ -11,6 +11,7 @@ import {
   waLink,
   type ResolvedSettings,
 } from "@/app/lib/settings-shared";
+import { pushMarketingEvent } from "@/app/lib/marketing/data-layer";
 
 type NavbarProps = {
   serviceGroups: ServiceGroup[];
@@ -44,6 +45,12 @@ export function Navbar({ serviceGroups, settings }: NavbarProps) {
   function toggleMobileMenu() {
     if (isMobileOpen) {
       setIsMobileServicesOpen(false);
+    } else {
+      pushMarketingEvent({
+        event: "pc_mobile_menu_open",
+        placement: "navbar",
+        source: "navbar",
+      });
     }
 
     setIsMobileOpen((open) => !open);
@@ -104,7 +111,17 @@ export function Navbar({ serviceGroups, settings }: NavbarProps) {
           <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-2 px-5 py-2 text-center text-[11px] font-bold uppercase leading-4 md:flex-row md:px-10 lg:px-16">
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1 text-white/80">
               {primaryPhone ? (
-                <a href={telLink(primaryPhone)} className="hover:text-amber">
+                <a
+                  href={telLink(primaryPhone)}
+                  className="hover:text-amber"
+                  onClick={() =>
+                    pushMarketingEvent({
+                      event: "pc_phone_click",
+                      placement: "topbar",
+                      source: "navbar",
+                    })
+                  }
+                >
                   {primaryPhone.display}
                 </a>
               ) : null}
@@ -114,6 +131,13 @@ export function Navbar({ serviceGroups, settings }: NavbarProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-amber"
+                  onClick={() =>
+                    pushMarketingEvent({
+                      event: "pc_whatsapp_click",
+                      placement: "topbar",
+                      source: "navbar",
+                    })
+                  }
                 >
                   WhatsApp
                 </a>
@@ -213,6 +237,14 @@ export function Navbar({ serviceGroups, settings }: NavbarProps) {
                 key={link.href}
                 href={link.href}
                 className="py-3 text-sm font-semibold uppercase text-stone hover:text-amber"
+                onClick={() =>
+                  pushMarketingEvent({
+                    event: "pc_nav_click",
+                    placement: "navbar",
+                    source: "navbar",
+                    link_id: link.href,
+                  })
+                }
               >
                 {link.label}
               </Link>
@@ -223,6 +255,14 @@ export function Navbar({ serviceGroups, settings }: NavbarProps) {
             <Link
               href="/contact#form-section"
               className="bg-amber px-4 py-2 text-[10px] font-bold uppercase text-carbon transition hover:bg-[#fea943] md:px-6 md:py-3 md:text-sm"
+              onClick={() =>
+                pushMarketingEvent({
+                  event: "pc_cta_click",
+                  placement: "navbar",
+                  source: "navbar",
+                  link_id: "cere_oferta",
+                })
+              }
             >
               Cere oferta
             </Link>
@@ -290,7 +330,15 @@ export function Navbar({ serviceGroups, settings }: NavbarProps) {
                     key={link.href}
                     href={link.href}
                     className="text-sm font-bold uppercase text-stone"
-                    onClick={closeMobileMenu}
+                    onClick={() => {
+                      pushMarketingEvent({
+                        event: "pc_nav_click",
+                        placement: "mobile_menu",
+                        source: "navbar",
+                        link_id: link.href,
+                      });
+                      closeMobileMenu();
+                    }}
                   >
                     {link.label}
                   </Link>
@@ -298,7 +346,15 @@ export function Navbar({ serviceGroups, settings }: NavbarProps) {
                 <Link
                   href="/contact#form-section"
                   className="bg-amber px-5 py-3 text-center text-sm font-bold uppercase text-carbon"
-                  onClick={closeMobileMenu}
+                  onClick={() => {
+                    pushMarketingEvent({
+                      event: "pc_cta_click",
+                      placement: "mobile_menu",
+                      source: "navbar",
+                      link_id: "cere_oferta",
+                    });
+                    closeMobileMenu();
+                  }}
                 >
                   Cere oferta
                 </Link>

@@ -9,6 +9,7 @@ import { getRentalMachine, getRentalMachines } from "../../data/rentals";
 import { getServiceGroups } from "../../data/services";
 import { RentalRequestForm } from "./rental-request-form";
 import { JsonLd } from "@/app/components/json-ld";
+import { ViewItemTracker } from "@/app/components/marketing/view-item-tracker";
 import { breadcrumbSchema, productSchema } from "@/app/lib/schema";
 
 // Pagini pre-randate (ISR). Datele vin din cache-ul Upstash; revalidare la 1h.
@@ -74,6 +75,7 @@ export default async function RentalProductPage({ params }: RentalRouteProps) {
 
   return (
     <div className="min-h-screen bg-limestone text-carbon">
+      <ViewItemTracker event="pc_view_machine" itemName={slug} />
       <JsonLd data={productSchema(machine)} id="product" />
       <JsonLd
         data={breadcrumbSchema([

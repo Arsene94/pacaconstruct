@@ -27,6 +27,7 @@
     ]
   },
   "dependencies": {
+    "@next/third-parties": "^16.2.9",
     "@react-email/components": "^1.0.12",
     "@react-email/render": "^2.0.9",
     "@supabase/ssr": "^0.12.0",

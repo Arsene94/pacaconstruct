@@ -13,6 +13,7 @@ import {
 import { logger, errorContext } from "@/app/lib/logger";
 import { getAdminClientOrNull } from "@/app/lib/email/templates";
 import { captureContact, dispatchIntakeEmails } from "@/app/lib/email/transactional";
+import { readAttribution } from "@/app/lib/marketing/attribution";
 
 const RATE_LIMIT_MESSAGE =
   "Ai trimis prea multe solicitări. Te rugăm să reîncerci peste câteva minute.";
@@ -66,6 +67,8 @@ export async function submitServiceRequest(
     description: description ?? null,
     service: service ?? null,
     channel: "Formular" as const,
+    // Atribuire pentru conversii offline (Faza 7): click-IDs + UTM + landing.
+    ...readAttribution(form),
   };
 
   const admin = getAdminClientOrNull();
@@ -151,6 +154,8 @@ export async function submitRentalRequest(
     period: period ?? null,
     location: location ?? null,
     message: message ?? null,
+    // Atribuire pentru conversii offline (Faza 7): click-IDs + UTM + landing.
+    ...readAttribution(form),
   };
 
   const admin = getAdminClientOrNull();

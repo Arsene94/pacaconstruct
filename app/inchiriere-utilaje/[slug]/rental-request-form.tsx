@@ -1,8 +1,10 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { submitRentalRequest, type IntakeState } from "@/app/actions/intake";
+import { pushMarketingEvent } from "@/app/lib/marketing/data-layer";
+import { AttributionFields } from "@/app/components/marketing/attribution-fields";
 
 function Field({
   name,
@@ -52,6 +54,26 @@ export function RentalRequestForm({ machineTitle }: { machineTitle: string }) {
     submitRentalRequest,
     undefined,
   );
+  const [newsletter, setNewsletter] = useState(false);
+
+  // Conversie: la submit reușit împinge lead-ul de închiriere (item_name =
+  // utilajul) și, dacă a fost bifat, opt-in-ul de newsletter.
+  useEffect(() => {
+    if (!state?.ok) return;
+    pushMarketingEvent({
+      event: "pc_lead_submit",
+      lead_type: "inchiriere",
+      item_name: machineTitle,
+      source: "rental_form",
+      currency: "RON",
+    });
+    if (newsletter) {
+      pushMarketingEvent({
+        event: "pc_newsletter_optin",
+        source: "rental_form",
+      });
+    }
+  }, [state?.ok, newsletter, machineTitle]);
 
   if (state?.ok) {
     return (
@@ -74,6 +96,7 @@ export function RentalRequestForm({ machineTitle }: { machineTitle: string }) {
   return (
     <form action={formAction} className="mt-6 flex flex-col gap-4">
       <input name="machine" type="hidden" value={machineTitle} />
+      <AttributionFields />
       {state && !state.ok ? (
         <div
           className="border border-[#b91c1c]/30 bg-[#ffdad6]/40 px-3 py-2 text-sm font-semibold text-[#93000a]"
@@ -98,6 +121,8 @@ export function RentalRequestForm({ machineTitle }: { machineTitle: string }) {
           type="checkbox"
           name="newsletter"
           value="on"
+          checked={newsletter}
+          onChange={(e) => setNewsletter(e.target.checked)}
           className="mt-0.5 h-4 w-4 shrink-0 accent-amber"
         />
         <span>Vreau să primesc ocazional noutăți și oferte pe email (opțional).</span>

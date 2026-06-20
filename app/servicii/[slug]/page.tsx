@@ -5,6 +5,7 @@ import { SiteNavbar } from "../../components/site-navbar";
 import { ServicePageTemplate } from "../../components/service-page-template";
 import { getServicePage, getServicePages, getServiceGroups } from "../../data/services";
 import { JsonLd } from "@/app/components/json-ld";
+import { ViewItemTracker } from "@/app/components/marketing/view-item-tracker";
 import { breadcrumbSchema, qaFaqPageSchema, serviceSchema } from "@/app/lib/schema";
 import { serviceFaq } from "@/app/lib/service-faq";
 
@@ -71,6 +72,7 @@ export default async function ServiceRoute({ params }: ServiceRouteProps) {
 
   return (
     <div className="min-h-screen bg-limestone text-carbon">
+      <ViewItemTracker event="pc_view_service" itemName={slug} />
       <JsonLd data={serviceSchema(service)} id="service" />
       <JsonLd
         data={qaFaqPageSchema(

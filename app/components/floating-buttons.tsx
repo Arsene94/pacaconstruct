@@ -18,6 +18,10 @@ import {
   type PhoneNumber,
   type ResolvedSettings,
 } from "@/app/lib/settings-shared";
+import {
+  pushMarketingEvent,
+  type PacaMarketingEventName,
+} from "@/app/lib/marketing/data-layer";
 
 /** Zone private unde butoanele nu trebuie să apară. */
 const HIDDEN_PREFIXES = ["/admin", "/login", "/auth"];
@@ -104,6 +108,7 @@ export function FloatingButtons({ settings }: { settings: ResolvedSettings }) {
           icon={IconMail}
           label="Trimite email"
           onRight={onRight}
+          trackEvent="pc_email_click"
         />
       ) : null}
 
@@ -128,6 +133,7 @@ export function FloatingButtons({ settings }: { settings: ResolvedSettings }) {
             icon={IconPhone}
             label={`Sună: ${callPhone.display}`}
             onRight={onRight}
+            trackEvent="pc_phone_click"
           />
         )
       ) : null}
@@ -154,6 +160,7 @@ export function FloatingButtons({ settings }: { settings: ResolvedSettings }) {
             icon={IconBrandWhatsapp}
             label="Scrie pe WhatsApp"
             onRight={onRight}
+            trackEvent="pc_whatsapp_click"
           />
         )
       ) : null}
@@ -188,6 +195,7 @@ function ActionLink({
   external,
   expandLabels,
   onRight,
+  trackEvent,
 }: {
   href: string;
   label: string;
@@ -197,6 +205,7 @@ function ActionLink({
   external?: boolean;
   expandLabels: boolean;
   onRight: boolean;
+  trackEvent?: PacaMarketingEventName;
 }) {
   return (
     <a
@@ -204,6 +213,16 @@ function ActionLink({
       className={`group ${buttonClass}`}
       data-cta={cta}
       href={href}
+      onClick={
+        trackEvent
+          ? () =>
+              pushMarketingEvent({
+                event: trackEvent,
+                source: "float",
+                placement: cta,
+              })
+          : undefined
+      }
       style={{ backgroundColor: bg }}
       {...(external ? { rel: "noopener noreferrer", target: "_blank" } : {})}
     >
@@ -319,6 +338,13 @@ function PhoneMenu({
               data-cta={`${cta}-item`}
               href={mode === "whatsapp" ? waLink(phone) : telLink(phone)}
               key={phone.id}
+              onClick={() =>
+                pushMarketingEvent({
+                  event: mode === "whatsapp" ? "pc_whatsapp_click" : "pc_phone_click",
+                  source: "float",
+                  placement: cta,
+                })
+              }
               role="menuitem"
               {...(mode === "whatsapp"
                 ? { rel: "noopener noreferrer", target: "_blank" }

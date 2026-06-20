@@ -4,7 +4,8 @@ import type { ReactNode } from "react";
 import "./globals.css";
 import { siteConfig } from "@/app/lib/site-config";
 import { JsonLd } from "@/app/components/json-ld";
-import { Analytics } from "@/app/components/analytics";
+import { MarketingScripts } from "@/app/components/marketing/marketing-scripts";
+import { MarketingPageViewTracker } from "@/app/components/marketing/marketing-page-view-tracker";
 import { FloatingButtons } from "@/app/components/floating-buttons";
 import { getSiteSettings } from "@/app/data/settings";
 import { organizationSchema, websiteSchema } from "@/app/lib/schema";
@@ -121,7 +122,10 @@ export default async function RootLayout({
         {children}
         {/* Butoane flotante globale; se ascund singure pe /admin, /login, /auth. */}
         <FloatingButtons settings={settings} />
-        <Analytics />
+        {/* Tracking: Consent Mode v2 default + GTM (doar pe paginile publice),
+            plus urmărirea page-view / scroll-depth la schimbarea de rută. */}
+        <MarketingScripts />
+        <MarketingPageViewTracker />
       </body>
     </html>
   );

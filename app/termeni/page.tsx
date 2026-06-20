@@ -23,45 +23,70 @@ export default function TermeniPage() {
       updatedAt="iunie 2026"
     >
       <p>
-        Acești termeni reglementează utilizarea site-ului operat de{" "}
-        {siteConfig.legalName}, cu sediul în {addressLine()}, CUI{" "}
-        {siteConfig.cui}. Prin accesarea site-ului ești de acord cu termenii de
-        mai jos.
+        Acești termeni reglementează utilizarea site-ului operat de {siteConfig.legalName}
+        , cu sediul în {addressLine()}, CUI {siteConfig.cui}. Prin accesarea site-ului
+        ești de acord cu termenii de mai jos.
       </p>
 
       <h2>Serviciile noastre</h2>
       <p>
-        Oferim servicii de terasamente, excavări, amenajări peisagistice și
-        închirieri de utilaje cu operator. Informațiile de pe site (descrieri,
-        prețuri orientative, specificații) au caracter informativ; oferta fermă
-        se stabilește în urma evaluării proiectului.
+        Oferim servicii de terasamente, excavări, amenajări peisagistice și închirieri de
+        utilaje cu operator. Informațiile de pe site (descrieri, prețuri orientative,
+        specificații) au caracter informativ; oferta fermă se stabilește în urma evaluării
+        proiectului.
       </p>
 
       <h2>Solicitări și oferte</h2>
       <p>
-        Formularele de contact și de închiriere transmit o cerere, nu un
-        contract. Prețurile afișate sunt estimative și pot varia în funcție de
-        complexitatea lucrării, locație și durată.
+        Formularele de contact și de închiriere transmit o cerere, nu un contract.
+        Prețurile afișate sunt estimative și pot varia în funcție de complexitatea
+        lucrării, locație și durată.
       </p>
 
       <h2>Proprietate intelectuală</h2>
       <p>
         Conținutul site-ului (texte, imagini, identitate vizuală) aparține{" "}
-        {siteConfig.legalName} și nu poate fi reprodus fără acord, cu excepția
-        citării cu atribuire și link către sursă.
+        {siteConfig.legalName} și nu poate fi reprodus fără acord, cu excepția citării cu
+        atribuire și link către sursă.
       </p>
 
       <h2>Limitarea răspunderii</h2>
       <p>
-        Depunem eforturi rezonabile pentru acuratețea informațiilor, dar nu
-        garantăm că site-ul este lipsit de erori sau permanent disponibil.{" "}
+        Depunem eforturi rezonabile pentru acuratețea informațiilor, dar nu garantăm că
+        site-ul este lipsit de erori sau permanent disponibil.{" "}
         {/* TODO: completează clauzele de răspundere conform consultanței juridice. */}
+      </p>
+
+      <h2>Confidențialitate și cookie-uri</h2>
+      <p>
+        Prelucrarea datelor cu caracter personal este descrisă în{" "}
+        <a href="/confidentialitate">Politica de confidențialitate</a>, iar utilizarea
+        cookie-urilor în <a href="/cookies">Politica de cookie-uri</a>.
+      </p>
+
+      <h2>Soluționarea disputelor (ANPC / SOL)</h2>
+      <p>
+        Pentru reclamații te poți adresa Autorității Naționale pentru Protecția
+        Consumatorilor (
+        <a href="https://anpc.ro" target="_blank" rel="noopener noreferrer">
+          anpc.ro
+        </a>
+        ). De asemenea, poți folosi platforma europeană de soluționare online a litigiilor
+        (SOL/ODR):{" "}
+        <a
+          href="https://ec.europa.eu/consumers/odr"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ec.europa.eu/consumers/odr
+        </a>
+        .
       </p>
 
       <h2>Lege aplicabilă</h2>
       <p>
-        Acești termeni sunt guvernați de legislația română. Eventualele litigii
-        se soluționează de instanțele competente de la sediul operatorului.
+        Acești termeni sunt guvernați de legislația română. Eventualele litigii se
+        soluționează de instanțele competente de la sediul operatorului.
       </p>
 
       <h2>Contact</h2>
