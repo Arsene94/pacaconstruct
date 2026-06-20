@@ -31,6 +31,15 @@ export const authLimiter = redis
     })
   : null;
 
+/** Acțiuni de trimitere din admin (test send / broadcast): max 20 / 5 min. */
+export const emailSendLimiter = redis
+  ? new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(20, "5 m"),
+      prefix: "rl:email-send",
+    })
+  : null;
+
 export type RateLimitResult = { ok: boolean; retryAfterSeconds: number };
 
 /**

@@ -4,6 +4,7 @@ import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/app/lib/dal";
 import { createClient } from "@/app/lib/supabase/server";
+import { checkRateLimit, emailSendLimiter } from "@/app/lib/upstash/ratelimit";
 import { logger, errorContext } from "@/app/lib/logger";
 import { renderEmail } from "@/emails/render";
 import { isEmailTemplateKey } from "@/emails/registry";
@@ -52,12 +53,16 @@ export async function sendTestEmail(
   to: string,
   vars: Record<string, unknown>,
 ): Promise<ActionResult> {
-  await requireAdmin();
+  const user = await requireAdmin();
   if (!isEmailTemplateKey(templateKey)) {
     return { ok: false, error: "Template necunoscut." };
   }
   if (!to || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(to)) {
     return { ok: false, error: "Adresă de test invalidă." };
+  }
+  const { ok: allowed } = await checkRateLimit(emailSendLimiter, `test:${user.id}`);
+  if (!allowed) {
+    return { ok: false, error: "Prea multe testuri. Reîncearcă peste câteva minute." };
   }
   const result = await sendEmail({
     templateKey,
@@ -132,8 +137,12 @@ export async function createCampaign(input: CreateCampaignInput): Promise<Action
 
 /** Pornește trimiterea unei campanii (status → sending + workflow durabil). */
 export async function sendBroadcast(campaignId: string): Promise<ActionResult> {
-  await requireAdmin();
+  const user = await requireAdmin();
   if (!campaignId) return { ok: false, error: "Lipsește campania." };
+  const { ok: allowed } = await checkRateLimit(emailSendLimiter, `broadcast:${user.id}`);
+  if (!allowed) {
+    return { ok: false, error: "Prea multe campanii pornite. Așteaptă câteva minute." };
+  }
   const supabase = await createClient();
   const { data: campaign, error } = await supabase
     .from("email_campaigns")
