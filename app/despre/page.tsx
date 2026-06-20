@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer } from "../components/footer";
-import { Navbar } from "../components/navbar";
+import { SiteNavbar } from "../components/site-navbar";
 import { SectionContainer } from "../components/section-container";
 import { getServiceGroups } from "../data/services";
 import { JsonLd } from "@/app/components/json-ld";
@@ -61,7 +61,7 @@ export default async function DesprePage() {
         ])}
         id="breadcrumb"
       />
-      <Navbar serviceGroups={serviceGroups} />
+      <SiteNavbar serviceGroups={serviceGroups} />
       <main id="main" className="bg-topo">
         <section className="py-20 md:py-28">
           <SectionContainer>
@@ -83,12 +83,11 @@ export default async function DesprePage() {
             </h1>
             {/* Answer-first: primul paragraf răspunde direct la „cine sunteți". */}
             <p className="mt-6 max-w-3xl text-lg leading-8 text-stone">
-              {siteConfig.legalName} este o firmă românească specializată în
-              terasamente, excavări, amenajări peisagistice și închirieri de
-              utilaje cu operator. Lucrăm pentru proiecte rezidențiale,
-              comerciale și industriale în {siteConfig.address.addressLocality}{" "}
-              și zonele învecinate, ducând terenul de la stadiul brut până la o
-              suprafață pregătită sau amenajată.
+              {siteConfig.legalName} este o firmă românească specializată în terasamente,
+              excavări, amenajări peisagistice și închirieri de utilaje cu operator.
+              Lucrăm pentru proiecte rezidențiale, comerciale și industriale în{" "}
+              {siteConfig.address.addressLocality} și zonele învecinate, ducând terenul de
+              la stadiul brut până la o suprafață pregătită sau amenajată.
             </p>
           </SectionContainer>
         </section>
@@ -118,14 +117,14 @@ export default async function DesprePage() {
                 {/* TODO: înlocuiește cu povestea reală a firmei (an înființare,
                     fondatori, evoluție, proiecte de referință). */}
                 <p>
-                  Am pornit de la lucrări de excavare și pregătire a terenului,
-                  iar de-a lungul anilor am extins serviciile către amenajări
-                  peisagistice complete și închirieri de utilaje cu operator.
+                  Am pornit de la lucrări de excavare și pregătire a terenului, iar de-a
+                  lungul anilor am extins serviciile către amenajări peisagistice complete
+                  și închirieri de utilaje cu operator.
                 </p>
                 <p>
-                  Astăzi acoperim întregul flux: săpături și fundații, nivelări
-                  și sistematizare verticală, transport pământ și agregate,
-                  precum și amenajarea finală a spațiilor verzi.
+                  Astăzi acoperim întregul flux: săpături și fundații, nivelări și
+                  sistematizare verticală, transport pământ și agregate, precum și
+                  amenajarea finală a spațiilor verzi.
                 </p>
               </div>
             </div>
@@ -182,9 +181,7 @@ export default async function DesprePage() {
                   <h3 className="font-serif-display text-2xl font-medium text-olive">
                     {value.title}
                   </h3>
-                  <p className="mt-3 text-base leading-7 text-stone">
-                    {value.text}
-                  </p>
+                  <p className="mt-3 text-base leading-7 text-stone">{value.text}</p>
                 </div>
               ))}
             </div>

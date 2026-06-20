@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { Footer } from "./footer";
-import { Navbar } from "./navbar";
+import { SiteNavbar } from "./site-navbar";
 import { SectionContainer } from "./section-container";
 import { getServiceGroups } from "../data/services";
 import { JsonLd } from "@/app/components/json-ld";
@@ -36,7 +36,7 @@ export async function LegalPage({
         ])}
         id="breadcrumb"
       />
-      <Navbar serviceGroups={serviceGroups} />
+      <SiteNavbar serviceGroups={serviceGroups} />
       <main id="main" className="bg-topo py-20 md:py-28">
         <SectionContainer>
           <nav
@@ -52,9 +52,7 @@ export async function LegalPage({
           <h1 className="max-w-4xl font-serif-display text-4xl font-semibold leading-tight text-olive md:text-6xl">
             {title}
           </h1>
-          <p className="mt-4 text-sm text-muted">
-            Ultima actualizare: {updatedAt}
-          </p>
+          <p className="mt-4 text-sm text-muted">Ultima actualizare: {updatedAt}</p>
           <div
             className={[
               "mt-10 max-w-3xl text-base leading-7 text-stone",

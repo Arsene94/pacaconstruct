@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Footer } from "../components/footer";
-import { Navbar } from "../components/navbar";
+import { SiteNavbar } from "../components/site-navbar";
 import { SectionContainer } from "../components/section-container";
 import { getServiceGroups } from "../data/services";
 import { getFaqSections, type FaqSection } from "../data/faq";
@@ -50,7 +50,6 @@ const frequentQuestions = [
   "Este necesara o vizita la locatie?",
 ];
 
-
 export default async function FaqPage() {
   const [serviceGroups, faqSections] = await Promise.all([
     getServiceGroups(),
@@ -69,7 +68,7 @@ export default async function FaqPage() {
         ])}
         id="breadcrumb"
       />
-      <Navbar serviceGroups={serviceGroups} />
+      <SiteNavbar serviceGroups={serviceGroups} />
       <main id="main" className="bg-topo">
         <FaqHero />
         <ShortcutCards />
@@ -104,8 +103,8 @@ function FaqHero() {
           Intrebari frecvente
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-stone">
-          Claritate pentru fiecare etapa a proiectului: evaluare, excavare,
-          pregatirea terenului si amenajari exterioare.
+          Claritate pentru fiecare etapa a proiectului: evaluare, excavare, pregatirea
+          terenului si amenajari exterioare.
         </p>
         <div className="mx-auto mt-10 flex max-w-2xl items-center border border-olive/15 bg-white p-2 shadow-xl shadow-carbon/5">
           <span className="px-3 text-xl text-olive/50" aria-hidden="true">
@@ -141,14 +140,15 @@ function ShortcutCards() {
           <div className="absolute inset-0 bg-gradient-to-t from-carbon via-carbon/60 to-carbon/10" />
           <div className="relative flex h-full min-h-36 items-end justify-between gap-6">
             <div>
-              <p className="text-xs font-bold uppercase text-amber">
-                {shortcut.eyebrow}
-              </p>
+              <p className="text-xs font-bold uppercase text-amber">{shortcut.eyebrow}</p>
               <h2 className="mt-2 font-serif-display text-3xl font-medium">
                 {shortcut.title}
               </h2>
             </div>
-            <span className="text-2xl transition group-hover:translate-x-1" aria-hidden="true">
+            <span
+              className="text-2xl transition group-hover:translate-x-1"
+              aria-hidden="true"
+            >
               -&gt;
             </span>
           </div>
@@ -162,7 +162,10 @@ function CategoryNav({ sections }: { sections: FaqSection[] }) {
   return (
     <div className="sticky top-[76px] z-30 mt-16 hidden border-y border-olive/10 bg-limestone/90 backdrop-blur lg:block">
       <SectionContainer className="flex h-16 items-center justify-center gap-10">
-        <a className="text-xs font-bold uppercase text-olive hover:text-amber" href="#frecvente">
+        <a
+          className="text-xs font-bold uppercase text-olive hover:text-amber"
+          href="#frecvente"
+        >
           Cele mai frecvente
         </a>
         {sections.map((section) => (
@@ -198,9 +201,9 @@ function FrequentQuestions() {
               {frequentQuestions[0]}
             </h3>
             <p className="relative mt-5 max-w-3xl text-base leading-7 text-stone">
-              Durata depinde de adancime, tipul de sol si conditiile meteo.
-              Solurile argiloase sau pietroase pot prelungi executia, iar
-              sapaturile adanci pot necesita sprijiniri suplimentare.
+              Durata depinde de adancime, tipul de sol si conditiile meteo. Solurile
+              argiloase sau pietroase pot prelungi executia, iar sapaturile adanci pot
+              necesita sprijiniri suplimentare.
             </p>
             <ul className="relative mt-6 grid gap-3 text-sm text-stone md:grid-cols-3">
               {["Tipul solului", "Adancimea sapaturii", "Vremea si accesul"].map(
@@ -222,9 +225,9 @@ function FrequentQuestions() {
                   {question}
                 </h3>
                 <p className="mt-3 text-sm leading-6 text-stone">
-                  Raspunsul exact se stabileste in functie de teren, acces si
-                  obiectivul final al lucrarii. Pentru o oferta ferma,
-                  recomandam evaluarea la locatie.
+                  Raspunsul exact se stabileste in functie de teren, acces si obiectivul
+                  final al lucrarii. Pentru o oferta ferma, recomandam evaluarea la
+                  locatie.
                 </p>
               </article>
             ))}
@@ -303,8 +306,8 @@ function FaqCta() {
             Proiectul tau necesita o analiza detaliata?
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-7 text-white/70">
-            Trimite-ne detaliile santierului, iar echipa PACA iti poate pregati
-            urmatorul pas: evaluare, oferta si plan de executie.
+            Trimite-ne detaliile santierului, iar echipa PACA iti poate pregati urmatorul
+            pas: evaluare, oferta si plan de executie.
           </p>
         </div>
         <Link

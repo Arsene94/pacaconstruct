@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Footer } from "../components/footer";
-import { Navbar } from "../components/navbar";
+import { SiteNavbar } from "../components/site-navbar";
 import { SectionContainer } from "../components/section-container";
 import { getServiceGroups } from "../data/services";
 import { getPublishedProjects, type PublicProject } from "../data/projects";
@@ -90,7 +90,7 @@ export default async function ProiectePage() {
         )}
         id="itemlist"
       />
-      <Navbar serviceGroups={serviceGroups} />
+      <SiteNavbar serviceGroups={serviceGroups} />
       <main id="main" className="bg-topo">
         <section className="py-20 md:py-28">
           <SectionContainer>
@@ -111,10 +111,9 @@ export default async function ProiectePage() {
               Proiecte și lucrări realizate
             </h1>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-stone">
-              Selecție de lucrări de terasamente, excavări și amenajări
-              peisagistice executate de echipa PACA CONSTRUCT. Fiecare proiect
-              pornește de la o evaluare la fața locului și se încheie cu un teren
-              pregătit sau amenajat.
+              Selecție de lucrări de terasamente, excavări și amenajări peisagistice
+              executate de echipa PACA CONSTRUCT. Fiecare proiect pornește de la o
+              evaluare la fața locului și se încheie cu un teren pregătit sau amenajat.
             </p>
           </SectionContainer>
         </section>

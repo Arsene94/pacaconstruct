@@ -12,6 +12,11 @@ import {
   sameAs,
   addressLine,
 } from "@/app/lib/site-config";
+import {
+  getPrimaryPhone,
+  socialSameAs,
+  type ResolvedSettings,
+} from "@/app/lib/settings-shared";
 import type { ServicePage } from "@/app/data/services";
 import type { RentalMachine } from "@/app/data/rentals";
 import type { BlogPost } from "@/app/data/blog";
@@ -51,8 +56,31 @@ function parsePrice(value: string): number | null {
  * Organization + LocalBusiness (GeneralContractor). Montat în layout, deci
  * apare pe toate paginile. Conține NAP complet, geo, program, areaServed, sameAs.
  */
-export function organizationSchema(): Json {
-  const a = siteConfig.address;
+export function organizationSchema(settings?: ResolvedSettings): Json {
+  // Datele editabile din admin (settings) câștigă; altfel fallback pe siteConfig.
+  const a = settings?.contact.address ?? siteConfig.address;
+  const geo = settings?.contact.geo ?? siteConfig.geo;
+  const telephone =
+    (settings ? getPrimaryPhone(settings)?.e164 : undefined) ?? siteConfig.phone;
+  const email = settings?.contact.emailPrimary ?? siteConfig.email;
+  const mapUrl = settings?.contact.mapUrl ?? siteConfig.mapUrl;
+  const sameAsList = settings ? socialSameAs(settings.social) : sameAs();
+  const openingHours = settings
+    ? settings.hours
+        .filter((slot) => !slot.closed && slot.days.length > 0)
+        .map((slot) => ({
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: slot.days,
+          opens: slot.opens,
+          closes: slot.closes,
+        }))
+    : siteConfig.openingHours.map((slot) => ({
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: slot.days,
+        opens: slot.opens,
+        closes: slot.closes,
+      }));
+
   return {
     "@context": "https://schema.org",
     "@type": ["Organization", "GeneralContractor", "LocalBusiness"],
@@ -67,8 +95,8 @@ export function organizationSchema(): Json {
     },
     image: siteConfig.defaultOgImage,
     description: siteConfig.description,
-    telephone: siteConfig.phone,
-    email: siteConfig.email,
+    telephone,
+    email,
     priceRange: siteConfig.priceRange,
     address: {
       "@type": "PostalAddress",
@@ -80,21 +108,16 @@ export function organizationSchema(): Json {
     },
     geo: {
       "@type": "GeoCoordinates",
-      latitude: siteConfig.geo.latitude,
-      longitude: siteConfig.geo.longitude,
+      latitude: geo.latitude,
+      longitude: geo.longitude,
     },
-    hasMap: siteConfig.mapUrl,
-    openingHoursSpecification: siteConfig.openingHours.map((slot) => ({
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: slot.days,
-      opens: slot.opens,
-      closes: slot.closes,
-    })),
+    hasMap: mapUrl,
+    openingHoursSpecification: openingHours,
     areaServed: siteConfig.areaServed.map((name) => ({
       "@type": "AdministrativeArea",
       name,
     })),
-    ...(sameAs().length ? { sameAs: sameAs() } : {}),
+    ...(sameAsList.length ? { sameAs: sameAsList } : {}),
   };
 }
 
@@ -121,9 +144,7 @@ export function websiteSchema(): Json {
 }
 
 /** BreadcrumbList dintr-o listă de pași {name, path}. */
-export function breadcrumbSchema(
-  items: { name: string; path: string }[],
-): Json {
+export function breadcrumbSchema(items: { name: string; path: string }[]): Json {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -314,9 +335,7 @@ export function blogPostingSchema(
     mainEntityOfPage: { "@type": "WebPage", "@id": absoluteUrl(path) },
     ...(post.tags.length ? { keywords: post.tags.join(", ") } : {}),
     articleSection: post.category,
-    ...(post.sources.length
-      ? { citation: post.sources.map((s) => s.url) }
-      : {}),
+    ...(post.sources.length ? { citation: post.sources.map((s) => s.url) } : {}),
   };
 }
 

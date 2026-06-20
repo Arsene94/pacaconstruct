@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Footer } from "../../components/footer";
-import { Navbar } from "../../components/navbar";
+import { SiteNavbar } from "../../components/site-navbar";
 import { SectionContainer } from "../../components/section-container";
 import { getServiceGroups } from "../../data/services";
 import { getPublishedProject } from "../../data/projects";
@@ -16,9 +16,7 @@ export const dynamic = "force-dynamic";
 
 type ProiectRouteProps = { params: Promise<{ slug: string }> };
 
-export async function generateMetadata({
-  params,
-}: ProiectRouteProps): Promise<Metadata> {
+export async function generateMetadata({ params }: ProiectRouteProps): Promise<Metadata> {
   const { slug } = await params;
   const project = await getPublishedProject(slug);
   if (!project) return { title: "Proiect indisponibil" };
@@ -69,7 +67,7 @@ export default async function ProiectDetailPage({ params }: ProiectRouteProps) {
         ])}
         id="breadcrumb"
       />
-      <Navbar serviceGroups={serviceGroups} />
+      <SiteNavbar serviceGroups={serviceGroups} />
       <main id="main" className="bg-topo">
         <section className="py-16 md:py-24">
           <SectionContainer>
@@ -126,8 +124,7 @@ export default async function ProiectDetailPage({ params }: ProiectRouteProps) {
                   label={hasAfter ? "După" : "Înainte"}
                   src={(project.imageSrc || project.imageBeforeSrc) as string}
                   alt={
-                    (hasAfter ? project.imageAlt : project.imageBeforeAlt) ||
-                    project.name
+                    (hasAfter ? project.imageAlt : project.imageBeforeAlt) || project.name
                   }
                   wide
                 />
@@ -168,9 +165,7 @@ function GalleryImage({
 }) {
   return (
     <figure className="overflow-hidden border border-olive/15 bg-white">
-      <div
-        className={`relative ${wide ? "aspect-[16/9]" : "aspect-[4/3]"} bg-[#f6f3ed]`}
-      >
+      <div className={`relative ${wide ? "aspect-[16/9]" : "aspect-[4/3]"} bg-[#f6f3ed]`}>
         <Image
           src={src}
           alt={alt}

@@ -1,19 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Footer } from "../../components/footer";
-import { Navbar } from "../../components/navbar";
+import { SiteNavbar } from "../../components/site-navbar";
 import { ServicePageTemplate } from "../../components/service-page-template";
-import {
-  getServicePage,
-  getServicePages,
-  getServiceGroups,
-} from "../../data/services";
+import { getServicePage, getServicePages, getServiceGroups } from "../../data/services";
 import { JsonLd } from "@/app/components/json-ld";
-import {
-  breadcrumbSchema,
-  qaFaqPageSchema,
-  serviceSchema,
-} from "@/app/lib/schema";
+import { breadcrumbSchema, qaFaqPageSchema, serviceSchema } from "@/app/lib/schema";
 import { serviceFaq } from "@/app/lib/service-faq";
 
 // Pagini pre-randate (ISR). Datele vin din cache-ul Upstash; revalidare la 1h,
@@ -37,9 +29,7 @@ type ServiceRouteProps = {
   }>;
 };
 
-export async function generateMetadata({
-  params,
-}: ServiceRouteProps): Promise<Metadata> {
+export async function generateMetadata({ params }: ServiceRouteProps): Promise<Metadata> {
   const { slug } = await params;
   const service = await getServicePage(slug);
 
@@ -96,7 +86,7 @@ export default async function ServiceRoute({ params }: ServiceRouteProps) {
         ])}
         id="breadcrumb"
       />
-      <Navbar serviceGroups={serviceGroups} />
+      <SiteNavbar serviceGroups={serviceGroups} />
       <ServicePageTemplate service={service} />
       <Footer />
     </div>

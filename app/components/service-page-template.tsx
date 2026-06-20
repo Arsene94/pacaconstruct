@@ -4,6 +4,8 @@ import type { ServicePage } from "../data/services";
 import { serviceFaq } from "../lib/service-faq";
 import { serviceAreas } from "../data/service-areas";
 import { siteConfig } from "../lib/site-config";
+import { getSiteSettings } from "../data/settings";
+import { getPrimaryPhone, telLink } from "@/app/lib/settings-shared";
 import { SectionContainer } from "./section-container";
 
 type ServicePageTemplateProps = {
@@ -100,9 +102,7 @@ function ServiceProcess({ service }: ServicePageTemplateProps) {
                   <h3 className="font-serif-display text-2xl font-medium text-olive">
                     {process.title}
                   </h3>
-                  <p className="mt-3 text-base leading-7 text-stone">
-                    {process.text}
-                  </p>
+                  <p className="mt-3 text-base leading-7 text-stone">{process.text}</p>
                 </article>
               ))}
             </div>
@@ -148,9 +148,7 @@ function ServiceSpecs({ service }: ServicePageTemplateProps) {
                   <td className="py-5 pr-6 text-sm font-medium text-stone">
                     {spec.value}
                   </td>
-                  <td className="py-5 text-base leading-7 text-stone">
-                    {spec.impact}
-                  </td>
+                  <td className="py-5 text-base leading-7 text-stone">{spec.impact}</td>
                 </tr>
               ))}
             </tbody>
@@ -203,8 +201,8 @@ function ServiceAreas({ service }: ServicePageTemplateProps) {
           Executăm {service.title.toLowerCase()} în zona ta
         </h2>
         <p className="mt-3 max-w-2xl text-base leading-7 text-stone">
-          Acoperim {siteConfig.address.addressLocality} și județele din jur.
-          Vezi detalii pentru fiecare zonă:
+          Acoperim {siteConfig.address.addressLocality} și județele din jur. Vezi detalii
+          pentru fiecare zonă:
         </p>
         <ul className="mt-6 flex flex-wrap gap-3">
           {serviceAreas.map((area) => (
@@ -223,7 +221,9 @@ function ServiceAreas({ service }: ServicePageTemplateProps) {
   );
 }
 
-function ServiceCta({ service }: ServicePageTemplateProps) {
+async function ServiceCta({ service }: ServicePageTemplateProps) {
+  const settings = await getSiteSettings();
+  const phone = getPrimaryPhone(settings);
   return (
     <section className="bg-amber py-14 text-carbon">
       <SectionContainer className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
@@ -234,7 +234,7 @@ function ServiceCta({ service }: ServicePageTemplateProps) {
           </h2>
         </div>
         <Link
-          href={`tel:${siteConfig.phone}`}
+          href={phone ? telLink(phone) : `tel:${siteConfig.phone}`}
           className="border border-carbon/30 px-7 py-4 text-center text-sm font-bold uppercase transition hover:bg-carbon hover:text-white"
         >
           Suna pentru oferta

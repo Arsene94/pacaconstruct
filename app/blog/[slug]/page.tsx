@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Footer } from "../../components/footer";
-import { Navbar } from "../../components/navbar";
+import { SiteNavbar } from "../../components/site-navbar";
 import { SectionContainer } from "../../components/section-container";
 import { getBlogPost, getBlogPosts } from "../../data/blog";
 import { getServiceGroups } from "../../data/services";
@@ -86,9 +86,7 @@ export default async function BlogArticlePage(props: PageProps<"/blog/[slug]">) 
 
   // Linking intern: primele servicii din meniu, ca legături contextuale din
   // articol către paginile de serviciu (ancore descriptive).
-  const relatedServices = serviceGroups
-    .flatMap((group) => group.items)
-    .slice(0, 5);
+  const relatedServices = serviceGroups.flatMap((group) => group.items).slice(0, 5);
 
   return (
     <div className="min-h-screen bg-limestone text-carbon">
@@ -101,7 +99,7 @@ export default async function BlogArticlePage(props: PageProps<"/blog/[slug]">) 
         ])}
         id="breadcrumb"
       />
-      <Navbar serviceGroups={serviceGroups} />
+      <SiteNavbar serviceGroups={serviceGroups} />
       <main id="main" className="bg-topo pb-20 pt-12 md:pb-28">
         <article>
           <SectionContainer>
@@ -177,9 +175,7 @@ export default async function BlogArticlePage(props: PageProps<"/blog/[slug]">) 
               <div className="lg:col-span-8">
                 {post.body ? (
                   <div className={PROSE_CLASS}>
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                      {post.body}
-                    </ReactMarkdown>
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.body}</ReactMarkdown>
                   </div>
                 ) : (
                   <p className="text-lg leading-8 text-stone">{post.excerpt}</p>
@@ -216,8 +212,8 @@ export default async function BlogArticlePage(props: PageProps<"/blog/[slug]">) 
                       Ai un proiect in plan?
                     </h2>
                     <p className="mt-3 text-sm leading-6 text-stone">
-                      Evaluam terenul si lucrarea pentru o solutie tehnica si un
-                      deviz corect.
+                      Evaluam terenul si lucrarea pentru o solutie tehnica si un deviz
+                      corect.
                     </p>
                     <a
                       href="/contact#form-section"

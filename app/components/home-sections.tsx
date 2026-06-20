@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { getFeaturedServices } from "../data/services";
+import { getSiteSettings } from "../data/settings";
+import { getPrimaryPhone, telLink } from "@/app/lib/settings-shared";
 import { SectionContainer } from "./section-container";
 
 export function HeroSection() {
@@ -38,9 +40,9 @@ export function HeroSection() {
             De la teren brut la spatiu viu
           </h1>
           <p className="mt-6 max-w-[300px] text-base leading-6 text-sage md:mt-7 md:max-w-2xl md:text-xl md:leading-8 md:text-white/80">
-            Pregatim terenul, executam lucrarile si construim cadrul potrivit
-            pentru proiecte rezidentiale, comerciale si industriale.
-            Tehnicitate in armonie cu natura.
+            Pregatim terenul, executam lucrarile si construim cadrul potrivit pentru
+            proiecte rezidentiale, comerciale si industriale. Tehnicitate in armonie cu
+            natura.
           </p>
           <div className="mt-10 flex w-full flex-col gap-4 md:w-auto md:flex-row">
             <Link
@@ -64,7 +66,10 @@ export function HeroSection() {
 
 export function PrimaryServicePaths() {
   return (
-    <section id="servicii" className="order-3 bg-limestone py-16 md:order-none md:py-28 lg:py-32">
+    <section
+      id="servicii"
+      className="order-3 bg-limestone py-16 md:order-none md:py-28 lg:py-32"
+    >
       <SectionContainer className="flex flex-col gap-12 md:block">
         <ServicePath
           index="01"
@@ -144,9 +149,7 @@ function ServicePath({
         <h3 className="font-serif-display text-[28px] font-medium leading-9 text-olive">
           {title}
         </h3>
-        <p className="mt-4 line-clamp-3 text-base leading-6 text-stone">
-          {description}
-        </p>
+        <p className="mt-4 line-clamp-3 text-base leading-6 text-stone">{description}</p>
         <Link
           href={href}
           className="mt-8 inline-flex self-start border-b border-olive pb-1 text-xs font-bold uppercase text-olive transition hover:border-amber hover:text-amber"
@@ -162,9 +165,7 @@ function ServicePath({
 
   const image = (
     <div
-      className={`relative w-full overflow-hidden ${
-        dark ? "bg-carbon p-4 md:p-7" : ""
-      }`}
+      className={`relative w-full overflow-hidden ${dark ? "bg-carbon p-4 md:p-7" : ""}`}
     >
       <div
         className={`relative aspect-[4/5] w-full overflow-hidden ${
@@ -190,12 +191,8 @@ function ServicePath({
           </>
         ) : (
           <div className="absolute -bottom-0 left-0 bg-limestone/95 p-5">
-            <p className="text-xs font-bold uppercase text-stone">
-              Proiect
-            </p>
-            <p className="font-serif-display text-2xl text-olive">
-              Peisagistica
-            </p>
+            <p className="text-xs font-bold uppercase text-stone">Proiect</p>
+            <p className="font-serif-display text-2xl text-olive">Peisagistica</p>
           </div>
         )}
       </div>
@@ -233,17 +230,17 @@ function ServicePath({
     <div className="py-0 md:grid md:items-center md:gap-12 md:py-10 lg:grid-cols-2 lg:gap-16 lg:py-16">
       {mobileCard}
       <div className="hidden md:contents">
-      {imageAlign === "left" ? (
-        <>
-          {image}
-          {content}
-        </>
-      ) : (
-        <>
-          {content}
-          {image}
-        </>
-      )}
+        {imageAlign === "left" ? (
+          <>
+            {image}
+            {content}
+          </>
+        ) : (
+          <>
+            {content}
+            {image}
+          </>
+        )}
       </div>
     </div>
   );
@@ -262,9 +259,9 @@ export function TransformationStatement() {
         </h2>
         <div className="mx-auto mt-8 h-px w-12 bg-olive/20 md:hidden" />
         <p className="mx-auto mt-8 hidden max-w-3xl text-lg leading-8 text-stone md:block">
-          Fie ca vorbim de o gradina rezidentiala complexa sau de pregatirea
-          terenului pentru o hala industriala, abordam fiecare lucrare cu
-          aceeasi rigoare tehnica: evaluam, planificam si executam.
+          Fie ca vorbim de o gradina rezidentiala complexa sau de pregatirea terenului
+          pentru o hala industriala, abordam fiecare lucrare cu aceeasi rigoare tehnica:
+          evaluam, planificam si executam.
         </p>
       </SectionContainer>
     </section>
@@ -275,7 +272,10 @@ export async function ServicesMosaic() {
   const featuredServices = await getFeaturedServices();
 
   return (
-    <section id="proiecte" className="order-4 bg-limestone py-16 md:order-none md:py-28 lg:py-32">
+    <section
+      id="proiecte"
+      className="order-4 bg-limestone py-16 md:order-none md:py-28 lg:py-32"
+    >
       <SectionContainer>
         <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
@@ -367,7 +367,10 @@ export function ProcessSection() {
   ];
 
   return (
-    <section id="proces" className="order-5 bg-[#f0eee8] py-16 text-carbon md:order-none md:bg-carbon md:py-28 md:text-white">
+    <section
+      id="proces"
+      className="order-5 bg-[#f0eee8] py-16 text-carbon md:order-none md:bg-carbon md:py-28 md:text-white"
+    >
       <SectionContainer>
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
           <div>
@@ -378,8 +381,8 @@ export function ProcessSection() {
               O lucrare clara, din teren pana la predare.
             </h2>
             <p className="mt-6 hidden max-w-lg text-lg leading-8 text-white/70 md:block">
-              Combinam disciplina de santier cu intelegerea proiectelor
-              exterioare, ca fiecare interventie sa fie precisa si coerenta.
+              Combinam disciplina de santier cu intelegerea proiectelor exterioare, ca
+              fiecare interventie sa fie precisa si coerenta.
             </p>
           </div>
 
@@ -412,7 +415,10 @@ export function ProcessSection() {
   );
 }
 
-export function ContactCta() {
+export async function ContactCta() {
+  const settings = await getSiteSettings();
+  const phone = getPrimaryPhone(settings);
+
   return (
     <section className="order-6 bg-limestone py-16 text-carbon md:order-none md:bg-amber md:py-14">
       <SectionContainer>
@@ -422,19 +428,19 @@ export function ContactCta() {
             13
           </p>
           <div className="relative">
-          <p className="mt-4 text-xs font-bold uppercase md:mt-0">
-            Estimare rapida
-          </p>
-          <h2 className="mt-2 font-serif-display text-3xl font-semibold md:text-4xl">
-            Ai un teren de pregatit sau o lucrare de excavat?
-          </h2>
+            <p className="mt-4 text-xs font-bold uppercase md:mt-0">Estimare rapida</p>
+            <h2 className="mt-2 font-serif-display text-3xl font-semibold md:text-4xl">
+              Ai un teren de pregatit sau o lucrare de excavat?
+            </h2>
           </div>
-          <Link
-            href="tel:+40700000000"
-            className="relative mt-8 inline-flex w-full justify-center bg-white px-7 py-4 text-center text-sm font-bold uppercase text-olive transition hover:bg-amber hover:text-carbon md:mt-0 md:w-auto md:border md:border-carbon/30 md:bg-transparent md:text-carbon md:hover:bg-carbon md:hover:text-white"
-          >
-            Suna pentru oferta
-          </Link>
+          {phone ? (
+            <Link
+              href={telLink(phone)}
+              className="relative mt-8 inline-flex w-full justify-center bg-white px-7 py-4 text-center text-sm font-bold uppercase text-olive transition hover:bg-amber hover:text-carbon md:mt-0 md:w-auto md:border md:border-carbon/30 md:bg-transparent md:text-carbon md:hover:bg-carbon md:hover:text-white"
+            >
+              Suna pentru oferta
+            </Link>
+          ) : null}
         </div>
       </SectionContainer>
     </section>

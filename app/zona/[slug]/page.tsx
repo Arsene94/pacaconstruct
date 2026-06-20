@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Footer } from "../../components/footer";
-import { Navbar } from "../../components/navbar";
+import { SiteNavbar } from "../../components/site-navbar";
 import { SectionContainer } from "../../components/section-container";
 import { getServiceGroups, getServicePages } from "../../data/services";
 import { getServiceArea, serviceAreas } from "../../data/service-areas";
 import { JsonLd } from "@/app/components/json-ld";
 import { breadcrumbSchema, itemListSchema } from "@/app/lib/schema";
-import { siteConfig } from "@/app/lib/site-config";
+import { getSiteSettings } from "../../data/settings";
+import { getPrimaryPhone, telLink } from "@/app/lib/settings-shared";
 
 // Navbar + lista de servicii vin din DB (cache Upstash) → randare dinamică, ca
 // în restul aplicației. Conținutul rămâne server-rendered (SEO ok).
@@ -16,9 +17,7 @@ export const dynamic = "force-dynamic";
 
 type ZonaRouteProps = { params: Promise<{ slug: string }> };
 
-export async function generateMetadata({
-  params,
-}: ZonaRouteProps): Promise<Metadata> {
+export async function generateMetadata({ params }: ZonaRouteProps): Promise<Metadata> {
   const { slug } = await params;
   const area = getServiceArea(slug);
   if (!area) return { title: "Zonă indisponibilă" };
@@ -43,10 +42,12 @@ export default async function ZonaPage({ params }: ZonaRouteProps) {
   const area = getServiceArea(slug);
   if (!area) notFound();
 
-  const [serviceGroups, services] = await Promise.all([
+  const [serviceGroups, services, settings] = await Promise.all([
     getServiceGroups(),
     getServicePages(),
+    getSiteSettings(),
   ]);
+  const phone = getPrimaryPhone(settings);
 
   const mapQuery = encodeURIComponent(`${area.name}, ${area.county}, România`);
 
@@ -71,7 +72,7 @@ export default async function ZonaPage({ params }: ZonaRouteProps) {
           id="itemlist"
         />
       ) : null}
-      <Navbar serviceGroups={serviceGroups} />
+      <SiteNavbar serviceGroups={serviceGroups} />
       <main id="main" className="bg-topo">
         <section className="py-20 md:py-28">
           <SectionContainer>
@@ -92,9 +93,7 @@ export default async function ZonaPage({ params }: ZonaRouteProps) {
               Terasamente, excavări și amenajări {area.locative}
             </h1>
             {/* Answer-first: răspunde direct la „ce faceți în {zonă}". */}
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-stone">
-              {area.intro}
-            </p>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-stone">{area.intro}</p>
             <p className="mt-4 max-w-3xl text-base leading-7 text-stone">
               {area.localNote}
             </p>
@@ -105,12 +104,14 @@ export default async function ZonaPage({ params }: ZonaRouteProps) {
               >
                 Cere o evaluare {area.locative}
               </Link>
-              <a
-                href={`tel:${siteConfig.phone}`}
-                className="inline-flex border border-olive/25 px-8 py-4 text-sm font-bold uppercase text-olive transition hover:border-olive hover:bg-white"
-              >
-                {siteConfig.phoneDisplay}
-              </a>
+              {phone ? (
+                <a
+                  href={telLink(phone)}
+                  className="inline-flex border border-olive/25 px-8 py-4 text-sm font-bold uppercase text-olive transition hover:border-olive hover:bg-white"
+                >
+                  {phone.display}
+                </a>
+              ) : null}
             </div>
           </SectionContainer>
         </section>

@@ -1,11 +1,20 @@
 "use client";
 
+import { IconChevronDown } from "@tabler/icons-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { ServiceGroup } from "../data/services";
+import {
+  getPrimaryPhone,
+  getWhatsAppPhones,
+  telLink,
+  waLink,
+  type ResolvedSettings,
+} from "@/app/lib/settings-shared";
 
 type NavbarProps = {
   serviceGroups: ServiceGroup[];
+  settings: ResolvedSettings;
 };
 
 const navLinks = [
@@ -15,7 +24,12 @@ const navLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
-export function Navbar({ serviceGroups }: NavbarProps) {
+export function Navbar({ serviceGroups, settings }: NavbarProps) {
+  const primaryPhone = getPrimaryPhone(settings);
+  const whatsappPhone = getWhatsAppPhones(settings)[0] ?? null;
+  const { announcement } = settings;
+  const showTopBar = Boolean(primaryPhone) || announcement.enabled;
+
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
@@ -85,19 +99,38 @@ export function Navbar({ serviceGroups }: NavbarProps) {
 
   return (
     <>
-      <div className="relative z-50 hidden w-full bg-carbon text-white md:block">
-        <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-2 px-5 py-2 text-center text-[11px] font-bold uppercase leading-4 md:flex-row md:px-10 lg:px-16">
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1 text-white/80">
-            <a href="tel:+40700000000" className="hover:text-amber">
-              +40 700 000 000
-            </a>
-            <a href="https://wa.me/40700000000" className="hover:text-amber">
-              WhatsApp
-            </a>
+      {showTopBar ? (
+        <div className="relative z-50 hidden w-full bg-carbon text-white md:block">
+          <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-2 px-5 py-2 text-center text-[11px] font-bold uppercase leading-4 md:flex-row md:px-10 lg:px-16">
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1 text-white/80">
+              {primaryPhone ? (
+                <a href={telLink(primaryPhone)} className="hover:text-amber">
+                  {primaryPhone.display}
+                </a>
+              ) : null}
+              {whatsappPhone ? (
+                <a
+                  href={waLink(whatsappPhone)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-amber"
+                >
+                  WhatsApp
+                </a>
+              ) : null}
+            </div>
+            {announcement.enabled && announcement.text ? (
+              announcement.href ? (
+                <Link href={announcement.href} className="text-amber hover:underline">
+                  {announcement.text}
+                </Link>
+              ) : (
+                <p className="text-amber">{announcement.text}</p>
+              )
+            ) : null}
           </div>
-          <p className="text-amber">Evaluare si ofertare pentru proiectul tau</p>
         </div>
-      </div>
+      ) : null}
 
       <header className="sticky top-0 z-40 border-b border-olive/15 bg-limestone/90 backdrop-blur-xl">
         <div className="mx-auto grid w-full max-w-7xl grid-cols-[44px_1fr_auto] items-center gap-3 px-5 py-4 md:flex md:justify-between md:px-10 lg:px-16">
@@ -279,18 +312,5 @@ export function Navbar({ serviceGroups }: NavbarProps) {
 }
 
 function ChevronDown({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      aria-hidden="true"
-      className={`h-4 w-4 ${className}`}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="square"
-      strokeLinejoin="miter"
-    >
-      <path d="m6 9 6 6 6-6" />
-    </svg>
-  );
+  return <IconChevronDown aria-hidden="true" className={`h-4 w-4 ${className}`} />;
 }

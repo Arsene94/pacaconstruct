@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Footer } from "../components/footer";
-import { Navbar } from "../components/navbar";
+import { SiteNavbar } from "../components/site-navbar";
 import { SectionContainer } from "../components/section-container";
 import { getServiceGroups } from "../data/services";
 import { getRentalMachines } from "../data/rentals";
@@ -67,7 +67,7 @@ export default async function RentalListingPage() {
         )}
         id="itemlist"
       />
-      <Navbar serviceGroups={serviceGroups} />
+      <SiteNavbar serviceGroups={serviceGroups} />
       <main id="main" className="flex flex-col">
         <section className="relative isolate overflow-hidden bg-topo">
           <div className="absolute inset-0 -z-10 bg-limestone/80" />
@@ -81,9 +81,8 @@ export default async function RentalListingPage() {
                 Utilajul potrivit pentru fiecare etapa a lucrarii
               </h1>
               <p className="mt-6 max-w-xl text-lg leading-8 text-stone">
-                Echipamente tehnice deservite de operatori calificati pentru
-                excavatii, nivelari, transport pamant si amenajari ale
-                terenului.
+                Echipamente tehnice deservite de operatori calificati pentru excavatii,
+                nivelari, transport pamant si amenajari ale terenului.
               </p>
               <div className="mt-9 flex flex-col gap-4 sm:flex-row">
                 <Link
@@ -128,9 +127,7 @@ export default async function RentalListingPage() {
                 <span className="block font-mono text-xs font-bold uppercase text-amber">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <p className="mt-2 text-sm font-bold uppercase text-olive">
-                  {item}
-                </p>
+                <p className="mt-2 text-sm font-bold uppercase text-olive">{item}</p>
               </div>
             ))}
           </SectionContainer>
@@ -197,8 +194,8 @@ export default async function RentalListingPage() {
                 Flota tehnologica
               </h2>
               <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-stone">
-                Preturile sunt informative si variaza in functie de
-                complexitatea lucrarii, locatie si durata.
+                Preturile sunt informative si variaza in functie de complexitatea
+                lucrarii, locatie si durata.
               </p>
             </div>
             <div className="grid gap-6 md:grid-cols-2">

@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Footer } from "../../components/footer";
-import { Navbar } from "../../components/navbar";
+import { SiteNavbar } from "../../components/site-navbar";
 import { SectionContainer } from "../../components/section-container";
 import { getRentalMachine, getRentalMachines } from "../../data/rentals";
 import { getServiceGroups } from "../../data/services";
@@ -31,9 +31,7 @@ type RentalRouteProps = {
   }>;
 };
 
-export async function generateMetadata({
-  params,
-}: RentalRouteProps): Promise<Metadata> {
+export async function generateMetadata({ params }: RentalRouteProps): Promise<Metadata> {
   const { slug } = await params;
   const machine = await getRentalMachine(slug);
 
@@ -85,7 +83,7 @@ export default async function RentalProductPage({ params }: RentalRouteProps) {
         ])}
         id="breadcrumb"
       />
-      <Navbar serviceGroups={serviceGroups} />
+      <SiteNavbar serviceGroups={serviceGroups} />
       <main id="main" className="bg-topo flex-grow">
         <SectionContainer className="py-10 md:py-16">
           <nav
@@ -136,10 +134,7 @@ export default async function RentalProductPage({ params }: RentalRouteProps) {
 
               <div className="mt-12 grid gap-6 md:grid-cols-2">
                 <InfoPanel title="Lucrari potrivite" items={machine.uses} />
-                <InfoPanel
-                  title="Cerinte de acces"
-                  items={machine.accessRequirements}
-                />
+                <InfoPanel title="Cerinte de acces" items={machine.accessRequirements} />
               </div>
             </div>
 
@@ -186,9 +181,7 @@ export default async function RentalProductPage({ params }: RentalRouteProps) {
 function InfoPanel({ title, items }: { title: string; items: string[] }) {
   return (
     <div className="border border-olive/10 bg-white p-6 shadow-sm shadow-carbon/5">
-      <h2 className="font-serif-display text-3xl font-medium text-olive">
-        {title}
-      </h2>
+      <h2 className="font-serif-display text-3xl font-medium text-olive">{title}</h2>
       <ul className="mt-5 space-y-3">
         {items.map((item) => (
           <li key={item} className="flex items-center gap-3 text-stone">
@@ -200,4 +193,3 @@ function InfoPanel({ title, items }: { title: string; items: string[] }) {
     </div>
   );
 }
-

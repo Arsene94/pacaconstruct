@@ -1,8 +1,13 @@
 import Link from "next/link";
 import { SectionContainer } from "./section-container";
-import { siteConfig } from "@/app/lib/site-config";
+import { getSiteSettings } from "@/app/data/settings";
+import { getPrimaryPhone, telLink } from "@/app/lib/settings-shared";
 
-export function Footer() {
+export async function Footer() {
+  const settings = await getSiteSettings();
+  const phone = getPrimaryPhone(settings);
+  const email = settings.contact.emailPrimary;
+
   return (
     <footer id="contact" className="border-t border-white/10 bg-olive text-white">
       <SectionContainer className="grid gap-10 py-16 md:grid-cols-4 lg:py-24">
@@ -11,8 +16,8 @@ export function Footer() {
             PACA CONSTRUCT
           </p>
           <p className="mt-5 max-w-xs text-sm leading-6 text-white/70">
-            Tehnicitate in armonie cu natura. Amenajari, terasamente si excavari
-            pentru proiecte rezidentiale, comerciale si industriale.
+            Tehnicitate in armonie cu natura. Amenajari, terasamente si excavari pentru
+            proiecte rezidentiale, comerciale si industriale.
           </p>
         </div>
 
@@ -42,20 +47,20 @@ export function Footer() {
         </div>
 
         <div className="md:text-right">
-          <p className="text-xs font-bold uppercase text-white/50">
-            Contact rapid
-          </p>
+          <p className="text-xs font-bold uppercase text-white/50">Contact rapid</p>
+          {phone ? (
+            <a
+              href={telLink(phone)}
+              className="mt-4 block text-xl font-semibold text-sage hover:text-amber"
+            >
+              {phone.display}
+            </a>
+          ) : null}
           <a
-            href={`tel:${siteConfig.phone}`}
-            className="mt-4 block text-xl font-semibold text-sage hover:text-amber"
-          >
-            {siteConfig.phoneDisplay}
-          </a>
-          <a
-            href={`mailto:${siteConfig.email}`}
+            href={`mailto:${email}`}
             className="mt-2 block text-sm text-white/70 hover:text-white"
           >
-            {siteConfig.email}
+            {email}
           </a>
         </div>
       </SectionContainer>
@@ -81,9 +86,7 @@ type FooterLinksProps = {
 function FooterLinks({ title, links }: FooterLinksProps) {
   return (
     <div>
-      <p className="mb-4 text-xs font-bold uppercase text-white/50">
-        {title}
-      </p>
+      <p className="mb-4 text-xs font-bold uppercase text-white/50">{title}</p>
       <div className="grid gap-3">
         {links.map((link) => (
           <Link

@@ -7,7 +7,7 @@ import {
   ServicesMosaic,
   TransformationStatement,
 } from "./components/home-sections";
-import { Navbar } from "./components/navbar";
+import { SiteNavbar } from "./components/site-navbar";
 import { getServiceGroups } from "./data/services";
 
 // Conținut din DB: randare dinamică, dar datele vin din cache-ul Upstash
@@ -20,7 +20,7 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-limestone text-carbon">
-      <Navbar serviceGroups={serviceGroups} />
+      <SiteNavbar serviceGroups={serviceGroups} />
       <main id="main" className="flex flex-col">
         <HeroSection />
         <PrimaryServicePaths />

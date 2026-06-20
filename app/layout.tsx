@@ -116,7 +116,7 @@ export default async function RootLayout({
           Sari la conținut
         </a>
         {/* Date structurate globale: prezente pe toate paginile (server-rendered). */}
-        <JsonLd data={organizationSchema()} id="organization" />
+        <JsonLd data={organizationSchema(settings)} id="organization" />
         <JsonLd data={websiteSchema()} id="website" />
         {children}
         {/* Butoane flotante globale; se ascund singure pe /admin, /login, /auth. */}
