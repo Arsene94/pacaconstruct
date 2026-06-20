@@ -64,8 +64,8 @@ export function RentalRequestForm({ machineTitle }: { machineTitle: string }) {
           Solicitare trimisă
         </h2>
         <p className="mt-3 text-sm leading-6 text-stone">
-          Am primit cererea pentru <strong>{machineTitle}</strong>. Revenim cu
-          confirmarea disponibilității în cel mai scurt timp.
+          Am primit cererea pentru <strong>{machineTitle}</strong>. Revenim cu confirmarea
+          disponibilității în cel mai scurt timp.
         </p>
       </div>
     );
@@ -83,14 +83,28 @@ export function RentalRequestForm({ machineTitle }: { machineTitle: string }) {
         </div>
       ) : null}
       <Field name="name" label="Nume complet" placeholder="Ex: Ion Popescu" required />
-      <Field name="phone" label="Telefon" placeholder="07xx xxx xxx" type="tel" required />
+      <Field
+        name="phone"
+        label="Telefon"
+        placeholder="07xx xxx xxx"
+        type="tel"
+        required
+      />
       <Field name="email" label="Email" placeholder="adresa@email.com" type="email" />
       <Field name="location" label="Locatie" placeholder="Oras / comuna" />
       <Field name="period" label="Perioada dorita" type="date" />
+      <label className="flex items-start gap-3 text-sm text-stone">
+        <input
+          type="checkbox"
+          name="newsletter"
+          value="on"
+          className="mt-0.5 h-4 w-4 shrink-0 accent-amber"
+        />
+        <span>Vreau să primesc ocazional noutăți și oferte pe email (opțional).</span>
+      </label>
       <SubmitButton />
       <p className="text-xs leading-5 text-muted">
-        Disponibilitatea se confirma dupa analiza proiectului si a conditiilor de
-        acces.
+        Disponibilitatea se confirma dupa analiza proiectului si a conditiilor de acces.
       </p>
     </form>
   );

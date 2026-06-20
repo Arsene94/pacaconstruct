@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import { requireAdmin } from "@/app/lib/dal";
 import { createClient } from "@/app/lib/supabase/server";
 import { indexBlogPost, removeBlogPost } from "@/app/lib/upstash/search";
+import { dispatchLifecycleEmail } from "@/app/lib/email/transactional";
+import type { RequestStatus } from "@/app/data/requests";
 
 /** Stare returnată formularelor de admin către `useActionState`. */
 export type FormState = { error?: string } | undefined;
@@ -187,10 +189,7 @@ function revalidateRentals() {
   revalidateTag("rentals", "max");
 }
 
-export async function createRental(
-  _prev: FormState,
-  form: FormData,
-): Promise<FormState> {
+export async function createRental(_prev: FormState, form: FormData): Promise<FormState> {
   await requireAdmin();
   const payload = readRentalPayload(form);
   if (!payload.title || !payload.slug) {
@@ -203,10 +202,7 @@ export async function createRental(
   redirect("/admin/utilaje");
 }
 
-export async function updateRental(
-  _prev: FormState,
-  form: FormData,
-): Promise<FormState> {
+export async function updateRental(_prev: FormState, form: FormData): Promise<FormState> {
   await requireAdmin();
   const id = str(form, "id");
   const payload = readRentalPayload(form);
@@ -215,10 +211,7 @@ export async function updateRental(
     return { error: "Titlul și slug-ul sunt obligatorii." };
   }
   const supabase = await createClient();
-  const { error } = await supabase
-    .from("rental_machines")
-    .update(payload)
-    .eq("id", id);
+  const { error } = await supabase.from("rental_machines").update(payload).eq("id", id);
   if (error) return { error: `Nu am putut actualiza utilajul: ${error.message}` };
   revalidateRentals();
   redirect("/admin/utilaje");
@@ -302,10 +295,7 @@ async function syncBlogSearch(payload: ReturnType<typeof readBlogPayload>) {
   }
 }
 
-export async function createPost(
-  _prev: FormState,
-  form: FormData,
-): Promise<FormState> {
+export async function createPost(_prev: FormState, form: FormData): Promise<FormState> {
   await requireAdmin();
   const payload = readBlogPayload(form);
   if (!payload.title || !payload.slug) {
@@ -319,10 +309,7 @@ export async function createPost(
   redirect("/admin/blog");
 }
 
-export async function updatePost(
-  _prev: FormState,
-  form: FormData,
-): Promise<FormState> {
+export async function updatePost(_prev: FormState, form: FormData): Promise<FormState> {
   await requireAdmin();
   const id = str(form, "id");
   const payload = readBlogPayload(form);
@@ -331,10 +318,7 @@ export async function updatePost(
     return { error: "Titlul și slug-ul sunt obligatorii." };
   }
   const supabase = await createClient();
-  const { error } = await supabase
-    .from("blog_posts")
-    .update(payload)
-    .eq("id", id);
+  const { error } = await supabase.from("blog_posts").update(payload).eq("id", id);
   if (error) return { error: `Nu am putut actualiza articolul: ${error.message}` };
   await syncBlogSearch(payload);
   revalidateBlog();
@@ -392,11 +376,7 @@ function readProjectPayload(form: FormData) {
   const explicitSlug = str(form, "slug");
   // Slug doar dacă e dat explicit sau dacă proiectul e publicat. Proiectele
   // interne (nepublicate) rămân fără slug, ca să nu se ciocnească pe unique.
-  const slug = explicitSlug
-    ? slugify(explicitSlug)
-    : isPublished
-      ? slugify(name)
-      : null;
+  const slug = explicitSlug ? slugify(explicitSlug) : isPublished ? slugify(name) : null;
   return {
     code: str(form, "code"),
     name,
@@ -552,7 +532,21 @@ export async function updateServiceRequestStatus(form: FormData): Promise<void> 
   const status = str(form, "status") as RequestStatusValue;
   if (id && REQUEST_STATUS_VALUES.includes(status)) {
     const supabase = await createClient();
-    await supabase.from("service_requests").update({ status }).eq("id", id);
+    const { data } = await supabase
+      .from("service_requests")
+      .update({ status })
+      .eq("id", id)
+      .select("id, code, name, email")
+      .single<{ id: string; code: string; name: string; email: string | null }>();
+    if (data?.email) {
+      await dispatchLifecycleEmail({
+        requestId: data.id,
+        code: data.code,
+        name: data.name,
+        email: data.email,
+        status: status as RequestStatus,
+      });
+    }
     revalidatePath("/admin/cereri-servicii");
   }
 }
@@ -573,7 +567,21 @@ export async function updateRentalRequestStatus(form: FormData): Promise<void> {
   const status = str(form, "status") as RequestStatusValue;
   if (id && REQUEST_STATUS_VALUES.includes(status)) {
     const supabase = await createClient();
-    await supabase.from("rental_requests").update({ status }).eq("id", id);
+    const { data } = await supabase
+      .from("rental_requests")
+      .update({ status })
+      .eq("id", id)
+      .select("id, code, name, email")
+      .single<{ id: string; code: string; name: string; email: string | null }>();
+    if (data?.email) {
+      await dispatchLifecycleEmail({
+        requestId: data.id,
+        code: data.code,
+        name: data.name,
+        email: data.email,
+        status: status as RequestStatus,
+      });
+    }
     revalidatePath("/admin/cereri-inchiriere");
   }
 }

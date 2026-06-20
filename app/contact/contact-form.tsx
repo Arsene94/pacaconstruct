@@ -69,8 +69,8 @@ export function ContactForm() {
           Îți mulțumim! Revenim cu un răspuns.
         </h3>
         <p className="mt-4 max-w-md text-base leading-7 text-stone">
-          Am primit detaliile proiectului tău. Un membru al echipei tehnice te va
-          contacta în cel mai scurt timp pentru pașii următori.
+          Am primit detaliile proiectului tău. Un membru al echipei tehnice te va contacta
+          în cel mai scurt timp pentru pașii următori.
         </p>
       </div>
     );
@@ -83,9 +83,7 @@ export function ContactForm() {
     >
       <div className="mb-8">
         <div className="mb-2 flex items-center justify-between">
-          <span className="text-xs font-bold uppercase text-olive">
-            Date proiect
-          </span>
+          <span className="text-xs font-bold uppercase text-olive">Date proiect</span>
           <span className="font-mono text-xs uppercase text-muted">
             Evaluare gratuită
           </span>
@@ -105,9 +103,24 @@ export function ContactForm() {
       ) : null}
 
       <div className="grid gap-6 md:grid-cols-2">
-        <Field id="name" label="Nume si prenume" placeholder="Ex: Andrei Popescu" required />
+        <Field
+          id="name"
+          label="Nume si prenume"
+          placeholder="Ex: Andrei Popescu"
+          required
+        />
         <Field id="phone" label="Telefon" placeholder="+40 ..." type="tel" required />
-        <Field id="location" label="Locatie (oras / judet)" placeholder="Ex: Bucuresti, Ilfov" />
+        <Field
+          id="email"
+          label="Email (optional)"
+          placeholder="nume@exemplu.ro"
+          type="email"
+        />
+        <Field
+          id="location"
+          label="Locatie (oras / judet)"
+          placeholder="Ex: Bucuresti, Ilfov"
+        />
         <Field
           id="surface"
           label="Suprafata aproximativa (mp)"
@@ -129,10 +142,22 @@ export function ContactForm() {
         />
       </label>
 
+      <label className="mt-6 flex items-start gap-3 text-sm text-stone">
+        <input
+          type="checkbox"
+          name="newsletter"
+          value="on"
+          className="mt-0.5 h-4 w-4 shrink-0 accent-amber"
+        />
+        <span>
+          Vreau să primesc ocazional noutăți și oferte PACA CONSTRUCT pe email. (opțional,
+          te poți dezabona oricând)
+        </span>
+      </label>
+
       <SubmitButton />
       <p className="mt-4 text-xs leading-5 text-muted">
-        Trimițând formularul ești de acord să fii contactat cu privire la
-        solicitarea ta.
+        Trimițând formularul ești de acord să fii contactat cu privire la solicitarea ta.
       </p>
     </form>
   );

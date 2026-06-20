@@ -25,7 +25,7 @@ import { getAdminClientOrNull, resolveTemplate } from "./templates";
 
 export type SendEmailInput<K extends EmailTemplateKey = EmailTemplateKey> = {
   templateKey: K;
-  to: string;
+  to: string | string[];
   vars: EmailPropsMap[K];
   /** Cheie de idempotency (vezi convențiile din dispatch/intake). */
   idempotencyKey: string;
@@ -59,6 +59,15 @@ export async function sendEmail<K extends EmailTemplateKey>(
     });
     return { ok: false, skipped: true, reason: "not_configured" };
   }
+
+  const recipients = Array.isArray(input.to) ? input.to : [input.to];
+  if (recipients.length === 0) {
+    logger.warn("email skipped — fără destinatar", {
+      templateKey: input.templateKey,
+    });
+    return { ok: false, skipped: true, reason: "no_recipient" };
+  }
+  const toEmailLog = recipients.join(", ");
 
   const admin = getAdminClientOrNull();
 
@@ -96,7 +105,7 @@ export async function sendEmail<K extends EmailTemplateKey>(
       .from("email_messages")
       .insert({
         template_key: input.templateKey,
-        to_email: input.to,
+        to_email: toEmailLog,
         to_contact_id: input.contactId ?? null,
         campaign_id: input.campaignId ?? null,
         subject: rendered.subject,
@@ -129,7 +138,7 @@ export async function sendEmail<K extends EmailTemplateKey>(
     const res = await getResend().emails.send(
       {
         from,
-        to: input.to,
+        to: recipients,
         subject: rendered.subject,
         html: rendered.html,
         text: rendered.text,
