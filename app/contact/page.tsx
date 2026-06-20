@@ -53,7 +53,7 @@ function buildContactDetails(settings: ResolvedSettings): ContactDetail[] {
       icon: "phone",
       label: "Telefon",
       title: phone.display,
-      subtitle: "Suna acum",
+      subtitle: "Sună-ne pentru o estimare",
       href: telLink(phone),
     });
   }
@@ -61,14 +61,14 @@ function buildContactDetails(settings: ResolvedSettings): ContactDetail[] {
     icon: "mail",
     label: "Email",
     title: email,
-    subtitle: "Trimite documente si fotografii",
+    subtitle: "Trimite documente și fotografii",
     href: `mailto:${email}`,
   });
   details.push({
     icon: "pin",
-    label: "Locatie centrala",
-    title: `${a.addressLocality}, Romania`,
-    subtitle: "Servicii la nivel national",
+    label: "Locație",
+    title: `${a.addressLocality}, România`,
+    subtitle: "Lucrăm în zonă și în împrejurimi",
   });
   if (hourLabels.length) {
     details.push({
@@ -101,20 +101,21 @@ export const metadata: Metadata = {
 const intentCards = [
   {
     icon: "draft",
-    title: "Evaluare lucrare",
-    description: "Am un proiect clar si am nevoie de o estimare tehnica si de cost.",
+    title: "Am o lucrare clară",
+    description: "Știu ce vreau și am nevoie de o estimare tehnică și de cost.",
     href: "#form-section",
   },
   {
     icon: "compass",
-    title: "Nu stiu ce serviciu imi trebuie",
-    description: "Am o idee sau o problema, dar nu sunt sigur de solutia tehnica.",
-    href: "#contact-strip",
+    title: "Nu știu de unde să încep",
+    description:
+      "Am un teren sau o problemă, dar nu sunt sigur ce soluție tehnică îmi trebuie.",
+    href: "#form-section",
   },
   {
     icon: "machine",
     title: "Utilaj cu operator",
-    description: "Solicitare specifica pentru inchiriere echipament greu.",
+    description: "Am nevoie de un utilaj cu operator pentru câteva ore sau zile.",
     href: "#form-section",
   },
 ];
@@ -122,39 +123,39 @@ const intentCards = [
 const mobileIntentCards = [
   {
     icon: "landscape",
-    title: "Arhitectura peisagistica",
-    description: "Design, plantare, drenaj si sisteme de irigatii complexe.",
+    title: "Amenajare spații verzi",
+    description: "Pregătire sol, drenaj, irigații, gazon și plantări.",
   },
   {
     icon: "engineering",
-    title: "Excavatii si terasamente",
-    description: "Nivelare, fundatii, decopertare si pregatire teren.",
+    title: "Terasamente și excavări",
+    description: "Nivelare, fundații, drenaje și pregătire teren.",
   },
   {
     icon: "mixed",
     title: "Proiect mixt",
-    description: "Solutie completa de la pamant pregatit la spatiu amenajat.",
+    description: "De la teren brut la spațiu amenajat, cu o singură echipă.",
   },
 ];
 
 const timeline = [
   {
     index: "01",
-    title: "Analiza preliminara",
+    title: "Analiză preliminară",
     description:
-      "Un inginer preia datele si evalueaza fezabilitatea tehnica pe baza locatiei si suprafetei.",
+      "Preluăm datele și ne uităm la fezabilitatea tehnică pe baza locației și a suprafeței.",
   },
   {
     index: "02",
-    title: "Vizita in teren",
+    title: "Vizită în teren",
     description:
-      "Ne deplasam pentru masuratori, verificarea accesului si analiza conditiilor reale de lucru.",
+      "Ne deplasăm pentru măsurători, verificarea accesului și analiza condițiilor reale de lucru.",
   },
   {
     index: "03",
-    title: "Propunere tehnica si oferta",
+    title: "Propunere tehnică și ofertă",
     description:
-      "Primesti un document cu pasii de executie, necesarul de utilaje si devizul estimativ.",
+      "Primești pașii de execuție, necesarul de utilaje și devizul estimativ, legat de ce e pe teren.",
   },
 ];
 
@@ -203,16 +204,16 @@ function ContactHero({ whatsappHref }: { whatsappHref?: string }) {
         <div className="relative max-w-xl">
           <p className="mb-4 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-stone">
             <span className="h-px w-8 bg-amber" />
-            Initiere proiect
+            Contact și evaluare
           </p>
           {/* Variantă mobilă a titlului: <p> ca să rămână un singur <h1> per
               pagina (cel din hero-ul desktop). Stilurile sunt identice. */}
           <p className="font-serif-display text-4xl font-semibold leading-tight text-olive">
-            Spune-ne ce vrei sa construiesti sau sa amenajezi.
+            Spune-ne ce vrei să construiești sau să amenajezi.
           </p>
           <p className="mt-5 max-w-[22rem] text-base leading-7 text-stone">
-            De la excavatii de precizie la arhitectura peisagistica complexa, suntem
-            pregatiti sa evaluam terenul tau.
+            Trimite-ne câteva detalii despre teren și despre ce ai de făcut. Ne uităm și
+            revenim cu pașii și cu o estimare.
           </p>
         </div>
       </div>
@@ -225,28 +226,27 @@ function ContactHero({ whatsappHref }: { whatsappHref?: string }) {
               className="mb-8 flex items-center gap-2 text-sm font-medium text-stone"
             >
               <Link href="/" className="hover:text-amber">
-                Acasa
+                Acasă
               </Link>
               <span aria-hidden="true">/</span>
               <span className="font-bold text-olive">Contact</span>
             </nav>
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-amber">
-              Contact si evaluare proiect
+              Contact și evaluare
             </p>
             <h1 className="mt-5 max-w-3xl font-serif-display text-5xl font-semibold leading-[1.08] text-olive lg:text-6xl">
-              Spune-ne ce vrei sa construiesti sau sa amenajezi.
+              Spune-ne ce vrei să construiești sau să amenajezi.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-stone">
-              Trimite-ne detaliile proiectului tau, fie ca este vorba de o amenajare
-              peisagistica complexa sau de o excavatie de precizie. Echipa noastra tehnica
-              va evalua informatiile si te va contacta cu solutii concrete.
+              Trimite-ne câteva detalii despre teren și despre ce ai de făcut. Ne uităm și
+              revenim cu pașii și cu o estimare. Dacă e mai simplu la telefon, sună-ne.
             </p>
             <div className="mt-9 flex flex-wrap gap-4">
               <Link
                 href="#form-section"
                 className="inline-flex items-center justify-center gap-2 bg-amber px-8 py-4 text-sm font-bold uppercase text-carbon transition hover:bg-[#fea943] hover:shadow-xl hover:shadow-carbon/10"
               >
-                Solicita o evaluare
+                Cere o evaluare
                 <span aria-hidden="true">-&gt;</span>
               </Link>
               {whatsappHref ? (
@@ -267,7 +267,7 @@ function ContactHero({ whatsappHref }: { whatsappHref?: string }) {
             <div className="relative aspect-[4/5] overflow-hidden border border-olive/10 bg-white shadow-2xl shadow-carbon/10">
               <Image
                 src="/hero.png"
-                alt="Excavator lucrand pe un teren langa o gradina amenajata."
+                alt="Excavator lucrând pe un teren lângă o grădină amenajată."
                 fill
                 priority
                 sizes="(min-width: 1024px) 38vw, 90vw"
@@ -289,7 +289,7 @@ function IntentSelector() {
       <SectionContainer>
         <div className="md:hidden">
           <h2 className="mb-6 text-xs font-bold uppercase tracking-[0.18em] text-muted">
-            Selecteaza domeniul de interes
+            Spune-ne ce ai de făcut
           </h2>
           <div className="grid gap-4">
             {mobileIntentCards.map((card) => (
@@ -403,14 +403,14 @@ function ProjectForm() {
       <SectionContainer className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber">
-            Date proiect
+            Date proiect · Evaluare gratuită
           </p>
           <h2 className="mt-4 font-serif-display text-4xl font-semibold leading-tight text-olive md:text-5xl">
-            Completeaza informatiile esentiale.
+            Spune pe scurt ce ai de făcut.
           </h2>
           <p className="mt-5 text-base leading-7 text-stone">
-            Fotografiile, dimensiunile aproximative si locatia ne ajuta sa revenim cu
-            intrebari precise si cu un prim scenariu tehnic.
+            Dimensiunile aproximative, locația și câteva fotografii ne ajută să revenim cu
+            întrebări precise și cu un prim scenariu tehnic.
           </p>
         </div>
 
@@ -426,10 +426,10 @@ function ResponseTimeline() {
       <SectionContainer className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber">
-            Dupa solicitare
+            După solicitare
           </p>
           <h2 className="mt-4 font-serif-display text-4xl font-semibold leading-tight text-olive md:text-5xl">
-            Ce se intampla dupa ce trimiti solicitarea?
+            Ce se întâmplă după ce trimiți solicitarea?
           </h2>
         </div>
         <div className="space-y-10 border-l border-olive/20 pl-6">
@@ -469,7 +469,7 @@ function MobileActionBar({
           className="flex flex-1 items-center justify-center gap-1 border border-olive/10 bg-white py-3 text-xs font-bold uppercase text-olive"
         >
           <Icon name="phone" className="h-4 w-4" />
-          Suna
+          Sună
         </a>
       ) : null}
       {whatsappHref ? (
@@ -487,7 +487,7 @@ function MobileActionBar({
         href="#form-section"
         className="flex flex-[1.35] items-center justify-center bg-amber py-3 text-xs font-bold uppercase text-carbon"
       >
-        Cere oferta
+        Cere o evaluare
       </a>
     </div>
   );

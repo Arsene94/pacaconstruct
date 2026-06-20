@@ -95,11 +95,11 @@ export default async function RentalProductPage({ params }: RentalRouteProps) {
             className="mb-8 flex items-center gap-2 text-sm font-medium text-stone"
           >
             <Link href="/" className="hover:text-amber">
-              Acasa
+              Acasă
             </Link>
             <span aria-hidden="true">/</span>
             <Link href="/inchiriere-utilaje" className="hover:text-amber">
-              Inchirieri utilaje
+              Închirieri utilaje
             </Link>
             <span aria-hidden="true">/</span>
             <span className="font-bold text-olive">{machine.title}</span>
@@ -119,7 +119,7 @@ export default async function RentalProductPage({ params }: RentalRouteProps) {
                 <div className="absolute inset-0 bg-gradient-to-t from-carbon/25 to-transparent" />
               </div>
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber">
-                Serviciu cu operator inclus
+                Operator inclus
               </p>
               <div className="mt-3 flex flex-wrap items-center gap-3">
                 <span className="bg-olive px-3 py-1 text-xs font-bold uppercase text-white">
@@ -137,15 +137,15 @@ export default async function RentalProductPage({ params }: RentalRouteProps) {
               </p>
 
               <div className="mt-12 grid gap-6 md:grid-cols-2">
-                <InfoPanel title="Lucrari potrivite" items={machine.uses} />
-                <InfoPanel title="Cerinte de acces" items={machine.accessRequirements} />
+                <InfoPanel title="Lucrări potrivite" items={machine.uses} />
+                <InfoPanel title="Cerințe de acces" items={machine.accessRequirements} />
               </div>
             </div>
 
             <aside className="lg:col-span-4">
               <div className="sticky top-32 border border-olive/10 bg-white p-6 shadow-xl shadow-carbon/5">
                 <h2 className="font-serif-display text-3xl font-medium text-olive">
-                  Inchiriaza utilaj
+                  Cere utilajul
                 </h2>
                 <RentalRequestForm machineTitle={machine.title} />
               </div>
@@ -157,13 +157,13 @@ export default async function RentalProductPage({ params }: RentalRouteProps) {
           <SectionContainer>
             <div className="border border-olive/10 bg-[#f6f3ed] p-8">
               <h2 className="font-serif-display text-3xl font-medium text-olive">
-                Ce influenteaza estimarea
+                Ce influențează tariful
               </h2>
               <div className="mt-8 grid gap-6 md:grid-cols-3">
                 {[
-                  ["01. Complexitate", "Tipul de sol si adancimea necesara."],
-                  ["02. Durata", "Numarul de ore estimate pentru lucrare."],
-                  ["03. Logistica", "Distanta, accesul si mobilizarea utilajului."],
+                  ["Complexitate", "Tipul de sol și adâncimea cerută."],
+                  ["Durată", "Orele estimate pentru lucrare."],
+                  ["Logistică", "Distanța, accesul și mobilizarea utilajului."],
                 ].map(([title, text]) => (
                   <div key={title}>
                     <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber">

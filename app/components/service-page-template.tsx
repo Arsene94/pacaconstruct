@@ -66,7 +66,7 @@ function ServiceHero({ service }: ServicePageTemplateProps) {
           href="/contact#form-section"
           className="mt-8 inline-flex bg-amber px-8 py-4 text-sm font-bold uppercase text-carbon transition hover:bg-[#fea943]"
         >
-          Programeaza o consultanta
+          Cere o evaluare
         </Link>
       </div>
     </section>
@@ -118,20 +118,20 @@ function ServiceSpecs({ service }: ServicePageTemplateProps) {
     <section className="mb-20 md:mb-28">
       <SectionContainer>
         <h2 className="border-b border-olive/15 pb-4 font-serif-display text-3xl font-medium text-olive md:text-4xl">
-          Standarde de executie
+          Cum lucrăm, pe scurt
         </h2>
         <div className="mt-6 overflow-x-auto">
           <table className="w-full min-w-[760px] border-collapse text-left">
             <thead>
               <tr className="border-b border-olive/15">
                 <th className="py-4 text-xs font-bold uppercase text-stone">
-                  Specificatie
+                  Ce verificăm
                 </th>
                 <th className="py-4 text-xs font-bold uppercase text-stone">
-                  Parametri PACA
+                  Cum o facem
                 </th>
                 <th className="py-4 text-xs font-bold uppercase text-stone">
-                  Impact vizual / functional
+                  De ce contează
                 </th>
               </tr>
             </thead>
@@ -159,9 +159,15 @@ function ServiceSpecs({ service }: ServicePageTemplateProps) {
   );
 }
 
-function ServiceFaqSection({ service }: ServicePageTemplateProps) {
+async function ServiceFaqSection({ service }: ServicePageTemplateProps) {
   // Întrebări editate din admin; dacă lipsesc, folosim setul generat automat.
-  const faq = service.faqs.length > 0 ? service.faqs : serviceFaq(service.title);
+  // Telefonul din setul automat vine din DB (site_settings), nu din config.
+  const settings = await getSiteSettings();
+  const phone = getPrimaryPhone(settings);
+  const faq =
+    service.faqs.length > 0
+      ? service.faqs
+      : serviceFaq(service.title, phone?.display ?? "");
   return (
     <section className="mb-20 md:mb-28">
       <SectionContainer>
@@ -228,16 +234,16 @@ async function ServiceCta({ service }: ServicePageTemplateProps) {
     <section className="bg-amber py-14 text-carbon">
       <SectionContainer className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
         <div>
-          <p className="text-xs font-bold uppercase">Urmatorul pas</p>
+          <p className="text-xs font-bold uppercase">Pasul următor</p>
           <h2 className="mt-2 font-serif-display text-3xl font-semibold md:text-4xl">
             Ai nevoie de {service.title.toLowerCase()}?
           </h2>
         </div>
         <Link
-          href={phone ? telLink(phone) : `tel:${siteConfig.phone}`}
+          href={phone ? telLink(phone) : "/contact#form-section"}
           className="border border-carbon/30 px-7 py-4 text-center text-sm font-bold uppercase transition hover:bg-carbon hover:text-white"
         >
-          Suna pentru oferta
+          {phone ? "Sună pentru o ofertă" : "Cere o ofertă"}
         </Link>
       </SectionContainer>
     </section>

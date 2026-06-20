@@ -1,17 +1,18 @@
 /**
  * Generează întrebări frecvente „answer-first" pentru o pagină de serviciu.
  * Răspunsurile încep direct cu informația utilă (LLM-urile extrag de sus) și
- * sunt țesute cu numele serviciului și datele reale din `siteConfig`.
+ * sunt țesute cu numele serviciului și datele reale.
  *
  * Sunt întrebări generice-utile despre colaborare (durată, evaluare, zonă,
  * preț), nu conținut inventat — același set, contextualizat per serviciu.
+ * Telefonul vine din DB (site_settings), nu din config; îl primește apelantul.
  * // TODO: pentru Q&A specific fiecărui serviciu, mută-le în DB (editabile din admin).
  */
 import { siteConfig } from "@/app/lib/site-config";
 
 export type ServiceQA = { question: string; answer: string };
 
-export function serviceFaq(serviceTitle: string): ServiceQA[] {
+export function serviceFaq(serviceTitle: string, phoneDisplay: string): ServiceQA[] {
   const t = serviceTitle.toLowerCase();
   const areas = siteConfig.areaServed.filter((a) => a !== "România").join(", ");
 
@@ -30,7 +31,9 @@ export function serviceFaq(serviceTitle: string): ServiceQA[] {
     },
     {
       question: "Cum primesc o ofertă de preț?",
-      answer: `Trimite-ne detaliile proiectului prin formularul de contact sau sună la ${siteConfig.phoneDisplay}. Revenim cu o evaluare tehnică și o ofertă pentru ${t}.`,
+      answer: `Trimite-ne detaliile proiectului prin formularul de contact${
+        phoneDisplay ? ` sau sună la ${phoneDisplay}` : ""
+      }. Revenim cu o evaluare tehnică și o ofertă pentru ${t}.`,
     },
   ];
 }

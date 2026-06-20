@@ -8,6 +8,8 @@ import { JsonLd } from "@/app/components/json-ld";
 import { ViewItemTracker } from "@/app/components/marketing/view-item-tracker";
 import { breadcrumbSchema, qaFaqPageSchema, serviceSchema } from "@/app/lib/schema";
 import { serviceFaq } from "@/app/lib/service-faq";
+import { getSiteSettings } from "@/app/data/settings";
+import { getPrimaryPhone } from "@/app/lib/settings-shared";
 
 // Pagini pre-randate (ISR). Datele vin din cache-ul Upstash; revalidare la 1h,
 // coerent cu profilul de cache al serviciilor.
@@ -63,14 +65,18 @@ export async function generateMetadata({ params }: ServiceRouteProps): Promise<M
 
 export default async function ServiceRoute({ params }: ServiceRouteProps) {
   const { slug } = await params;
-  const [service, serviceGroups] = await Promise.all([
+  const [service, serviceGroups, settings] = await Promise.all([
     getServicePage(slug),
     getServiceGroups(),
+    getSiteSettings(),
   ]);
 
   if (!service) {
     notFound();
   }
+
+  // Telefonul din FAQ-ul generat automat vine din DB (site_settings).
+  const phoneDisplay = getPrimaryPhone(settings)?.display ?? "";
 
   return (
     <div className="min-h-screen bg-limestone text-carbon">
@@ -78,7 +84,9 @@ export default async function ServiceRoute({ params }: ServiceRouteProps) {
       <JsonLd data={serviceSchema(service)} id="service" />
       <JsonLd
         data={qaFaqPageSchema(
-          service.faqs.length > 0 ? service.faqs : serviceFaq(service.title),
+          service.faqs.length > 0
+            ? service.faqs
+            : serviceFaq(service.title, phoneDisplay),
         )}
         id="faq"
       />

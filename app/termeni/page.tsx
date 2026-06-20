@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { LegalPage } from "../components/legal-page";
 import { siteConfig, addressLine } from "@/app/lib/site-config";
+import { getSiteSettings } from "../data/settings";
+import { getPrimaryPhone, telLink } from "@/app/lib/settings-shared";
 
 // Navbar-ul citește din DB (cache Upstash) → randare dinamică, ca în restul app.
 export const dynamic = "force-dynamic";
@@ -14,7 +17,14 @@ export const metadata: Metadata = {
 };
 
 // TODO: text-cadru — trebuie revizuit de un consultant juridic înainte de lansare.
-export default function TermeniPage() {
+// Datele de identificare (CUI, nr. Reg. Com., sediu, email, telefon) vin din
+// `siteConfig` și trebuie completate acolo cu valorile reale.
+export default async function TermeniPage() {
+  // Telefonul și emailul vin din DB (site_settings), nu din config.
+  const settings = await getSiteSettings();
+  const phone = getPrimaryPhone(settings);
+  const email = settings.contact.emailPrimary;
+
   return (
     <LegalPage
       title="Termeni și condiții"
@@ -22,78 +32,163 @@ export default function TermeniPage() {
       path="/termeni"
       updatedAt="iunie 2026"
     >
+      <h2>1. Cine suntem și ce reglementează acești termeni</h2>
       <p>
-        Acești termeni reglementează utilizarea site-ului operat de {siteConfig.legalName}
-        , cu sediul în {addressLine()}, CUI {siteConfig.cui}. Prin accesarea site-ului
-        ești de acord cu termenii de mai jos.
+        Site-ul este operat de {siteConfig.legalName}, cu sediul în {addressLine()},
+        înregistrată la Registrul Comerțului sub nr. {siteConfig.registrationNumber}, cod
+        unic de înregistrare {siteConfig.cui}, email{" "}
+        <a href={`mailto:${email}`}>{email}</a>
+        {phone ? (
+          <>
+            , telefon <a href={telLink(phone)}>{phone.display}</a>
+          </>
+        ) : null}{" "}
+        (denumită în continuare „PACA CONSTRUCT” sau „noi”).
+      </p>
+      <p>
+        Acești termeni guvernează accesul și utilizarea site-ului. Prin folosirea
+        site-ului, confirmi că i-ai citit și că ești de acord cu ei. Dacă nu ești de
+        acord, te rugăm să nu folosești site-ul.
       </p>
 
-      <h2>Serviciile noastre</h2>
+      <h2>2. Ce oferă site-ul</h2>
       <p>
-        Oferim servicii de terasamente, excavări, amenajări peisagistice și închirieri de
-        utilaje cu operator. Informațiile de pe site (descrieri, prețuri orientative,
-        specificații) au caracter informativ; oferta fermă se stabilește în urma evaluării
-        proiectului.
+        Site-ul prezintă serviciile noastre de terasamente, excavări, amenajări exterioare
+        și închirieri de utilaje cu operator, și îți permite să ne transmiți o cerere de
+        evaluare sau de ofertă. Informațiile și descrierile au caracter de prezentare. Ele
+        constituie o invitație de a ne contacta, nu o ofertă fermă, iar prețurile sau
+        estimările menționate sunt orientative până la transmiterea unei oferte scrise.
       </p>
 
-      <h2>Solicitări și oferte</h2>
+      <h2>3. Cererile transmise prin site</h2>
       <p>
-        Formularele de contact și de închiriere transmit o cerere, nu un contract.
-        Prețurile afișate sunt estimative și pot varia în funcție de complexitatea
-        lucrării, locație și durată.
+        Completarea și trimiterea unui formular reprezintă o solicitare de evaluare sau de
+        ofertă și <strong>nu încheie un contract</strong>. Evaluarea și oferta sunt
+        gratuite și nu te obligă. Un contract de prestări servicii ia naștere numai
+        ulterior, prin acceptarea unei oferte scrise sau prin semnarea unui contract
+        separat, care va cuprinde prețul, termenele și condițiile concrete ale lucrării.
+      </p>
+      <p>
+        Te rugăm să furnizezi informații corecte și complete, ca să putem evalua corect
+        cererea. Nu răspundem pentru estimări întocmite pe baza unor date inexacte
+        furnizate de tine.
       </p>
 
-      <h2>Proprietate intelectuală</h2>
+      <h2>4. Obligațiile tale de utilizare</h2>
       <p>
-        Conținutul site-ului (texte, imagini, identitate vizuală) aparține{" "}
-        {siteConfig.legalName} și nu poate fi reprodus fără acord, cu excepția citării cu
-        atribuire și link către sursă.
+        Te angajezi să folosești site-ul cu bună-credință și conform legii. Îți este
+        interzis, fără a ne limita la acestea:
+      </p>
+      <ul>
+        <li>
+          să transmiți prin formulare date false, conținut ilegal sau mesaje nesolicitate;
+        </li>
+        <li>
+          să încerci accesarea neautorizată, perturbarea sau testarea securității
+          site-ului;
+        </li>
+        <li>
+          să extragi automat conținut (scraping) sau să reproduci site-ul în scop
+          comercial fără acordul nostru scris.
+        </li>
+      </ul>
+
+      <h2>5. Proprietate intelectuală</h2>
+      <p>
+        Conținutul site-ului, inclusiv textele, imaginile, articolele de blog, elementele
+        grafice, logo-ul și denumirea PACA CONSTRUCT, este protejat de Legea nr. 8/1996 și
+        aparține {siteConfig.legalName} sau partenerilor săi. Poți consulta și folosi
+        conținutul pentru uz personal și necomercial. Orice altă utilizare (copiere,
+        distribuire, modificare, publicare) necesită acordul nostru prealabil scris.
       </p>
 
-      <h2>Limitarea răspunderii</h2>
+      <h2>6. Disponibilitatea site-ului</h2>
       <p>
-        Depunem eforturi rezonabile pentru acuratețea informațiilor, dar nu garantăm că
-        site-ul este lipsit de erori sau permanent disponibil.{" "}
-        {/* TODO: completează clauzele de răspundere conform consultanței juridice. */}
+        Depunem eforturi rezonabile pentru ca site-ul să fie disponibil și actualizat, dar
+        nu garantăm funcționarea neîntreruptă sau lipsa erorilor. Putem suspenda temporar
+        accesul pentru mentenanță, actualizări sau din motive de securitate, fără
+        notificare prealabilă.
       </p>
 
-      <h2>Confidențialitate și cookie-uri</h2>
+      <h2>7. Limitarea răspunderii</h2>
       <p>
-        Prelucrarea datelor cu caracter personal este descrisă în{" "}
-        <a href="/confidentialitate">Politica de confidențialitate</a>, iar utilizarea
-        cookie-urilor în <a href="/cookies">Politica de cookie-uri</a>.
+        Informațiile de pe site sunt furnizate cu titlu orientativ. Nu răspundem pentru
+        deciziile luate exclusiv pe baza acestor informații înainte de primirea unei
+        oferte sau a unui contract scris. În limitele permise de lege, răspunderea noastră
+        pentru utilizarea site-ului este limitată la daunele directe și previzibile. Nimic
+        din acești termeni nu limitează răspunderea care, potrivit legii, nu poate fi
+        limitată sau exclusă, inclusiv pentru daune cauzate cu intenție ori din culpă
+        gravă sau pentru vătămarea persoanei.
       </p>
 
-      <h2>Soluționarea disputelor (ANPC / SOL)</h2>
+      <h2>8. Linkuri către site-uri terțe</h2>
       <p>
-        Pentru reclamații te poți adresa Autorității Naționale pentru Protecția
-        Consumatorilor (
-        <a href="https://anpc.ro" target="_blank" rel="noopener noreferrer">
-          anpc.ro
+        Site-ul poate conține linkuri către pagini ale unor terți (de exemplu rețele
+        sociale, WhatsApp). Nu controlăm și nu răspundem pentru conținutul ori practicile
+        acelor site-uri. Accesarea lor se face pe răspunderea ta și sub termenii lor.
+      </p>
+
+      <h2>9. Date cu caracter personal</h2>
+      <p>
+        Prelucrăm datele tale conform{" "}
+        <Link href="/confidentialitate">Politicii de confidențialitate</Link> și folosim
+        cookie-uri conform <Link href="/cookies">Politicii de cookie-uri</Link>. Te rugăm
+        să le consulți pentru a înțelege ce date colectăm, în ce scop și care îți sunt
+        drepturile.
+      </p>
+
+      <h2>10. Protecția consumatorilor și soluționarea litigiilor</h2>
+      <p>
+        Dacă ești consumator, beneficiezi de drepturile prevăzute de legislația din
+        domeniu. Pentru contractele de servicii încheiate ulterior la distanță sau în
+        afara spațiilor noastre comerciale, drepturile tale, inclusiv, după caz, dreptul
+        de retragere în 14 zile și excepțiile aplicabile lucrărilor începute cu acordul
+        tău expres, sunt reglementate de OUG nr. 34/2014 și se regăsesc în contractul
+        specific.
+      </p>
+      <p>
+        Orice reclamație ne-o poți adresa direct, la datele de contact din secțiunea 1, și
+        o vom soluționa cu bună-credință. De asemenea, te poți adresa Autorității
+        Naționale pentru Protecția Consumatorilor (ANPC,{" "}
+        <a href="https://www.anpc.ro" target="_blank" rel="noopener noreferrer">
+          www.anpc.ro
         </a>
-        ). De asemenea, poți folosi platforma europeană de soluționare online a litigiilor
-        (SOL/ODR):{" "}
-        <a
-          href="https://ec.europa.eu/consumers/odr"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          ec.europa.eu/consumers/odr
-        </a>
-        .
+        ) și poți recurge la mecanismele de soluționare alternativă a litigiilor (SAL)
+        prevăzute de OG nr. 38/2015. Platforma europeană de soluționare online a
+        litigiilor (ODR) a fost desființată în anul 2025 și nu mai este disponibilă.
       </p>
 
-      <h2>Lege aplicabilă</h2>
+      <h2>11. Forța majoră</h2>
       <p>
-        Acești termeni sunt guvernați de legislația română. Eventualele litigii se
-        soluționează de instanțele competente de la sediul operatorului.
+        Nu răspundem pentru neexecutarea sau executarea cu întârziere a obligațiilor
+        atunci când aceasta se datorează unor cauze independente de voința noastră (forță
+        majoră sau caz fortuit), în condițiile legii.
       </p>
 
-      <h2>Contact</h2>
+      <h2>12. Modificarea termenilor</h2>
       <p>
-        {siteConfig.legalName} ·{" "}
-        <a href={`tel:${siteConfig.phone}`}>{siteConfig.phoneDisplay}</a> ·{" "}
-        <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
+        Putem actualiza acești termeni periodic. Versiunea în vigoare și data ultimei
+        actualizări sunt afișate în partea de sus a paginii. Utilizarea site-ului după
+        publicarea modificărilor înseamnă acceptarea lor.
+      </p>
+
+      <h2>13. Legea aplicabilă și instanțele competente</h2>
+      <p>
+        Acești termeni sunt guvernați de legea română. Eventualele litigii se soluționează
+        de instanțele competente potrivit legii. Dacă ești consumator, beneficiezi de
+        normele de competență care îți sunt mai favorabile, prevăzute de lege.
+      </p>
+
+      <h2>14. Contact</h2>
+      <p>
+        {siteConfig.legalName} · {addressLine()}
+        {phone ? (
+          <>
+            {" · "}
+            <a href={telLink(phone)}>{phone.display}</a>
+          </>
+        ) : null}{" "}
+        · <a href={`mailto:${email}`}>{email}</a>
       </p>
     </LegalPage>
   );

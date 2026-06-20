@@ -34,9 +34,9 @@ export const metadata = {
 
 const categories = [
   "Toate articolele",
-  "Constructia unei case",
+  "Construiești o casă",
   "Probleme cu apa",
-  "Amenajari peisagistice",
+  "Amenajări exterioare",
 ];
 
 export default async function BlogPage({
@@ -135,17 +135,17 @@ export default async function BlogPage({
                 <div className="mb-12 flex flex-col gap-4 border-b border-white/15 pb-6 md:flex-row md:items-end md:justify-between">
                   <div>
                     <h2 className="font-serif-display text-4xl font-semibold md:text-5xl">
-                      Excavatii si fundatii
+                      Excavații și fundații
                     </h2>
                     <p className="mt-3 text-lg text-white/70">
-                      Baza tehnica pentru orice proiect durabil.
+                      Bază tehnică pentru orice proiect durabil.
                     </p>
                   </div>
                   <Link
                     href="/servicii/terasamente-excavari"
                     className="text-xs font-bold uppercase text-amber hover:text-white"
                   >
-                    Servicii de excavatii -&gt;
+                    Servicii de excavații -&gt;
                   </Link>
                 </div>
 
@@ -175,40 +175,40 @@ export default async function BlogPage({
                     <div className="relative border-r border-olive/15">
                       <Image
                         src="/hero.png"
-                        alt="Santier inainte de nivelare"
+                        alt="Șantier înainte de nivelare"
                         fill
                         sizes="50vw"
                         className="object-cover grayscale"
                       />
                       <span className="absolute bottom-4 left-4 bg-limestone px-3 py-1 text-xs font-bold uppercase">
-                        Inainte
+                        Înainte
                       </span>
                     </div>
                     <div className="relative">
                       <Image
                         src="/hero.png"
-                        alt="Teren pregatit dupa nivelare"
+                        alt="Teren pregătit după nivelare"
                         fill
                         sizes="50vw"
                         className="object-cover"
                       />
                       <span className="absolute bottom-4 right-4 bg-limestone px-3 py-1 text-xs font-bold uppercase">
-                        Dupa
+                        După
                       </span>
                     </div>
                   </div>
                   <div>
                     <h2 className="font-serif-display text-4xl font-semibold leading-tight text-olive md:text-5xl">
-                      Stabilizarea unui versant argilos in regim de urgenta
+                      Stabilizarea unui versant argilos în regim de urgență
                     </h2>
                     <div className="my-8 grid grid-cols-2 gap-6 border-y border-olive/15 py-6">
                       <Metric label="Volum excavat" value="1,200 m3" />
-                      <Metric label="Durata executie" value="14 zile" />
+                      <Metric label="Durată execuție" value="14 zile" />
                     </div>
                     <p className="text-base leading-7 text-stone">
-                      Un proiect complex de consolidare cu terasare in trepte si sisteme
-                      de drenaj de adancime pentru prevenirea alunecarilor de teren intr-o
-                      zona rezidentiala.
+                      Un proiect complex de consolidare cu terasare în trepte și sisteme
+                      de drenaj de adâncime pentru prevenirea alunecărilor de teren într-o
+                      zonă rezidențială.
                     </p>
                   </div>
                 </div>
@@ -220,17 +220,17 @@ export default async function BlogPage({
                 <div className="mb-12 flex flex-col gap-4 border-b border-olive/15 pb-6 md:flex-row md:items-end md:justify-between">
                   <div>
                     <h2 className="font-serif-display text-4xl font-semibold text-olive md:text-5xl">
-                      Amenajari peisagistice
+                      Amenajări exterioare
                     </h2>
                     <p className="mt-3 text-lg text-stone">
-                      Design organic si solutii verzi pentru spatiul tau.
+                      Design organic și soluții verzi pentru spațiul tău.
                     </p>
                   </div>
                   <Link
                     href="/servicii/amenajare-spatii-verzi"
                     className="text-xs font-bold uppercase text-olive hover:text-amber"
                   >
-                    Servicii peisagistica -&gt;
+                    Servicii peisagistică -&gt;
                   </Link>
                 </div>
                 <div className="grid gap-8 md:grid-cols-3">
@@ -255,24 +255,24 @@ function BlogHero({ query }: { query: string }) {
         <div className="max-w-4xl">
           <nav className="flex gap-2 text-sm font-medium text-muted">
             <Link href="/" className="hover:text-olive">
-              Acasa
+              Acasă
             </Link>
             <span>/</span>
             <span className="font-bold text-olive">Blog</span>
           </nav>
           <h1 className="mt-6 font-serif-display text-4xl font-semibold leading-tight text-olive md:text-6xl">
-            Tot ce trebuie sa stii inainte sa incepi lucrarea
+            Tot ce trebuie să știi înainte să începi lucrarea
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-stone">
-            Ghiduri practice si informatii tehnice despre excavare, nivelare si amenajare
-            peisagistica. Fundatia corecta pentru proiectul tau.
+            Ghiduri practice despre teren: excavări, nivelare, drenaj și amenajări.
+            Lucruri pe care e bine să le știi înainte să începi.
           </p>
         </div>
 
         <div className="mt-14 flex flex-col gap-8 border-b border-olive/15 pb-6 md:flex-row md:items-end">
           <form action="/blog" className="relative block w-full md:w-96">
             <label className="sr-only" htmlFor="blog-search">
-              Cauta articole
+              Caută articole
             </label>
             <span className="absolute left-0 top-1/2 -translate-y-1/2 text-muted">/</span>
             <input
@@ -280,7 +280,7 @@ function BlogHero({ query }: { query: string }) {
               name="q"
               defaultValue={query}
               className="w-full border-0 border-b border-olive/20 bg-transparent py-3 pl-7 pr-4 text-base outline-none transition placeholder:text-muted focus:border-olive"
-              placeholder="Cauta articole..."
+              placeholder="Caută articole..."
               type="search"
             />
           </form>
@@ -309,15 +309,15 @@ function SearchResults({ query, results }: { query: string; results: BlogPost[] 
   return (
     <section className="bg-[#fbf9f3] py-16 md:py-24">
       <SectionContainer>
-        <p className="mb-2 text-xs font-bold uppercase text-amber">Rezultate cautare</p>
+        <p className="mb-2 text-xs font-bold uppercase text-amber">Rezultate căutare</p>
         <h2 className="font-serif-display text-3xl font-semibold text-olive md:text-4xl">
-          {results.length} {results.length === 1 ? "articol gasit" : "articole gasite"}{" "}
+          {results.length} {results.length === 1 ? "articol găsit" : "articole găsite"}{" "}
           pentru &bdquo;{query}&rdquo;
         </h2>
 
         {results.length === 0 ? (
           <p className="mt-8 text-lg text-stone">
-            Nu am gasit articole pentru cautarea ta.{" "}
+            Nu am găsit articole pentru căutarea ta.{" "}
             <Link href="/blog" className="font-bold text-olive hover:text-amber">
               Vezi toate articolele
             </Link>

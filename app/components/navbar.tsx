@@ -20,7 +20,7 @@ type NavbarProps = {
 
 const navLinks = [
   { label: "Despre noi", href: "/despre" },
-  { label: "Inchirieri utilaje", href: "/inchiriere-utilaje" },
+  { label: "Închirieri utilaje", href: "/inchiriere-utilaje" },
   { label: "FAQ", href: "/faq" },
   { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
@@ -196,7 +196,7 @@ export function Navbar({ serviceGroups, settings }: NavbarProps) {
                 })
               }
             >
-              Acasa
+              Acasă
             </Link>
             <div
               className="relative"
@@ -279,7 +279,7 @@ export function Navbar({ serviceGroups, settings }: NavbarProps) {
                 })
               }
             >
-              Cere oferta
+              Cere o ofertă
             </Link>
           </div>
         </div>
@@ -307,7 +307,7 @@ export function Navbar({ serviceGroups, settings }: NavbarProps) {
                   closeMobileMenu();
                 }}
               >
-                Acasa
+                Acasă
               </Link>
               <div>
                 <button
@@ -386,7 +386,7 @@ export function Navbar({ serviceGroups, settings }: NavbarProps) {
                     closeMobileMenu();
                   }}
                 >
-                  Cere oferta
+                  Cere o ofertă
                 </Link>
               </div>
             </div>

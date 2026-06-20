@@ -27,18 +27,18 @@ export const metadata: Metadata = {
 };
 
 const reassuranceItems = [
-  "Utilaj cu operator",
-  "Selectie in functie de lucrare",
-  "Evaluarea accesului",
+  "Operator inclus",
+  "Utilaj ales după lucrare",
+  "Verificăm accesul",
   "Transport stabilit separat",
 ];
 
 const comparisonRows = [
-  ["Fundatii adanci", "Excelent", "Limitat", "-"],
-  ["Sapare santuri utilitati", "Da", "Excelent", "-"],
-  ["Nivelare teren suprafete mari", "Limitat", "Da", "Excelent"],
-  ["Spatii inguste / acces dificil", "Excelent (modele mini)", "Limitat", "-"],
-  ["Incarcare camioane", "Da", "Da", "Excelent"],
+  ["Fundații adânci", "Excelent", "Limitat", "-"],
+  ["Săpare șanțuri utilități", "Da", "Excelent", "-"],
+  ["Nivelare teren, suprafețe mari", "Limitat", "Da", "Excelent"],
+  ["Spații înguste / acces dificil", "Excelent (mini)", "Limitat", "-"],
+  ["Încărcare camioane", "Da", "Da", "Excelent"],
 ];
 
 export default async function RentalListingPage() {
@@ -75,27 +75,28 @@ export default async function RentalListingPage() {
             <div className="md:col-span-5">
               <p className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-amber">
                 <span className="h-px w-10 bg-amber" />
-                Divizia inchirieri utilaje
+                Divizia închirieri utilaje
               </p>
               <h1 className="mt-6 max-w-2xl font-serif-display text-5xl font-semibold leading-[1.05] text-olive md:text-6xl">
-                Utilajul potrivit pentru fiecare etapa a lucrarii
+                Utilajul potrivit, cu operator, când îți trebuie
               </h1>
               <p className="mt-6 max-w-xl text-lg leading-8 text-stone">
-                Echipamente tehnice deservite de operatori calificati pentru excavatii,
-                nivelari, transport pamant si amenajari ale terenului.
+                Spune-ne lucrarea și accesul. Aducem excavatorul, buldoexcavatorul,
+                încărcătorul sau basculanta, cu om care le știe. Plătești pe ce ai nevoie,
+                fără să cumperi sau să întreții echipament.
               </p>
               <div className="mt-9 flex flex-col gap-4 sm:flex-row">
                 <Link
                   href="#flota"
                   className="inline-flex items-center justify-center bg-amber px-8 py-4 text-sm font-bold uppercase text-carbon transition hover:bg-[#fea943]"
                 >
-                  Exploreaza flota
+                  Explorează flota
                 </Link>
                 <Link
                   href={`/inchiriere-utilaje/${featuredMachine.slug}`}
                   className="inline-flex items-center justify-center border border-olive/25 px-8 py-4 text-sm font-bold uppercase text-olive transition hover:border-olive hover:bg-white"
                 >
-                  Inchiriaza utilaj
+                  Închiriază utilaj
                 </Link>
               </div>
             </div>
@@ -104,7 +105,7 @@ export default async function RentalListingPage() {
               <div className="absolute inset-0 overflow-hidden border border-olive/10 bg-white shadow-2xl shadow-carbon/10">
                 <Image
                   src="/hero.png"
-                  alt="Excavator pe teren pregatit pentru lucrari de amenajare."
+                  alt="Excavator pe teren pregătit pentru lucrări de amenajare."
                   fill
                   priority
                   sizes="(min-width: 1024px) 54vw, 100vw"
@@ -140,7 +141,7 @@ export default async function RentalListingPage() {
                 Utilaj recomandat
               </p>
               <h2 className="mt-3 font-serif-display text-4xl font-semibold text-olive md:text-5xl">
-                Performanta pentru lucrari complexe
+                Performanță pentru lucrări complexe
               </h2>
             </div>
 
@@ -180,7 +181,7 @@ export default async function RentalListingPage() {
                   href={`/inchiriere-utilaje/${featuredMachine.slug}`}
                   className="mt-10 inline-flex w-fit bg-olive px-8 py-4 text-sm font-bold uppercase text-white transition hover:bg-carbon"
                 >
-                  Inchiriaza utilaj
+                  Închiriază utilaj
                 </Link>
               </div>
             </article>
@@ -191,11 +192,11 @@ export default async function RentalListingPage() {
           <SectionContainer>
             <div className="mb-12 text-center">
               <h2 className="font-serif-display text-4xl font-semibold text-olive md:text-5xl">
-                Flota tehnologica
+                Flotă tehnologică
               </h2>
               <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-stone">
-                Preturile sunt informative si variaza in functie de complexitatea
-                lucrarii, locatie si durata.
+                Prețurile sunt informative și variază în funcție de complexitatea
+                lucrării, locație și durată.
               </p>
             </div>
             <div className="grid gap-6 md:grid-cols-2">
@@ -241,7 +242,7 @@ export default async function RentalListingPage() {
                       href={`/inchiriere-utilaje/${machine.slug}`}
                       className="inline-flex w-fit items-center gap-2 border-b border-olive pb-1 text-sm font-bold uppercase text-olive transition hover:border-amber hover:text-amber"
                     >
-                      Inchiriaza utilaj
+                      Închiriază utilaj
                       <span aria-hidden="true">-&gt;</span>
                     </Link>
                   </div>
@@ -254,7 +255,7 @@ export default async function RentalListingPage() {
         <section className="py-20 md:py-28">
           <SectionContainer>
             <h2 className="mb-8 font-serif-display text-4xl font-semibold text-olive">
-              Ce utilaj se potriveste lucrarii tale?
+              Ce utilaj se potrivește lucrării tale?
             </h2>
             <div className="overflow-x-auto">
               <table className="w-full min-w-[760px] border-collapse text-left">
@@ -270,7 +271,7 @@ export default async function RentalListingPage() {
                       Buldoexcavator
                     </th>
                     <th className="px-6 py-4 text-xs font-bold uppercase text-olive">
-                      Incarcator frontal
+                      Încărcător frontal
                     </th>
                   </tr>
                 </thead>

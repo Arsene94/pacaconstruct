@@ -28,10 +28,10 @@ export const metadata: Metadata = {
 };
 
 const reassuranceItems = [
-  "Operatori calificati",
-  "Evaluare teren inclusa",
-  "Utilaj potrivit lucrarii",
-  "Lucrari finalizate la cota",
+  "Operatori calificați",
+  "Evaluare pe teren, inclusă",
+  "Utilajul potrivit lucrării",
+  "Lucrări finalizate la cotă",
 ];
 
 /** Extrage slug-ul dintr-un href `/servicii/<slug>`. */
@@ -80,12 +80,12 @@ export default async function ServicesListingPage() {
                 Servicii complete
               </p>
               <h1 className="mt-6 max-w-2xl font-serif-display text-5xl font-semibold leading-[1.05] text-olive md:text-6xl">
-                De la teren brut la lucrare finalizata
+                Tot ce ține de teren, sub un singur antreprenor
               </h1>
               <p className="mt-6 max-w-xl text-lg leading-8 text-stone">
-                Excavatii, nivelari, fundatii, drenaje si amenajari exterioare — gandite
-                ca etape coerente ale aceleiasi lucrari, executate cu utilaje potrivite si
-                operatori calificati.
+                De la prima cupă de pământ până la amenajarea finală: excavări,
+                terasamente, drenaje și spații verzi, cu utilaje proprii și operatori care
+                au mai făcut lucrări ca a ta.
               </p>
               <div className="mt-9 flex flex-col gap-4 sm:flex-row">
                 <Link
@@ -98,7 +98,7 @@ export default async function ServicesListingPage() {
                   href="/inchiriere-utilaje"
                   className="inline-flex items-center justify-center border border-olive/25 px-8 py-4 text-sm font-bold uppercase text-olive transition hover:border-olive hover:bg-white"
                 >
-                  Inchiriere utilaje
+                  Închiriere utilaje
                 </Link>
               </div>
             </div>
@@ -107,7 +107,7 @@ export default async function ServicesListingPage() {
               <div className="absolute inset-0 overflow-hidden border border-olive/10 bg-white shadow-2xl shadow-carbon/10">
                 <Image
                   src="/hero.png"
-                  alt="Utilaj de excavatii pe un teren pregatit pentru lucrari de amenajare."
+                  alt="Utilaj de excavații pe un teren pregătit pentru lucrări de amenajare."
                   fill
                   priority
                   sizes="(min-width: 1024px) 40vw, 100vw"

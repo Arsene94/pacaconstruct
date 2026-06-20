@@ -16,8 +16,8 @@ export async function Footer() {
             PACA CONSTRUCT
           </p>
           <p className="mt-5 max-w-xs text-sm leading-6 text-white/70">
-            Tehnicitate in armonie cu natura. Amenajari, terasamente si excavari pentru
-            proiecte rezidentiale, comerciale si industriale.
+            Tehnicitate în armonie cu natura. Amenajări, terasamente și excavări pentru
+            proiecte rezidențiale, comerciale și industriale.
           </p>
         </div>
 
@@ -25,11 +25,11 @@ export async function Footer() {
           <FooterLinks
             title="Companie"
             links={[
-              { label: "Acasa", href: "/" },
+              { label: "Acasă", href: "/" },
               { label: "Despre noi", href: "/despre" },
               { label: "Servicii", href: "/#servicii" },
               { label: "Proiecte", href: "/proiecte" },
-              { label: "Inchirieri utilaje", href: "/inchiriere-utilaje" },
+              { label: "Închirieri utilaje", href: "/inchiriere-utilaje" },
               { label: "FAQ", href: "/faq" },
               { label: "Blog", href: "/blog" },
               { label: "Contact", href: "/contact" },
@@ -38,12 +38,12 @@ export async function Footer() {
           <FooterLinks
             title="Zone deservite"
             links={[
-              { label: "Bucuresti", href: "/zona/bucuresti" },
+              { label: "București", href: "/zona/bucuresti" },
               { label: "Ilfov", href: "/zona/ilfov" },
               { label: "Prahova", href: "/zona/prahova" },
-              { label: "Confidentialitate", href: "/confidentialitate" },
+              { label: "Confidențialitate", href: "/confidentialitate" },
               { label: "Cookie-uri", href: "/cookies" },
-              { label: "Termeni si conditii", href: "/termeni" },
+              { label: "Termeni și condiții", href: "/termeni" },
             ]}
           />
         </div>

@@ -3,6 +3,8 @@ import { getServicePages } from "@/app/data/services";
 import { getBlogPosts } from "@/app/data/blog";
 import { getRentalMachines } from "@/app/data/rentals";
 import { serviceAreas } from "@/app/data/service-areas";
+import { getSiteSettings } from "@/app/data/settings";
+import { getPrimaryPhone } from "@/app/lib/settings-shared";
 
 /**
  * `/llms.txt` — index Markdown al paginilor cheie, pentru tooling/LLM-uri.
@@ -15,11 +17,18 @@ import { serviceAreas } from "@/app/data/service-areas";
 export const revalidate = 3600;
 
 export async function GET() {
-  const [services, posts, machines] = await Promise.all([
+  const [services, posts, machines, settings] = await Promise.all([
     getServicePages().catch(() => []),
     getBlogPosts().catch(() => []),
     getRentalMachines().catch(() => []),
+    getSiteSettings().catch(() => null),
   ]);
+
+  // Telefon și email din DB (site_settings), nu din config.
+  const phone = settings ? getPrimaryPhone(settings) : null;
+  const contact = [phone?.display, settings?.contact.emailPrimary]
+    .filter(Boolean)
+    .join(" · ");
 
   const lines: string[] = [
     `# ${siteConfig.legalName}`,
@@ -27,7 +36,7 @@ export async function GET() {
     `> ${siteConfig.description}`,
     "",
     `- Zone deservite: ${siteConfig.areaServed.join(", ")}`,
-    `- Contact: ${siteConfig.phoneDisplay} · ${siteConfig.email}`,
+    ...(contact ? [`- Contact: ${contact}`] : []),
     `- Sediu: ${addressLine()}`,
     "",
     "## Pagini principale",
@@ -40,9 +49,7 @@ export async function GET() {
     `- [Contact](${siteUrl}/contact)`,
     "",
     "## Zone deservite",
-    ...serviceAreas.map(
-      (a) => `- [${a.name}](${siteUrl}/zona/${a.slug})`,
-    ),
+    ...serviceAreas.map((a) => `- [${a.name}](${siteUrl}/zona/${a.slug})`),
   ];
 
   if (services.length) {

@@ -29,25 +29,25 @@ export const metadata: Metadata = {
 const shortcuts = [
   {
     eyebrow: "Ghid",
-    title: "Vreau o gradina",
+    title: "Vreau o grădină",
     href: "#amenajari",
   },
   {
     eyebrow: "Ghid",
-    title: "Construiesc o casa",
+    title: "Construiesc o casă",
     href: "#excavari",
   },
   {
     eyebrow: "Servicii",
-    title: "Am nevoie de utilaje",
+    title: "Am nevoie de un utilaj",
     href: "#evaluare",
   },
 ];
 
 const frequentQuestions = [
-  "Cat dureaza o lucrare de excavare?",
-  "Ce include pregatirea terenului?",
-  "Este necesara o vizita la locatie?",
+  "Cât durează o lucrare de excavare?",
+  "Ce include pregătirea terenului?",
+  "E nevoie de o vizită pe teren?",
 ];
 
 export default async function FaqPage() {
@@ -96,14 +96,14 @@ function FaqHero() {
       <div className="absolute inset-0 -z-10 bg-limestone/80" />
       <SectionContainer className="text-center">
         <p className="text-xs font-bold uppercase text-amber">
-          Centrul de informatii PACA
+          Centrul de informații PACA
         </p>
         <h1 className="mx-auto mt-5 max-w-4xl font-serif-display text-5xl font-semibold leading-[1.05] text-olive md:text-7xl">
-          Intrebari frecvente
+          Întrebări frecvente, răspunsuri scurte
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-stone">
-          Claritate pentru fiecare etapa a proiectului: evaluare, excavare, pregatirea
-          terenului si amenajari exterioare.
+          Despre evaluări, costuri, excavări, fundații și amenajări. Dacă nu găsești
+          răspunsul, sună-ne.
         </p>
         <div className="mx-auto mt-10 flex max-w-2xl items-center border border-olive/15 bg-white p-2 shadow-xl shadow-carbon/5">
           <span className="px-3 text-xl text-olive/50" aria-hidden="true">
@@ -111,7 +111,7 @@ function FaqHero() {
           </span>
           <input
             className="w-full bg-transparent px-2 py-3 text-base text-carbon outline-none placeholder:text-muted"
-            placeholder="Cauta o intrebare..."
+            placeholder="Caută o întrebare..."
             type="search"
           />
         </div>
@@ -186,9 +186,9 @@ function FrequentQuestions() {
     <section id="frecvente" className="py-20 md:py-28">
       <SectionContainer>
         <div className="mb-12 text-center">
-          <p className="text-xs font-bold uppercase text-amber">Top cautari</p>
+          <p className="text-xs font-bold uppercase text-amber">Cele mai căutate</p>
           <h2 className="mt-4 font-serif-display text-4xl font-semibold text-olive md:text-5xl">
-            Cele mai frecvente intrebari
+            Cele mai frecvente întrebări
           </h2>
         </div>
         <div className="grid gap-6 lg:grid-cols-12">
@@ -200,12 +200,12 @@ function FrequentQuestions() {
               {frequentQuestions[0]}
             </h3>
             <p className="relative mt-5 max-w-3xl text-base leading-7 text-stone">
-              Durata depinde de adancime, tipul de sol si conditiile meteo. Solurile
-              argiloase sau pietroase pot prelungi executia, iar sapaturile adanci pot
+              Durata depinde de adâncime, tipul de sol și condițiile meteo. Solurile
+              argiloase sau pietroase pot prelungi execuția, iar săpăturile adânci pot
               necesita sprijiniri suplimentare.
             </p>
             <ul className="relative mt-6 grid gap-3 text-sm text-stone md:grid-cols-3">
-              {["Tipul solului", "Adancimea sapaturii", "Vremea si accesul"].map(
+              {["Tipul solului", "Adâncimea săpăturii", "Vremea și accesul"].map(
                 (item) => (
                   <li key={item} className="border-l-2 border-amber bg-limestone p-4">
                     {item}
@@ -224,9 +224,8 @@ function FrequentQuestions() {
                   {question}
                 </h3>
                 <p className="mt-3 text-sm leading-6 text-stone">
-                  Raspunsul exact se stabileste in functie de teren, acces si obiectivul
-                  final al lucrarii. Pentru o oferta ferma, recomandam evaluarea la
-                  locatie.
+                  Răspunsul exact se stabilește în funcție de teren, acces și obiectivul
+                  final al lucrării. Pentru o ofertă fermă, recomandăm evaluarea pe teren.
                 </p>
               </article>
             ))}
@@ -302,18 +301,18 @@ function FaqCta() {
             Ai nevoie de ajutor tehnic?
           </p>
           <h2 className="mt-3 max-w-3xl font-serif-display text-4xl font-semibold md:text-5xl">
-            Proiectul tau necesita o analiza detaliata?
+            Proiectul tău necesită o analiză detaliată?
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-7 text-white/70">
-            Trimite-ne detaliile santierului, iar echipa PACA iti poate pregati urmatorul
-            pas: evaluare, oferta si plan de executie.
+            Trimite-ne detaliile șantierului, iar echipa PACA îți poate pregăti următorul
+            pas: evaluare, ofertă și plan de execuție.
           </p>
         </div>
         <Link
           href="/contact#form-section"
           className="inline-flex justify-center bg-amber px-8 py-4 text-sm font-bold uppercase text-carbon transition hover:bg-[#fea943]"
         >
-          Cere oferta
+          Cere o ofertă
         </Link>
       </SectionContainer>
     </section>

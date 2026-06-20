@@ -37,17 +37,19 @@ export const siteConfig = {
   /** Cod limbă scurt (html lang / manifest). */
   lang: "ro",
 
-  // TODO: înlocuiește cu datele reale din certificatul de înregistrare.
-  cui: "RO00000000", // TODO: CUI real (cod unic de înregistrare)
-  registrationNumber: "J40/0000/2020", // TODO: nr. Reg. Com. real
+  // Date de identificare oficiale (ONRC).
+  cui: "49810239", // cod unic de înregistrare
+  registrationNumber: "J2024002185233", // nr. Reg. Com. (format ONRC nou)
+  euid: "ROONRC.J2024002185233", // identificator unic european
+  foundingDate: "2024-03-21", // data înființării (ISO 8601)
 
   // ─── NAP — Name / Address / Phone ─────────────────────────────────────────
   /** Telefon în format E.164 (folosit la `tel:` și schema). */
-  phone: "+40700000000", // TODO: număr de telefon real
+  phone: "+40799299644",
   /** Telefon formatat pentru afișare. */
-  phoneDisplay: "+40 700 000 000", // TODO: număr de telefon real
+  phoneDisplay: "+40 799 299 644",
   /** WhatsApp (doar cifre, format internațional fără +). */
-  whatsapp: "40700000000", // TODO: număr WhatsApp real
+  whatsapp: "40799299644", // TODO: confirmă că numărul are WhatsApp activ
   /** Email principal de contact. */
   email: "contact@pacaconstruct.ro", // TODO: confirmă adresa reală
   /** Email secundar (oferte/office). */
@@ -55,19 +57,21 @@ export const siteConfig = {
 
   /** Adresă poștală completă (schema.org PostalAddress). */
   address: {
-    streetAddress: "Strada Exemplu nr. 1", // TODO: stradă + număr reale
-    addressLocality: "București", // TODO: oraș real
-    addressRegion: "București", // TODO: județ real
-    postalCode: "010000", // TODO: cod poștal real
+    streetAddress: "Str. Voda Cuza nr. 37",
+    addressLocality: "Sat Gruiu",
+    addressRegion: "Ilfov",
+    postalCode: "077115",
     addressCountry: "RO",
   },
-  /** Coordonate geo pentru LocalBusiness + hartă. */
+  /** Coordonate geo pentru LocalBusiness + hartă.
+   *  Geocodate din adresa reală (Strada Cuza-Vodă, Gruiu, Ilfov, 077115) prin
+   *  OpenStreetMap Nominatim — potrivire la nivel de stradă (cod poștal exact). */
   geo: {
-    latitude: 44.4268, // TODO: latitudine reală
-    longitude: 26.1025, // TODO: longitudine reală
+    latitude: 44.720737,
+    longitude: 26.232472,
   },
   /** Link Google Maps către locație (schema `hasMap`). */
-  mapUrl: "https://maps.google.com/?q=PACA+CONSTRUCT+SRL", // TODO: link real GBP/Maps
+  mapUrl: "https://www.google.com/maps?q=44.720737,26.232472",
 
   /** Interval de preț orientativ (schema `priceRange`). */
   priceRange: "$$",

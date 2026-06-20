@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalPage } from "../components/legal-page";
-import { siteConfig } from "@/app/lib/site-config";
+import { getSiteSettings } from "../data/settings";
 
 // Navbar-ul citește din DB (cache Upstash) → randare dinamică, ca în restul app.
 export const dynamic = "force-dynamic";
@@ -14,9 +14,14 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-// TODO: text-cadru — trebuie revizuit de un consultant juridic / DPO și
-// completat cu inventarul real de cookie-uri din GTM înainte de lansare.
-export default function CookiesPage() {
+// TODO: text-cadru — trebuie revizuit de un consultant juridic / DPO. Lista de
+// cookie-uri (secțiunea 4) reflectă instrumentele din GTM; verific-o cu un
+// scanner de cookie-uri și completează duratele reale înainte de lansare.
+export default async function CookiesPage() {
+  // Emailul de contact vine din DB (site_settings), nu din config.
+  const settings = await getSiteSettings();
+  const email = settings.contact.emailPrimary;
+
   return (
     <LegalPage
       title="Politica de cookie-uri"
@@ -24,80 +29,42 @@ export default function CookiesPage() {
       path="/cookies"
       updatedAt="iunie 2026"
     >
+      <h2>1. Ce sunt cookie-urile</h2>
       <p>
-        Această politică explică ce sunt cookie-urile și tehnologiile similare, cum și de
-        ce le folosește {siteConfig.legalName} pe acest site și cum îți poți controla
-        consimțământul. Este parte din{" "}
-        <Link href="/confidentialitate">Politica de confidențialitate</Link>.
+        Cookie-urile sunt fișiere mici text pe care un site le stochează în browserul tău.
+        Ele permit site-ului să funcționeze, să rețină preferințe și, dacă ești de acord,
+        să măsoare audiența și eficiența reclamelor. Folosim și tehnologii similare
+        (pixeli, stocare locală), pe care le numim generic „cookie-uri” în această
+        politică.
       </p>
 
-      <h2>Ce sunt cookie-urile</h2>
+      <h2>2. Temeiul legal</h2>
       <p>
-        Cookie-urile sunt fișiere text mici stocate de browser pe dispozitivul tău când
-        vizitezi un site. Pot fi <strong>de sesiune</strong> (se șterg la închiderea
-        browserului) sau <strong>persistente</strong> (rămân o perioadă), respectiv{" "}
-        <strong>first-party</strong> (setate de site-ul nostru) sau{" "}
-        <strong>third-party</strong> (setate de furnizori terți, ex. Google, Meta).
-        Folosim și tehnologii similare (pixeli, stocare locală).
+        Cookie-urile strict necesare le folosim fără acord, fiind indispensabile
+        funcționării site-ului (art. 4 alin. (5) din Legea nr. 506/2004). Pentru
+        cookie-urile de analiză și de marketing îți cerem consimțământul prealabil (art. 6
+        alin. (1) lit. a din GDPR coroborat cu Legea nr. 506/2004). Nu le activăm înainte
+        de acordul tău.
       </p>
 
-      <h2>Consimțământ și Google Consent Mode v2</h2>
+      <h2>3. Cum gestionăm consimțământul</h2>
       <p>
-        Înainte de a încărca instrumentele de măsurare, site-ul setează{" "}
-        <strong>Google Consent Mode v2</strong> cu toate categoriile pe <em>refuzat</em>{" "}
-        („denied”), cu excepția celor strict necesare securității. Cu alte cuvinte, în mod
-        implicit{" "}
-        <strong>
-          nu se activează cookie-uri de analiză sau de marketing fără consimțământul tău
-        </strong>
-        ; instrumentele rulează doar în mod „modelare” fără cookie-uri (cookieless),
-        pentru statistici agregate și anonime.
-      </p>
-      <p>
-        Cookie-urile strict necesare nu pot fi dezactivate, deoarece fără ele site-ul nu
-        funcționează corect (securitate, sesiune, preferința ta de consimțământ).
+        La prima vizită îți afișăm un banner prin care poți accepta sau refuza categoriile
+        neesențiale. Folosim <strong>Google Consent Mode v2</strong>, setat implicit pe
+        „refuzat”: până când nu alegi, instrumentele de analiză și de publicitate nu
+        plasează cookie-uri și nu citesc identificatori. Îți poți schimba oricând alegerea
+        din link-ul „Modifică preferințele de cookie-uri” aflat în subsolul site-ului, sau
+        direct din setările browserului.
       </p>
 
-      <h2>Categoriile de cookie-uri pe care le folosim</h2>
+      <h2>4. Ce cookie-uri folosim</h2>
+      <p>Le grupăm în trei categorii.</p>
 
-      <h3>Strict necesare</h3>
-      <p>
-        Asigură funcționarea de bază și securitatea site-ului, autentificarea în zona de
-        administrare și reținerea opțiunilor de consimțământ. Temei:{" "}
-        <strong>interes legitim</strong> (funcționarea serviciului).
-      </p>
-
-      <h3>Funcționale și de atribuire</h3>
-      <p>
-        Rețin sursa campaniei prin care ai ajuns pe site (identificatori de click și
-        parametri UTM), ca să putem măsura eficiența reclamelor și să atribuim corect
-        solicitările. Temei: <strong>consimțământ</strong>.
-      </p>
-
-      <h3>Analitice</h3>
-      <p>
-        Ne ajută să înțelegem cum este folosit site-ul (pagini vizitate, durată, sursă de
-        trafic), prin Google Analytics 4. Temei: <strong>consimțământ</strong>.
-      </p>
-
-      <h3>Marketing</h3>
-      <p>
-        Permit măsurarea conversiilor și afișarea de reclame relevante prin Google Ads,
-        Meta (Facebook/Instagram) și TikTok. Temei: <strong>consimțământ</strong>.
-      </p>
-
-      <h2>Cookie-urile folosite</h2>
-      <p>
-        Lista de mai jos descrie cookie-urile principale. Cookie-urile terților se
-        activează doar după acordarea consimțământului pentru categoria respectivă și sunt
-        gestionate prin Google Tag Manager.
-      </p>
-
+      <h3>a) Strict necesare (fără consimțământ)</h3>
       <table>
         <thead>
           <tr>
             <th>Cookie</th>
-            <th>Categorie</th>
             <th>Furnizor</th>
             <th>Scop</th>
             <th>Durată</th>
@@ -106,186 +73,115 @@ export default function CookiesPage() {
         <tbody>
           <tr>
             <td>
-              <code>paca_attr</code>
+              preferință de consimțământ (ex. <code>pc_consent</code>)
             </td>
-            <td>Funcțional / atribuire</td>
-            <td>PACA CONSTRUCT (first-party)</td>
-            <td>
-              Reține sursa campaniei (gclid, fbclid, ttclid, UTM, pagina de aterizare)
-              pentru atribuirea solicitărilor.
-            </td>
-            <td>90 de zile</td>
+            <td>PACA CONSTRUCT</td>
+            <td>reține alegerea ta privind cookie-urile</td>
+            <td>până la 12 luni</td>
           </tr>
           <tr>
-            <td>
-              <code>paca_consent_ads</code>
-            </td>
-            <td>Strict necesar</td>
-            <td>PACA CONSTRUCT (first-party)</td>
-            <td>Reține opțiunea ta de consimțământ pentru marketing.</td>
-            <td>1 an</td>
+            <td>cookie-uri de securitate și de echilibrare a încărcării</td>
+            <td>Vercel</td>
+            <td>livrarea și stabilitatea site-ului</td>
+            <td>sesiune / scurtă durată</td>
           </tr>
+        </tbody>
+      </table>
+
+      <h3>b) De analiză (cu consimțământ)</h3>
+      <table>
+        <thead>
           <tr>
-            <td>
-              <code>sb-*</code>
-            </td>
-            <td>Strict necesar</td>
-            <td>Supabase</td>
-            <td>Sesiune de autentificare (doar în zona de administrare).</td>
-            <td>Sesiune / până la delogare</td>
+            <th>Cookie</th>
+            <th>Furnizor</th>
+            <th>Scop</th>
+            <th>Durată</th>
           </tr>
+        </thead>
+        <tbody>
           <tr>
             <td>
               <code>_ga</code>, <code>_ga_*</code>
             </td>
-            <td>Analitic</td>
             <td>Google Analytics 4</td>
-            <td>Distinge utilizatorii și sesiunile pentru statistici de trafic.</td>
-            <td>până la 2 ani</td>
+            <td>statistici de audiență, vizitatori unici</td>
+            <td>până la 13 luni</td>
           </tr>
+        </tbody>
+      </table>
+
+      <h3>c) De marketing și publicitate (cu consimțământ)</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Cookie</th>
+            <th>Furnizor</th>
+            <th>Scop</th>
+            <th>Durată</th>
+          </tr>
+        </thead>
+        <tbody>
           <tr>
             <td>
-              <code>_gcl_*</code>
+              <code>_gcl_au</code>
             </td>
-            <td>Marketing</td>
             <td>Google Ads</td>
-            <td>Măsurarea conversiilor din campaniile Google Ads.</td>
+            <td>atribuirea conversiilor din reclame</td>
             <td>până la 90 de zile</td>
           </tr>
           <tr>
             <td>
               <code>_fbp</code>
             </td>
-            <td>Marketing</td>
-            <td>Meta (Facebook/Instagram)</td>
-            <td>Măsurarea conversiilor și remarketing prin Meta Pixel.</td>
-            <td>până la 3 luni</td>
+            <td>Meta</td>
+            <td>măsurarea și optimizarea reclamelor</td>
+            <td>până la 90 de zile</td>
           </tr>
           <tr>
             <td>
               <code>_ttp</code>
             </td>
-            <td>Marketing</td>
             <td>TikTok</td>
-            <td>Măsurarea conversiilor și optimizarea reclamelor TikTok.</td>
+            <td>măsurarea reclamelor</td>
             <td>până la 13 luni</td>
           </tr>
         </tbody>
       </table>
       <p>
-        Numele și duratele cookie-urilor terților pot varia în funcție de furnizor;
-        valorile de mai sus sunt orientative.
+        Google Tag Manager, prin care încărcăm aceste instrumente, nu plasează el însuși
+        cookie-uri. Lista poate varia în funcție de instrumentele active și se
+        actualizează la nevoie.
       </p>
 
-      <h2>Furnizori terți și politicile lor</h2>
-      <ul>
-        <li>
-          Google (Analytics, Ads, Tag Manager) —{" "}
-          <a
-            href="https://policies.google.com/privacy"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            politica de confidențialitate
-          </a>
-        </li>
-        <li>
-          Meta Platforms —{" "}
-          <a
-            href="https://www.facebook.com/policy.php"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            politica privind datele
-          </a>
-        </li>
-        <li>
-          TikTok —{" "}
-          <a
-            href="https://www.tiktok.com/legal/page/row/privacy-policy/en"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            politica de confidențialitate
-          </a>
-        </li>
-      </ul>
-
-      <h2>Cum îți gestionezi consimțământul</h2>
+      <h2>5. Cookie-uri ale terților și transferuri</h2>
       <p>
-        Îți poți retrage sau modifica oricând consimțământul. Întrucât setarea implicită
-        este „refuzat”, cookie-urile de analiză și marketing nu se activează decât dacă
-        îți exprimi acordul. În plus, poți:
-      </p>
-      <ul>
-        <li>
-          să ștergi cookie-urile și să blochezi cookie-urile terților din setările
-          browserului;
-        </li>
-        <li>
-          să folosești paginile de dezactivare ale furnizorilor (vezi linkurile de mai
-          sus), inclusiv{" "}
-          <a
-            href="https://adssettings.google.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            setările de reclame Google
-          </a>
-          ;
-        </li>
-        <li>
-          să folosești instrucțiunile browserului tău:{" "}
-          <a
-            href="https://support.google.com/chrome/answer/95647"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Chrome
-          </a>
-          ,{" "}
-          <a
-            href="https://support.mozilla.org/kb/cookies-information-websites-store-on-your-computer"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Firefox
-          </a>
-          ,{" "}
-          <a
-            href="https://support.apple.com/ro-ro/guide/safari/sfri11471/mac"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Safari
-          </a>
-          ,{" "}
-          <a
-            href="https://support.microsoft.com/help/4027947"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Edge
-          </a>
-          .
-        </li>
-      </ul>
-      <p>
-        Reține că blocarea cookie-urilor strict necesare poate afecta funcționarea
-        site-ului.
-      </p>
-
-      <h2>Modificări ale acestei politici</h2>
-      <p>
-        Putem actualiza această politică pe măsură ce adăugăm sau eliminăm instrumente.
-        Versiunea curentă și data ultimei actualizări sunt afișate în capul paginii.
-      </p>
-
-      <h2>Contact</h2>
-      <p>
-        Pentru întrebări despre cookie-uri și prelucrarea datelor, scrie-ne la{" "}
-        <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>. Vezi și{" "}
+        Cookie-urile de analiză și de marketing sunt setate de furnizori terți (Google,
+        Meta, TikTok), care le pot prelucra în afara Spațiului Economic European. Aceste
+        transferuri sunt acoperite de Cadrul UE-SUA de confidențialitate a datelor și/sau
+        de Clauzele Contractuale Standard. Detalii în{" "}
         <Link href="/confidentialitate">Politica de confidențialitate</Link>.
+      </p>
+
+      <h2>6. Cum dezactivezi cookie-urile din browser</h2>
+      <p>
+        Poți bloca sau șterge cookie-urile din setările browserului. Dacă blochezi
+        cookie-urile strict necesare, unele funcții ale site-ului pot să nu mai meargă
+        corect. Instrucțiuni găsești în secțiunile de ajutor ale Chrome, Safari, Firefox
+        și Edge.
+      </p>
+
+      <h2>7. Drepturile tale și contact</h2>
+      <p>
+        Drepturile tale privind datele cu caracter personal și datele de contact sunt
+        descrise în <Link href="/confidentialitate">Politica de confidențialitate</Link>.
+        Pentru întrebări despre cookie-uri, scrie-ne la{" "}
+        <a href={`mailto:${email}`}>{email}</a>.
+      </p>
+
+      <h2>8. Modificări</h2>
+      <p>
+        Putem actualiza această politică odată cu schimbarea instrumentelor folosite. Data
+        ultimei actualizări este afișată în partea de sus.
       </p>
     </LegalPage>
   );

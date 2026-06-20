@@ -2,8 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { getFeaturedServices } from "../data/services";
-import { getSiteSettings } from "../data/settings";
-import { getPrimaryPhone, telLink } from "@/app/lib/settings-shared";
 import { SectionContainer } from "./section-container";
 
 export function HeroSection() {
@@ -37,28 +35,28 @@ export function HeroSection() {
       <SectionContainer className="relative z-10">
         <div className="mx-auto flex max-w-[320px] flex-col items-center text-center md:mx-0 md:max-w-3xl md:items-start md:text-left">
           <div className="hidden md:block">
-            <Eyebrow>AMENAJARI • TERASAMENTE • EXCAVARI</Eyebrow>
+            <Eyebrow>AMENAJĂRI · TERASAMENTE · EXCAVĂRI</Eyebrow>
           </div>
           <h1 className="font-serif-display text-4xl font-semibold leading-[1.12] text-white md:mt-6 md:text-7xl">
-            De la teren brut la spatiu viu
+            De la teren brut la spațiu viu
           </h1>
           <p className="mt-6 max-w-[300px] text-base leading-6 text-sage md:mt-7 md:max-w-2xl md:text-xl md:leading-8 md:text-white/80">
-            Pregatim terenul, executam lucrarile si construim cadrul potrivit pentru
-            proiecte rezidentiale, comerciale si industriale. Tehnicitate in armonie cu
-            natura.
+            Pregătim terenul, săpăm, nivelăm și construim cadrul pe care stă tot restul:
+            casă, hală, grădină sau drum de acces. O singură echipă, cu utilaje proprii,
+            de la prima cupă de pământ până la predare.
           </p>
           <div className="mt-10 flex w-full flex-col gap-4 md:w-auto md:flex-row">
             <Link
-              href="#proiecte"
+              href="/contact#form-section"
               className="bg-amber px-8 py-4 text-center text-sm font-bold uppercase text-carbon transition hover:bg-[#fea943]"
             >
-              Exploreaza proiectele
+              Cere o evaluare
             </Link>
             <Link
               href="#servicii"
               className="border border-white/30 px-8 py-4 text-center text-sm font-bold uppercase text-white transition hover:bg-white/10"
             >
-              Serviciile noastre
+              Vezi serviciile
             </Link>
           </div>
         </div>
@@ -76,31 +74,33 @@ export function PrimaryServicePaths() {
       <SectionContainer className="flex flex-col gap-12 md:block">
         <ServicePath
           index="01"
-          label="Estetica organica"
+          label="Estetică naturală"
           title={
             <>
               Amenajare
               <br />
-              spatii verzi
+              spații verzi
             </>
           }
-          description="Proiectare si executie peisagistica pentru gradini, curti si spatii comerciale. Sisteme de irigatii, gazon, plantari specializate, iazuri, piscine si intretinere adaptata climei locale."
+          description="Transformăm o curte denivelată sau plină de moloz într-un spațiu pe care îl folosești. Pregătim solul, montăm irigații, punem gazon și plantăm, săpăm iazuri și piscine, apoi întreținem ce am construit. Partea grea și partea fină, de la aceeași echipă."
           href="/servicii/amenajare-spatii-verzi"
+          linkLabel="Vezi ce facem"
           imageAlign="left"
         />
 
         <ServicePath
           index="02"
-          label="Infrastructura grea"
+          label="Infrastructură de teren"
           title={
             <>
               Terasamente
               <br />
-              si excavari
+              și excavări
             </>
           }
-          description="Lucrari de infrastructura, sapaturi fundatii, nivelari, compactari, drenaje, bransamente si drumuri de acces. Flota proprie de utilaje pentru executie rapida si precisa."
+          description="Săpăm fundații la cota din proiect, nivelăm și compactăm umplutura în straturi, facem drenaje, branșamente și drumuri de acces. Scoatem pământul în exces din curte, nu îl lăsăm grămadă. Aici se decide dacă tot ce construiești deasupra stă drept."
           href="/servicii/terasamente-excavari"
+          linkLabel="Vezi diviziile"
           imageAlign="right"
           dark
         />
@@ -115,6 +115,7 @@ type ServicePathProps = {
   title: ReactNode;
   description: string;
   href: string;
+  linkLabel: string;
   imageAlign: "left" | "right";
   dark?: boolean;
 };
@@ -125,6 +126,7 @@ function ServicePath({
   title,
   description,
   href,
+  linkLabel,
   imageAlign,
   dark = false,
 }: ServicePathProps) {
@@ -157,7 +159,7 @@ function ServicePath({
           href={href}
           className="mt-8 inline-flex self-start border-b border-olive pb-1 text-xs font-bold uppercase text-olive transition hover:border-amber hover:text-amber"
         >
-          Detalii serviciu
+          Vezi serviciul
           <span aria-hidden="true" className="ml-2">
             -&gt;
           </span>
@@ -223,7 +225,7 @@ function ServicePath({
           imageAlign === "right" ? "lg:justify-end" : ""
         }`}
       >
-        Exploreaza divizia
+        {linkLabel}
         <span aria-hidden="true">-&gt;</span>
       </Link>
     </div>
@@ -258,13 +260,13 @@ export function TransformationStatement() {
           01
         </p>
         <h2 className="mx-auto max-w-[400px] font-serif-display text-3xl font-medium leading-tight text-olive md:max-w-4xl md:text-6xl md:font-semibold md:leading-[1.14]">
-          Un proiect bun incepe cu un teren pregatit corect.
+          O lucrare bună începe sub pământ, nu deasupra.
         </h2>
         <div className="mx-auto mt-8 h-px w-12 bg-olive/20 md:hidden" />
         <p className="mx-auto mt-8 hidden max-w-3xl text-lg leading-8 text-stone md:block">
-          Fie ca vorbim de o gradina rezidentiala complexa sau de pregatirea terenului
-          pentru o hala industriala, abordam fiecare lucrare cu aceeasi rigoare tehnica:
-          evaluam, planificam si executam.
+          Fie că e o grădină sau pregătirea unei hale, abordăm la fel: vedem terenul,
+          planificăm etapele, executăm controlat. Ce e ascuns acum (drenaj, compactare,
+          cote) se vede în fisuri și băltiri peste doi ani, dacă e făcut prost.
         </p>
       </SectionContainer>
     </section>
@@ -282,7 +284,7 @@ export async function ServicesMosaic() {
       <SectionContainer>
         <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
-            <Eyebrow>EXPERTIZA COMPLETA</Eyebrow>
+            <Eyebrow>CE FACEM</Eyebrow>
             <h2 className="mt-5 font-serif-display text-4xl font-semibold text-carbon md:text-5xl">
               Serviciile noastre
             </h2>
@@ -301,7 +303,7 @@ export async function ServicesMosaic() {
               key={service.id}
               id={service.id}
               className={`group relative overflow-hidden border border-olive/15 bg-white p-6 transition hover:border-amber/60 hover:shadow-xl hover:shadow-carbon/5 ${
-                service.featured ? "md:col-span-2 md:row-span-2 md:p-8" : ""
+                service.featured ? "md:col-span-2 md:row-span-1 md:p-8" : ""
               } ${service.wide ? "md:col-span-2" : ""}`}
             >
               {service.featured ? (
@@ -338,7 +340,7 @@ export async function ServicesMosaic() {
                   href={service.href}
                   className="text-sm font-bold uppercase text-olive transition group-hover:text-amber"
                 >
-                  Detalii -&gt;
+                  Vezi serviciul -&gt;
                 </Link>
               </div>
             </article>
@@ -352,20 +354,20 @@ export async function ServicesMosaic() {
 export function ProcessSection() {
   const steps = [
     {
-      title: "Evaluare teren",
-      text: "Analizam accesul, diferentele de nivel, natura solului si cerintele tehnice.",
+      title: "Evaluare pe teren",
+      text: "Venim, ne uităm la acces, la diferențele de nivel și la natura solului. Îți spunem ce se poate și ce ne îngrijorează.",
     },
     {
-      title: "Plan de executie",
-      text: "Stabilim etapele, utilajele potrivite, durata lucrarii si riscurile din santier.",
+      title: "Plan și deviz",
+      text: "Stabilim etapele, utilajele potrivite, durata și riscurile. Primești un cost legat de ce e pe teren, nu o cifră aruncată.",
     },
     {
-      title: "Executie controlata",
-      text: "Lucram cu operatori calificati si verificam permanent cotele si finisajele.",
+      title: "Execuție controlată",
+      text: "Lucrăm cu operatori calificați și verificăm cotele și finisajele pe parcurs, nu la final.",
     },
     {
-      title: "Predare lucrare",
-      text: "Lasam terenul pregatit pentru etapa urmatoare: constructie, plantare sau infrastructura.",
+      title: "Predare",
+      text: "Lăsăm terenul gata pentru pasul următor: construcție, plantare sau infrastructură. Curat, nu cu munți de pământ în urmă.",
     },
   ];
 
@@ -378,14 +380,14 @@ export function ProcessSection() {
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
           <div>
             <div className="hidden md:block">
-              <Eyebrow>PROCES TEHNIC</Eyebrow>
+              <Eyebrow>CUM LUCRĂM</Eyebrow>
             </div>
             <h2 className="border-b border-olive/20 pb-4 font-serif-display text-3xl font-medium leading-[1.12] text-olive md:mt-5 md:border-0 md:pb-0 md:text-5xl md:font-semibold md:text-white">
-              O lucrare clara, din teren pana la predare.
+              O lucrare clară, de la teren până la predare.
             </h2>
             <p className="mt-6 hidden max-w-lg text-lg leading-8 text-white/70 md:block">
-              Combinam disciplina de santier cu intelegerea proiectelor exterioare, ca
-              fiecare interventie sa fie precisa si coerenta.
+              Combinăm disciplina de șantier cu înțelegerea proiectelor exterioare, ca
+              fiecare intervenție să fie precisă și coerentă.
             </p>
           </div>
 
@@ -418,32 +420,27 @@ export function ProcessSection() {
   );
 }
 
-export async function ContactCta() {
-  const settings = await getSiteSettings();
-  const phone = getPrimaryPhone(settings);
-
+export function ContactCta() {
   return (
     <section className="order-6 bg-limestone py-16 text-carbon md:order-none md:bg-amber md:py-14">
       <SectionContainer>
         <div className="relative overflow-hidden border-l-4 border-amber bg-olive p-8 text-white shadow-xl shadow-carbon/10 md:flex md:items-center md:justify-between md:gap-6 md:border-0 md:bg-transparent md:p-0 md:text-carbon md:shadow-none">
           <div className="absolute -right-8 -top-8 h-32 w-32 bg-amber/10 blur-2xl md:hidden" />
-          <p className="text-4xl text-amber md:hidden" aria-hidden="true">
-            13
-          </p>
-          <div className="relative">
-            <p className="mt-4 text-xs font-bold uppercase md:mt-0">Estimare rapida</p>
+          <div className="relative max-w-2xl">
+            <p className="mt-4 text-xs font-bold uppercase md:mt-0">Estimare rapidă</p>
             <h2 className="mt-2 font-serif-display text-3xl font-semibold md:text-4xl">
-              Ai un teren de pregatit sau o lucrare de excavat?
+              Ai un teren de pregătit sau o lucrare de săpat?
             </h2>
+            <p className="mt-3 text-base leading-7 text-white/80 md:text-carbon/80">
+              Spune-ne ce vrei să faci. Ne uităm și îți zicem cinstit cum stă treaba.
+            </p>
           </div>
-          {phone ? (
-            <Link
-              href={telLink(phone)}
-              className="relative mt-8 inline-flex w-full justify-center bg-white px-7 py-4 text-center text-sm font-bold uppercase text-olive transition hover:bg-amber hover:text-carbon md:mt-0 md:w-auto md:border md:border-carbon/30 md:bg-transparent md:text-carbon md:hover:bg-carbon md:hover:text-white"
-            >
-              Suna pentru oferta
-            </Link>
-          ) : null}
+          <Link
+            href="/contact#form-section"
+            className="relative mt-8 inline-flex w-full justify-center bg-white px-7 py-4 text-center text-sm font-bold uppercase text-olive transition hover:bg-amber hover:text-carbon md:mt-0 md:w-auto md:border md:border-carbon/30 md:bg-transparent md:text-carbon md:hover:bg-carbon md:hover:text-white"
+          >
+            Cere o evaluare
+          </Link>
         </div>
       </SectionContainer>
     </section>

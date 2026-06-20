@@ -134,7 +134,7 @@ export default async function BlogArticlePage(props: PageProps<"/blog/[slug]">) 
                 href="/blog"
                 className="self-start border border-olive/20 px-4 py-2 text-xs font-bold uppercase text-olive transition hover:bg-white md:self-auto"
               >
-                Inapoi la blog
+                Înapoi la blog
               </Link>
             </div>
 
@@ -213,17 +213,17 @@ export default async function BlogArticlePage(props: PageProps<"/blog/[slug]">) 
                 <div className="sticky top-32 space-y-6">
                   <div className="border border-olive/15 bg-white/60 p-6">
                     <h2 className="font-serif-display text-2xl font-medium leading-tight text-olive">
-                      Ai un proiect in plan?
+                      Ai un proiect în plan?
                     </h2>
                     <p className="mt-3 text-sm leading-6 text-stone">
-                      Evaluam terenul si lucrarea pentru o solutie tehnica si un deviz
+                      Ne uităm la teren și la lucrare și revenim cu pașii și un deviz
                       corect.
                     </p>
                     <a
                       href="/contact#form-section"
                       className="mt-5 inline-flex text-xs font-bold uppercase text-olive hover:text-amber"
                     >
-                      Cere evaluare -&gt;
+                      Cere o evaluare -&gt;
                     </a>
                   </div>
 

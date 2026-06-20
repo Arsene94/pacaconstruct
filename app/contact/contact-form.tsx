@@ -88,11 +88,10 @@ export function ContactForm() {
           Solicitare trimisă
         </p>
         <h3 className="mt-4 font-serif-display text-3xl font-semibold text-olive">
-          Îți mulțumim! Revenim cu un răspuns.
+          Am primit detaliile.
         </h3>
         <p className="mt-4 max-w-md text-base leading-7 text-stone">
-          Am primit detaliile proiectului tău. Un membru al echipei tehnice te va contacta
-          în cel mai scurt timp pentru pașii următori.
+          Te sunăm în curând cu pașii următori și cu o estimare.
         </p>
       </div>
     );
@@ -126,41 +125,38 @@ export function ContactForm() {
       ) : null}
 
       <div className="grid gap-6 md:grid-cols-2">
+        <Field id="name" label="Nume" placeholder="Cum te cheamă" required />
         <Field
-          id="name"
-          label="Nume si prenume"
-          placeholder="Ex: Andrei Popescu"
+          id="phone"
+          label="Telefon"
+          placeholder="Număr la care te sunăm"
+          type="tel"
           required
         />
-        <Field id="phone" label="Telefon" placeholder="+40 ..." type="tel" required />
         <Field
           id="email"
-          label="Email (optional)"
-          placeholder="nume@exemplu.ro"
+          label="Email (opțional)"
+          placeholder="Dacă vrei și pe email"
           type="email"
         />
-        <Field
-          id="location"
-          label="Locatie (oras / judet)"
-          placeholder="Ex: Bucuresti, Ilfov"
-        />
+        <Field id="location" label="Locație" placeholder="Orașul sau județul lucrării" />
         <Field
           id="surface"
-          label="Suprafata aproximativa (mp)"
-          placeholder="Ex: 500"
+          label="Suprafață (mp)"
+          placeholder="Aproximativ, în metri pătrați"
           type="number"
         />
       </div>
 
       <label className="mt-6 block">
         <span className="mb-2 block font-mono text-xs uppercase tracking-[0.12em] text-stone">
-          Descriere pe scurt
+          Descriere
         </span>
         <textarea
           id="description"
           name="description"
           rows={4}
-          placeholder="Ce doresti sa realizezi?"
+          placeholder="Spune pe scurt ce ai de făcut"
           className="min-h-32 w-full resize-y border-0 border-b border-olive/20 bg-transparent px-0 py-3 text-base text-carbon outline-none transition placeholder:text-muted focus:border-amber"
         />
       </label>
@@ -182,7 +178,7 @@ export function ContactForm() {
 
       <SubmitButton />
       <p className="mt-4 text-xs leading-5 text-muted">
-        Trimițând formularul ești de acord să fii contactat cu privire la solicitarea ta.
+        Trimițând formularul ești de acord să te contactăm despre solicitarea ta.
       </p>
     </form>
   );
