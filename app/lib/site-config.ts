@@ -51,9 +51,9 @@ export const siteConfig = {
   /** WhatsApp (doar cifre, format internațional fără +). */
   whatsapp: "40799299644", // TODO: confirmă că numărul are WhatsApp activ
   /** Email principal de contact. */
-  email: "contact@pacaconstruct.ro", // TODO: confirmă adresa reală
+  email: "contact@pacaconstruct.ro",
   /** Email secundar (oferte/office). */
-  emailOffice: "office@pacaconstruct.ro", // TODO: confirmă adresa reală
+  emailOffice: "contact@pacaconstruct.ro",
 
   /** Adresă poștală completă (schema.org PostalAddress). */
   address: {
