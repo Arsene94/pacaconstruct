@@ -1,0 +1,13 @@
+node_modules
+.next
+out
+build
+coverage
+graphify-out
+.playwright-mcp
+playwright-report
+test-results
+design
+public
+package-lock.json
+*.tsbuildinfo

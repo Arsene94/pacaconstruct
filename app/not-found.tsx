@@ -28,8 +28,8 @@ export default function NotFound() {
           Pagina nu a putut fi găsită
         </h1>
         <p className="mx-auto mt-5 max-w-md text-base leading-7 text-stone">
-          Linkul accesat este greșit sau pagina a fost mutată. Mai jos găsești
-          cele mai utile secțiuni ale site-ului.
+          Linkul accesat este greșit sau pagina a fost mutată. Mai jos găsești cele mai
+          utile secțiuni ale site-ului.
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">

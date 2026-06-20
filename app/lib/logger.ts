@@ -55,7 +55,9 @@ export function errorContext(error: unknown): LogContext {
     return {
       errName: error.name,
       errMessage: error.message,
-      ...(error.stack ? { errStack: error.stack.split("\n").slice(0, 4).join(" | ") } : {}),
+      ...(error.stack
+        ? { errStack: error.stack.split("\n").slice(0, 4).join(" | ") }
+        : {}),
     };
   }
   return { errMessage: String(error) };

@@ -61,7 +61,14 @@ export default function GlobalError({
           >
             Site-ul a întâmpinat o problemă
           </h1>
-          <p style={{ margin: "20px auto 0", maxWidth: "400px", lineHeight: 1.7, color: "#434843" }}>
+          <p
+            style={{
+              margin: "20px auto 0",
+              maxWidth: "400px",
+              lineHeight: 1.7,
+              color: "#434843",
+            }}
+          >
             Încercăm să rezolvăm. Te rugăm să reîncerci în câteva momente.
           </p>
           {error.digest ? (

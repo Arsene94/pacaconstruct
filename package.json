@@ -6,7 +6,24 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "tsc --noEmit && eslint && next build",
+    "analyze": "ANALYZE=true next build",
+    "prepare": "husky || true"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md,mjs,yml,yaml}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",
@@ -26,13 +43,19 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16.2.9",
+    "@playwright/test": "^1.61.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.4",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.6"
   }
 }

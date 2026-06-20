@@ -36,8 +36,8 @@ export default function Error({
           Ceva nu a funcționat
         </h1>
         <p className="mx-auto mt-5 max-w-md text-base leading-7 text-stone">
-          Am întâmpinat o problemă la încărcarea acestei pagini. Poți reîncerca
-          sau reveni la pagina principală.
+          Am întâmpinat o problemă la încărcarea acestei pagini. Poți reîncerca sau reveni
+          la pagina principală.
         </p>
         {error.digest ? (
           <p className="mt-3 font-mono text-xs text-muted">
