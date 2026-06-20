@@ -856,6 +856,39 @@ export type Database = {
         };
         Relationships: [];
       };
+      site_settings: {
+        Row: {
+          announcement: Json;
+          contact: Json;
+          floating: Json;
+          hours: Json;
+          id: number;
+          phones: Json;
+          social: Json;
+          updated_at: string;
+        };
+        Insert: {
+          announcement?: Json;
+          contact?: Json;
+          floating?: Json;
+          hours?: Json;
+          id?: number;
+          phones?: Json;
+          social?: Json;
+          updated_at?: string;
+        };
+        Update: {
+          announcement?: Json;
+          contact?: Json;
+          floating?: Json;
+          hours?: Json;
+          id?: number;
+          phones?: Json;
+          social?: Json;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       service_requests: {
         Row: {
           channel: Database["public"]["Enums"]["request_channel"];
