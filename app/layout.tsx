@@ -5,6 +5,8 @@ import "./globals.css";
 import { siteConfig } from "@/app/lib/site-config";
 import { JsonLd } from "@/app/components/json-ld";
 import { Analytics } from "@/app/components/analytics";
+import { FloatingButtons } from "@/app/components/floating-buttons";
+import { getSiteSettings } from "@/app/data/settings";
 import { organizationSchema, websiteSchema } from "@/app/lib/schema";
 
 // display: "swap" + adjustFontFallback (implicit) + fallback explicit țin CLS la
@@ -93,11 +95,13 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
+  const settings = await getSiteSettings();
+
   return (
     <html
       lang="ro"
@@ -115,6 +119,8 @@ export default function RootLayout({
         <JsonLd data={organizationSchema()} id="organization" />
         <JsonLd data={websiteSchema()} id="website" />
         {children}
+        {/* Butoane flotante globale; se ascund singure pe /admin, /login, /auth. */}
+        <FloatingButtons settings={settings} />
         <Analytics />
       </body>
     </html>
