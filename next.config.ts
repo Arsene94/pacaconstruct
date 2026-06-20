@@ -92,6 +92,20 @@ const nextConfig: NextConfig = {
   // daca UPSTASH_REDIS_REST_* lipsesc (vezi handler).
   cacheHandler: require.resolve("./cache-handlers/upstash-incremental.js"),
   cacheMaxMemorySize: 0, // dezactiveaza cache-ul implicit in-memory (folosim Redis)
+  // `cacheHandler` e referit prin `require.resolve` in config, nu importat din
+  // codul rutelor — asa ca @vercel/nft nu il vede ca dependinta si nu-l copiaza
+  // in bundle-ul serverless (Lambda). Fortam includerea fisierului pentru toate
+  // rutele, altfel la runtime crapa cu ERR_MODULE_NOT_FOUND:
+  // /var/task/cache-handlers/upstash-incremental.js.
+  // Includerea prin glob NU re-analizeaza require-urile fisierului, deci trebuie
+  // sa adaugam manual si dependintele handler-ului: @upstash/redis -> uncrypto.
+  outputFileTracingIncludes: {
+    "/**/*": [
+      "./cache-handlers/**/*",
+      "./node_modules/@upstash/redis/**/*",
+      "./node_modules/uncrypto/**/*",
+    ],
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [

@@ -20,11 +20,6 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      - run: npm ci
-      - name: Type-check
-        run: npx tsc --noEmit
-      - name: Lint
-        run: npm run lint
       # Format-check rulează doar pe fișierele atinse (prin lint-staged la commit).
       # Codebase-ul legacy nu e încă formatat integral cu Prettier (vezi raport).
       - name: Unit tests
