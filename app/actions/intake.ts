@@ -8,6 +8,14 @@ import {
   intakeLimiter,
 } from "@/app/lib/upstash/ratelimit";
 import { notifyNewLead } from "@/app/lib/notify/notify";
+import {
+  firstIssueMessage,
+  readRentalRequest,
+  readServiceRequest,
+  rentalRequestSchema,
+  serviceRequestSchema,
+} from "@/app/lib/validation";
+import { logger, errorContext } from "@/app/lib/logger";
 
 const RATE_LIMIT_MESSAGE =
   "Ai trimis prea multe solicitări. Te rugăm să reîncerci peste câteva minute.";
@@ -26,21 +34,16 @@ export type IntakeState =
   | { ok: false; error: string }
   | undefined;
 
-function value(form: FormData, key: string): string {
-  return String(form.get(key) ?? "").trim();
-}
-
 /** Cerere de evaluare/serviciu din formularul de contact. */
 export async function submitServiceRequest(
   _prev: IntakeState,
   form: FormData,
 ): Promise<IntakeState> {
-  const name = value(form, "name");
-  const phone = value(form, "phone");
-
-  if (!name || !phone) {
-    return { ok: false, error: "Completează numele și numărul de telefon." };
+  const parsed = serviceRequestSchema.safeParse(readServiceRequest(form));
+  if (!parsed.success) {
+    return { ok: false, error: firstIssueMessage(parsed.error) };
   }
+  const { name, phone, service, location, surface, description } = parsed.data;
 
   const ip = await clientIp();
   const { ok: allowed } = await checkRateLimit(intakeLimiter, `service:${ip}`);
@@ -48,23 +51,22 @@ export async function submitServiceRequest(
     return { ok: false, error: RATE_LIMIT_MESSAGE };
   }
 
-  const location = value(form, "location");
-  const surface = value(form, "surface");
-  const description = value(form, "description");
-  const service = value(form, "service");
-
   const supabase = await createClient();
   const { error } = await supabase.from("service_requests").insert({
     name,
     phone,
-    location: location || null,
-    surface: surface || null,
-    description: description || null,
-    service: service || null,
+    location: location ?? null,
+    surface: surface ?? null,
+    description: description ?? null,
+    service: service ?? null,
     channel: "Formular",
   });
 
   if (error) {
+    logger.error("service_request insert failed", {
+      form: "service",
+      ...errorContext(error),
+    });
     return {
       ok: false,
       error: "Nu am putut trimite solicitarea. Încearcă din nou.",
@@ -87,13 +89,11 @@ export async function submitRentalRequest(
   _prev: IntakeState,
   form: FormData,
 ): Promise<IntakeState> {
-  const name = value(form, "name");
-  const phone = value(form, "phone");
-  const machine = value(form, "machine");
-
-  if (!name || !phone) {
-    return { ok: false, error: "Completează numele și numărul de telefon." };
+  const parsed = rentalRequestSchema.safeParse(readRentalRequest(form));
+  if (!parsed.success) {
+    return { ok: false, error: firstIssueMessage(parsed.error) };
   }
+  const { name, phone, email, machine, period, location, message } = parsed.data;
 
   const ip = await clientIp();
   const { ok: allowed } = await checkRateLimit(intakeLimiter, `rental:${ip}`);
@@ -101,23 +101,22 @@ export async function submitRentalRequest(
     return { ok: false, error: RATE_LIMIT_MESSAGE };
   }
 
-  const email = value(form, "email");
-  const period = value(form, "period");
-  const location = value(form, "location");
-  const message = value(form, "message");
-
   const supabase = await createClient();
   const { error } = await supabase.from("rental_requests").insert({
     name,
     phone,
-    email: email || null,
+    email: email ?? null,
     machine: machine || "—",
-    period: period || null,
-    location: location || null,
-    message: message || null,
+    period: period ?? null,
+    location: location ?? null,
+    message: message ?? null,
   });
 
   if (error) {
+    logger.error("rental_request insert failed", {
+      form: "rental",
+      ...errorContext(error),
+    });
     return {
       ok: false,
       error: "Nu am putut trimite solicitarea. Încearcă din nou.",
@@ -128,7 +127,7 @@ export async function submitRentalRequest(
     type: "inchiriere",
     name,
     phone,
-    email: email || null,
+    email: email ?? null,
     details: { Utilaj: machine, Perioadă: period, Locație: location, Mesaj: message },
   });
 
