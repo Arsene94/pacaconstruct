@@ -1,0 +1,48 @@
+.adminPage {
+  --admin-background: #f1efe9;
+  --admin-surface: #fbf9f3;
+  --admin-surface-muted: #f0eee8;
+  --admin-surface-variant: #e4e2dc;
+  --admin-panel: #ffffff;
+  --admin-border: #e6e1d7;
+  --admin-outline: #747872;
+  --admin-carbon: #171a16;
+  --admin-olive: #1e2a20;
+  --admin-forest: #58683c;
+  --admin-muted: #6b706a;
+  --admin-sage: #d4eca1;
+  --admin-sage-text: #586b2f;
+  --admin-amber: #d88a24;
+  --admin-success: #15803d;
+  --admin-error: #b91c1c;
+  --admin-error-surface: #ffdad6;
+  --admin-error-text: #93000a;
+  --admin-pale: #bccabb;
+  min-height: 100dvh;
+  color: var(--admin-carbon);
+  font-family: var(--font-manrope), Manrope, ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
+.adminPage * {
+  box-sizing: border-box;
+  letter-spacing: 0;
+}
+
+.tableScroll {
+  scrollbar-color: var(--admin-muted) var(--admin-border);
+  scrollbar-width: thin;
+}
+
+.tableScroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.tableScroll::-webkit-scrollbar-track {
+  background: var(--admin-border);
+}
+
+.tableScroll::-webkit-scrollbar-thumb {
+  background: var(--admin-muted);
+  border-radius: 3px;
+}

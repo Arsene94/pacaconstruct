@@ -1,60 +1,114 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import {
+  IconBackhoe,
+  IconCamera,
+  IconClock,
+  IconCompass,
+  IconMail,
+  IconMapPin,
+  IconMessageCircle,
+  IconMountain,
+  IconPencil,
+  IconPhone,
+  IconStack2,
+  IconTool,
+  IconUpload,
+  type Icon as TablerIcon,
+} from "@tabler/icons-react";
 import { Footer } from "../components/footer";
-import { Navbar } from "../components/navbar";
+import { SiteNavbar } from "../components/site-navbar";
 import { SectionContainer } from "../components/section-container";
-import { serviceGroups } from "../data/services";
+import { getServiceGroups } from "../data/services";
+import { getSiteSettings } from "../data/settings";
+import {
+  getPrimaryPhone,
+  getWhatsAppPhones,
+  telLink,
+  waLink,
+  type ResolvedSettings,
+} from "@/app/lib/settings-shared";
+import { ContactForm } from "./contact-form";
 
-export const metadata: Metadata = {
-  title: "Contact si evaluare proiect - PACA CONSTRUCT",
-  description:
-    "Trimite detaliile proiectului tau pentru evaluare tehnica, oferta si planificare lucrari de excavare, terasamente sau amenajari exterioare.",
+type ContactDetail = {
+  icon: string;
+  label: string;
+  title: string;
+  subtitle: string;
+  href?: string;
 };
 
-const contactDetails = [
-  {
-    icon: "phone",
-    label: "Telefon",
-    title: "+40 700 000 000",
-    subtitle: "Suna acum",
-    href: "tel:+40700000000",
-  },
-  {
+function buildContactDetails(settings: ResolvedSettings): ContactDetail[] {
+  const phone = getPrimaryPhone(settings);
+  const email = settings.contact.emailOffice || settings.contact.emailPrimary;
+  const a = settings.contact.address;
+  const hourLabels = settings.hours
+    .map((h) => h.label.trim())
+    .filter((label) => label.length > 0);
+
+  const details: ContactDetail[] = [];
+  if (phone) {
+    details.push({
+      icon: "phone",
+      label: "Telefon",
+      title: phone.display,
+      subtitle: "Suna acum",
+      href: telLink(phone),
+    });
+  }
+  details.push({
     icon: "mail",
     label: "Email",
-    title: "office@pacaconstruct.ro",
+    title: email,
     subtitle: "Trimite documente si fotografii",
-    href: "mailto:office@pacaconstruct.ro",
-  },
-  {
+    href: `mailto:${email}`,
+  });
+  details.push({
     icon: "pin",
     label: "Locatie centrala",
-    title: "Bucuresti, Romania",
+    title: `${a.addressLocality}, Romania`,
     subtitle: "Servicii la nivel national",
+  });
+  if (hourLabels.length) {
+    details.push({
+      icon: "clock",
+      label: "Program",
+      title: hourLabels[0],
+      subtitle: hourLabels[1] ?? "",
+    });
+  }
+  return details;
+}
+
+// Conținut din DB, randare dinamică; datele vin din cache-ul Upstash.
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Contact și evaluare proiect",
+  description:
+    "Trimite detaliile proiectului tău pentru evaluare tehnică, ofertă și planificare lucrări de excavare, terasamente sau amenajări exterioare.",
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    type: "website",
+    title: "Contact și evaluare proiect | PACA CONSTRUCT",
+    description:
+      "Trimite detaliile proiectului tău pentru evaluare tehnică, ofertă și planificare lucrări.",
+    url: "/contact",
   },
-  {
-    icon: "clock",
-    label: "Program",
-    title: "L-V: 08:00 - 18:00",
-    subtitle: "S: 09:00 - 14:00",
-  },
-];
+};
 
 const intentCards = [
   {
     icon: "draft",
     title: "Evaluare lucrare",
-    description:
-      "Am un proiect clar si am nevoie de o estimare tehnica si de cost.",
+    description: "Am un proiect clar si am nevoie de o estimare tehnica si de cost.",
     href: "#form-section",
   },
   {
     icon: "compass",
     title: "Nu stiu ce serviciu imi trebuie",
-    description:
-      "Am o idee sau o problema, dar nu sunt sigur de solutia tehnica.",
+    description: "Am o idee sau o problema, dar nu sunt sigur de solutia tehnica.",
     href: "#contact-strip",
   },
   {
@@ -104,24 +158,34 @@ const timeline = [
   },
 ];
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const [serviceGroups, settings] = await Promise.all([
+    getServiceGroups(),
+    getSiteSettings(),
+  ]);
+  const phone = getPrimaryPhone(settings);
+  const whatsappPhone = getWhatsAppPhones(settings)[0] ?? null;
+  const phoneHref = phone ? telLink(phone) : undefined;
+  const whatsappHref = whatsappPhone ? waLink(whatsappPhone) : undefined;
+  const details = buildContactDetails(settings);
+
   return (
     <div className="min-h-screen bg-limestone text-carbon">
-      <Navbar serviceGroups={serviceGroups} />
-      <main className="pb-24 md:pb-0">
-        <ContactHero />
+      <SiteNavbar serviceGroups={serviceGroups} />
+      <main id="main" className="pb-24 md:pb-0">
+        <ContactHero whatsappHref={whatsappHref} />
         <IntentSelector />
-        <ContactStrip />
+        <ContactStrip details={details} />
         <ProjectForm />
         <ResponseTimeline />
       </main>
-      <MobileActionBar />
+      <MobileActionBar phoneHref={phoneHref} whatsappHref={whatsappHref} />
       <Footer />
     </div>
   );
 }
 
-function ContactHero() {
+function ContactHero({ whatsappHref }: { whatsappHref?: string }) {
   return (
     <section className="relative isolate overflow-hidden bg-topo">
       <div className="absolute inset-0 -z-10 bg-limestone/80" />
@@ -141,12 +205,14 @@ function ContactHero() {
             <span className="h-px w-8 bg-amber" />
             Initiere proiect
           </p>
-          <h1 className="font-serif-display text-4xl font-semibold leading-tight text-olive">
+          {/* Variantă mobilă a titlului: <p> ca să rămână un singur <h1> per
+              pagina (cel din hero-ul desktop). Stilurile sunt identice. */}
+          <p className="font-serif-display text-4xl font-semibold leading-tight text-olive">
             Spune-ne ce vrei sa construiesti sau sa amenajezi.
-          </h1>
+          </p>
           <p className="mt-5 max-w-[22rem] text-base leading-7 text-stone">
-            De la excavatii de precizie la arhitectura peisagistica complexa,
-            suntem pregatiti sa evaluam terenul tau.
+            De la excavatii de precizie la arhitectura peisagistica complexa, suntem
+            pregatiti sa evaluam terenul tau.
           </p>
         </div>
       </div>
@@ -171,10 +237,9 @@ function ContactHero() {
               Spune-ne ce vrei sa construiesti sau sa amenajezi.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-stone">
-              Trimite-ne detaliile proiectului tau, fie ca este vorba de o
-              amenajare peisagistica complexa sau de o excavatie de precizie.
-              Echipa noastra tehnica va evalua informatiile si te va contacta
-              cu solutii concrete.
+              Trimite-ne detaliile proiectului tau, fie ca este vorba de o amenajare
+              peisagistica complexa sau de o excavatie de precizie. Echipa noastra tehnica
+              va evalua informatiile si te va contacta cu solutii concrete.
             </p>
             <div className="mt-9 flex flex-wrap gap-4">
               <Link
@@ -184,13 +249,17 @@ function ContactHero() {
                 Solicita o evaluare
                 <span aria-hidden="true">-&gt;</span>
               </Link>
-              <a
-                href="https://wa.me/40700000000"
-                className="inline-flex items-center justify-center gap-2 border border-olive/25 px-8 py-4 text-sm font-bold uppercase text-carbon transition hover:border-olive hover:bg-white"
-              >
-                <Icon name="chat" className="h-4 w-4" />
-                WhatsApp
-              </a>
+              {whatsappHref ? (
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 border border-olive/25 px-8 py-4 text-sm font-bold uppercase text-carbon transition hover:border-olive hover:bg-white"
+                >
+                  <Icon name="chat" className="h-4 w-4" />
+                  WhatsApp
+                </a>
+              ) : null}
             </div>
           </div>
 
@@ -276,9 +345,7 @@ function IntentSelector() {
                 <h3 className="font-serif-display text-2xl font-medium text-olive">
                   {card.title}
                 </h3>
-                <p className="mt-3 text-base leading-7 text-stone">
-                  {card.description}
-                </p>
+                <p className="mt-3 text-base leading-7 text-stone">{card.description}</p>
               </a>
             ))}
           </div>
@@ -288,14 +355,14 @@ function IntentSelector() {
   );
 }
 
-function ContactStrip() {
+function ContactStrip({ details }: { details: ContactDetail[] }) {
   return (
     <section
       id="contact-strip"
       className="border-y border-olive/10 bg-[#e4e2dc] py-10 md:py-12"
     >
       <SectionContainer className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-        {contactDetails.map((detail) => {
+        {details.map((detail) => {
           const content = (
             <>
               <Icon name={detail.icon} className="mt-1 h-6 w-6 shrink-0 text-olive" />
@@ -306,9 +373,7 @@ function ContactStrip() {
                 <span className="mt-1 block font-mono text-base text-carbon">
                   {detail.title}
                 </span>
-                <span className="mt-1 block text-sm text-stone">
-                  {detail.subtitle}
-                </span>
+                <span className="mt-1 block text-sm text-stone">{detail.subtitle}</span>
               </span>
             </>
           );
@@ -344,117 +409,14 @@ function ProjectForm() {
             Completeaza informatiile esentiale.
           </h2>
           <p className="mt-5 text-base leading-7 text-stone">
-            Fotografiile, dimensiunile aproximative si locatia ne ajuta sa
-            revenim cu intrebari precise si cu un prim scenariu tehnic.
+            Fotografiile, dimensiunile aproximative si locatia ne ajuta sa revenim cu
+            intrebari precise si cu un prim scenariu tehnic.
           </p>
         </div>
 
-        <form className="border border-olive/10 bg-white p-5 shadow-xl shadow-carbon/5 md:p-8">
-          <div className="mb-8">
-            <div className="mb-2 flex items-center justify-between">
-              <span className="text-xs font-bold uppercase text-olive">
-                Pasul 1 din 3
-              </span>
-              <span className="font-mono text-xs uppercase text-muted">
-                Date proiect
-              </span>
-            </div>
-            <div className="h-1 overflow-hidden bg-limestone">
-              <div className="h-full w-1/3 bg-amber" />
-            </div>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2">
-            <Field
-              id="name"
-              label="Nume si prenume"
-              placeholder="Ex: Andrei Popescu"
-            />
-            <Field
-              id="phone"
-              label="Telefon"
-              placeholder="+40 ..."
-              type="tel"
-            />
-            <Field
-              id="location"
-              label="Locatie (oras / judet)"
-              placeholder="Ex: Bucuresti, Ilfov"
-            />
-            <Field
-              id="surface"
-              label="Suprafata aproximativa (mp)"
-              placeholder="Ex: 500"
-              type="number"
-            />
-          </div>
-
-          <label className="mt-6 block">
-            <span className="mb-2 block font-mono text-xs uppercase tracking-[0.12em] text-stone">
-              Descriere pe scurt
-            </span>
-            <textarea
-              id="description"
-              name="description"
-              rows={4}
-              placeholder="Ce doresti sa realizezi?"
-              className="min-h-32 w-full resize-y border-0 border-b border-olive/20 bg-transparent px-0 py-3 text-base text-carbon outline-none transition placeholder:text-muted focus:border-amber"
-            />
-          </label>
-
-          <div className="mt-8 border border-dashed border-olive/25 bg-limestone p-6 text-center">
-            <Icon name="camera" className="mx-auto h-8 w-8 text-muted" />
-            <h3 className="mt-3 text-sm font-bold uppercase tracking-[0.12em] text-olive">
-              Adauga fotografii
-            </h3>
-            <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-stone">
-              Ajuta-ne sa intelegem starea actuala a terenului, accesul si
-              diferentele de nivel.
-            </p>
-            <label className="mt-5 inline-flex w-full cursor-pointer items-center justify-center gap-2 border border-olive/15 bg-white px-5 py-3 text-xs font-bold uppercase text-olive transition hover:border-amber md:w-auto">
-              <Icon name="upload" className="h-4 w-4" />
-              Fa o poza / incarca
-              <input className="sr-only" type="file" accept="image/*" multiple />
-            </label>
-          </div>
-
-          <button
-            type="button"
-            className="mt-8 inline-flex w-full items-center justify-center gap-2 bg-amber px-6 py-4 text-sm font-bold uppercase text-carbon transition hover:bg-[#fea943] md:w-auto"
-          >
-            Urmatorul pas
-            <span aria-hidden="true">-&gt;</span>
-          </button>
-        </form>
+        <ContactForm />
       </SectionContainer>
     </section>
-  );
-}
-
-function Field({
-  id,
-  label,
-  placeholder,
-  type = "text",
-}: {
-  id: string;
-  label: string;
-  placeholder: string;
-  type?: string;
-}) {
-  return (
-    <label className="block">
-      <span className="mb-2 block font-mono text-xs uppercase tracking-[0.12em] text-stone">
-        {label}
-      </span>
-      <input
-        id={id}
-        name={id}
-        type={type}
-        placeholder={placeholder}
-        className="h-12 w-full border-0 border-b border-olive/20 bg-transparent px-0 text-base text-carbon outline-none transition placeholder:text-muted focus:border-amber"
-      />
-    </label>
   );
 }
 
@@ -492,23 +454,35 @@ function ResponseTimeline() {
   );
 }
 
-function MobileActionBar() {
+function MobileActionBar({
+  phoneHref,
+  whatsappHref,
+}: {
+  phoneHref?: string;
+  whatsappHref?: string;
+}) {
   return (
     <div className="fixed inset-x-0 bottom-0 z-50 flex gap-2 border-t border-olive/15 bg-limestone/95 px-4 py-3 backdrop-blur md:hidden">
-      <a
-        href="tel:+40700000000"
-        className="flex flex-1 items-center justify-center gap-1 border border-olive/10 bg-white py-3 text-xs font-bold uppercase text-olive"
-      >
-        <Icon name="phone" className="h-4 w-4" />
-        Suna
-      </a>
-      <a
-        href="https://wa.me/40700000000"
-        className="flex flex-1 items-center justify-center gap-1 border border-olive/10 bg-white py-3 text-xs font-bold uppercase text-olive"
-      >
-        <Icon name="chat" className="h-4 w-4" />
-        WhatsApp
-      </a>
+      {phoneHref ? (
+        <a
+          href={phoneHref}
+          className="flex flex-1 items-center justify-center gap-1 border border-olive/10 bg-white py-3 text-xs font-bold uppercase text-olive"
+        >
+          <Icon name="phone" className="h-4 w-4" />
+          Suna
+        </a>
+      ) : null}
+      {whatsappHref ? (
+        <a
+          href={whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex flex-1 items-center justify-center gap-1 border border-olive/10 bg-white py-3 text-xs font-bold uppercase text-olive"
+        >
+          <Icon name="chat" className="h-4 w-4" />
+          WhatsApp
+        </a>
+      ) : null}
       <a
         href="#form-section"
         className="flex flex-[1.35] items-center justify-center bg-amber py-3 text-xs font-bold uppercase text-carbon"
@@ -520,100 +494,22 @@ function MobileActionBar() {
 }
 
 function Icon({ name, className = "" }: { name: string; className?: string }) {
-  const paths: Record<string, ReactNode> = {
-    phone: (
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.72c.12.9.32 1.78.6 2.63a2 2 0 0 1-.45 2.11L8 9.7a16 16 0 0 0 6.3 6.3l1.24-1.25a2 2 0 0 1 2.11-.45c.85.28 1.73.48 2.63.6A2 2 0 0 1 22 16.92Z" />
-    ),
-    mail: (
-      <>
-        <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" />
-        <path d="m22 6-10 7L2 6" />
-      </>
-    ),
-    pin: (
-      <>
-        <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" />
-        <circle cx="12" cy="10" r="3" />
-      </>
-    ),
-    clock: (
-      <>
-        <circle cx="12" cy="12" r="10" />
-        <path d="M12 6v6l4 2" />
-      </>
-    ),
-    chat: (
-      <>
-        <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z" />
-        <path d="M8 9h8M8 13h5" />
-      </>
-    ),
-    draft: (
-      <>
-        <path d="M4 20h16" />
-        <path d="M6 16 16.5 5.5a2.1 2.1 0 0 1 3 3L9 19l-4 1Z" />
-      </>
-    ),
-    compass: (
-      <>
-        <circle cx="12" cy="12" r="10" />
-        <path d="m16 8-2.2 5.8L8 16l2.2-5.8Z" />
-      </>
-    ),
-    machine: (
-      <>
-        <path d="M3 18h18" />
-        <path d="M6 18V9l6-4v13" />
-        <path d="M12 9h5l3 9" />
-      </>
-    ),
-    landscape: (
-      <>
-        <path d="m3 19 6-8 4 5 3-4 5 7Z" />
-        <path d="M3 19h18" />
-      </>
-    ),
-    engineering: (
-      <>
-        <path d="M14 6h5v5" />
-        <path d="M10 18H5v-5" />
-        <path d="m19 6-6 6M5 18l6-6" />
-      </>
-    ),
-    mixed: (
-      <>
-        <path d="M12 3v18" />
-        <path d="M5 8h14" />
-        <path d="M7 16h10" />
-      </>
-    ),
-    camera: (
-      <>
-        <path d="M14.5 4 16 7h4a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h4l1.5-3Z" />
-        <circle cx="12" cy="13" r="4" />
-      </>
-    ),
-    upload: (
-      <>
-        <path d="M12 16V4" />
-        <path d="m7 9 5-5 5 5" />
-        <path d="M20 16v4H4v-4" />
-      </>
-    ),
+  const icons: Record<string, TablerIcon> = {
+    phone: IconPhone,
+    mail: IconMail,
+    pin: IconMapPin,
+    clock: IconClock,
+    chat: IconMessageCircle,
+    draft: IconPencil,
+    compass: IconCompass,
+    machine: IconBackhoe,
+    landscape: IconMountain,
+    engineering: IconTool,
+    mixed: IconStack2,
+    camera: IconCamera,
+    upload: IconUpload,
   };
 
-  return (
-    <svg
-      aria-hidden="true"
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="square"
-      strokeLinejoin="miter"
-      strokeWidth="1.8"
-      viewBox="0 0 24 24"
-    >
-      {paths[name] ?? paths.draft}
-    </svg>
-  );
+  const TablerComp = icons[name] ?? icons.draft;
+  return <TablerComp aria-hidden="true" className={className} />;
 }

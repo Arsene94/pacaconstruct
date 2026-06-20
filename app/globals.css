@@ -12,7 +12,8 @@
   --color-carbon: #171a16;
   --color-olive: #1e2a20;
   --color-stone: #434843;
-  --color-muted: #747872;
+  /* Întunecat de la #747872 pentru a trece WCAG AA (≥4.5:1) pe limestone/bg. */
+  --color-muted: #656963;
   --color-sage: #d8e6d7;
   --color-amber: #d88a24;
 
@@ -21,8 +22,41 @@
   --font-mono: "Inter", ui-monospace, monospace;
 }
 
-html {
-  scroll-behavior: smooth;
+/* Scroll lin doar pentru cei care nu au cerut reducerea mișcării (a11y). */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Intrare discretă pentru butoanele flotante (oprită de reduced-motion mai jos). */
+@keyframes float-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Respectă prefers-reduced-motion: oprește animații/tranziții ample. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Focus vizibil consistent pe toate elementele interactive (WCAG 2.4.7). */
+:focus-visible {
+  outline: 2px solid var(--color-amber);
+  outline-offset: 2px;
 }
 
 body {

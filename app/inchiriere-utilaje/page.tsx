@@ -2,15 +2,28 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Footer } from "../components/footer";
-import { Navbar } from "../components/navbar";
+import { SiteNavbar } from "../components/site-navbar";
 import { SectionContainer } from "../components/section-container";
-import { serviceGroups } from "../data/services";
-import { rentalMachines } from "../data/rentals";
+import { getServiceGroups } from "../data/services";
+import { getRentalMachines } from "../data/rentals";
+import { JsonLd } from "@/app/components/json-ld";
+import { breadcrumbSchema, itemListSchema } from "@/app/lib/schema";
+
+// Conținut din DB, randare dinamică; datele vin din cache-ul Upstash.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Inchirieri utilaje - PACA CONSTRUCT",
+  title: "Închirieri utilaje cu operator",
   description:
-    "Inchiriere utilaje cu operator pentru excavatii, nivelari, transport pamant si agregate.",
+    "Închiriere utilaje cu operator pentru excavații, nivelări, transport pământ și agregate.",
+  alternates: { canonical: "/inchiriere-utilaje" },
+  openGraph: {
+    type: "website",
+    title: "Închirieri utilaje cu operator | PACA CONSTRUCT",
+    description:
+      "Închiriere utilaje cu operator pentru excavații, nivelări, transport pământ și agregate.",
+    url: "/inchiriere-utilaje",
+  },
 };
 
 const reassuranceItems = [
@@ -28,13 +41,34 @@ const comparisonRows = [
   ["Incarcare camioane", "Da", "Da", "Excelent"],
 ];
 
-export default function RentalListingPage() {
+export default async function RentalListingPage() {
+  const [serviceGroups, rentalMachines] = await Promise.all([
+    getServiceGroups(),
+    getRentalMachines(),
+  ]);
   const featuredMachine = rentalMachines[0];
 
   return (
     <div className="min-h-screen bg-limestone text-carbon">
-      <Navbar serviceGroups={serviceGroups} />
-      <main className="flex flex-col">
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Acasă", path: "/" },
+          { name: "Închirieri utilaje", path: "/inchiriere-utilaje" },
+        ])}
+        id="breadcrumb"
+      />
+      <JsonLd
+        data={itemListSchema(
+          "Flotă utilaje de închiriat",
+          rentalMachines.map((m) => ({
+            name: m.title,
+            path: `/inchiriere-utilaje/${m.slug}`,
+          })),
+        )}
+        id="itemlist"
+      />
+      <SiteNavbar serviceGroups={serviceGroups} />
+      <main id="main" className="flex flex-col">
         <section className="relative isolate overflow-hidden bg-topo">
           <div className="absolute inset-0 -z-10 bg-limestone/80" />
           <SectionContainer className="grid min-h-[680px] items-center gap-10 py-20 md:grid-cols-12 lg:py-28">
@@ -47,9 +81,8 @@ export default function RentalListingPage() {
                 Utilajul potrivit pentru fiecare etapa a lucrarii
               </h1>
               <p className="mt-6 max-w-xl text-lg leading-8 text-stone">
-                Echipamente tehnice deservite de operatori calificati pentru
-                excavatii, nivelari, transport pamant si amenajari ale
-                terenului.
+                Echipamente tehnice deservite de operatori calificati pentru excavatii,
+                nivelari, transport pamant si amenajari ale terenului.
               </p>
               <div className="mt-9 flex flex-col gap-4 sm:flex-row">
                 <Link
@@ -94,9 +127,7 @@ export default function RentalListingPage() {
                 <span className="block font-mono text-xs font-bold uppercase text-amber">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <p className="mt-2 text-sm font-bold uppercase text-olive">
-                  {item}
-                </p>
+                <p className="mt-2 text-sm font-bold uppercase text-olive">{item}</p>
               </div>
             ))}
           </SectionContainer>
@@ -163,8 +194,8 @@ export default function RentalListingPage() {
                 Flota tehnologica
               </h2>
               <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-stone">
-                Preturile sunt informative si variaza in functie de
-                complexitatea lucrarii, locatie si durata.
+                Preturile sunt informative si variaza in functie de complexitatea
+                lucrarii, locatie si durata.
               </p>
             </div>
             <div className="grid gap-6 md:grid-cols-2">

@@ -1,0 +1,910 @@
+.authPage {
+  --surface-container-low: #f6f3ed;
+  --outline-variant: #c4c8c1;
+  --surface: #fbf9f3;
+  --error-red: #b91c1c;
+  --error-container: #ffdad6;
+  --background: #fbf9f3;
+  --primary-container: #1e2a20;
+  --technical-grey: #6b706a;
+  --surface-tint: #556256;
+  --on-surface: #1b1c18;
+  --outline: #747872;
+  --primary-fixed-dim: #bccabb;
+  --carbon-black: #171a16;
+  --safety-amber: #d88a24;
+  --safety-amber-hover: #c27a1f;
+  --forest-olive: #58683c;
+  --success-green: #15803d;
+  --limestone: #e6e1d7;
+  --surface-container: #f0eee8;
+  --surface-container-lowest: #ffffff;
+  --primary: #0a150c;
+  --white: #ffffff;
+  min-height: 100vh;
+  color: var(--on-surface);
+  font-family: var(--font-manrope), Manrope, ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
+.authPage * {
+  box-sizing: border-box;
+  letter-spacing: 0;
+}
+
+.desktopShell {
+  display: none;
+}
+
+.mobileShell {
+  display: flex;
+  min-height: max(884px, 100dvh);
+  flex-direction: column;
+  background: var(--background);
+  color: var(--on-surface);
+}
+
+@media (min-width: 768px) {
+  .desktopShell {
+    display: flex;
+    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--primary-container);
+    color: var(--white);
+  }
+
+  .mobileShell {
+    display: none;
+  }
+}
+
+.desktopSidebar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 320px;
+  flex-shrink: 0;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 48px;
+  border-right: 1px solid rgb(196 200 193 / 20%);
+  background: var(--primary-container);
+  color: var(--white);
+}
+
+@media (min-width: 1024px) {
+  .desktopSidebar {
+    width: 400px;
+  }
+}
+
+.brandRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 48px;
+}
+
+.brandIconLarge {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+}
+
+.desktopBrandName {
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 700;
+}
+
+.sidebarIntro {
+  display: grid;
+  gap: 16px;
+}
+
+.systemBadge {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border: 1px solid rgb(196 200 193 / 20%);
+  border-radius: 2px;
+  background: rgb(85 98 86 / 20%);
+  font-family: var(--font-source-serif), "Source Serif 4", Georgia, serif;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.badgeDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--safety-amber);
+}
+
+.sidebarTitle {
+  margin: 0;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.sidebarCopy {
+  margin: 0;
+  max-width: 300px;
+  color: var(--primary-fixed-dim);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.sessionInfo {
+  display: none;
+  color: rgb(188 202 187 / 60%);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+}
+
+.sessionInfo p {
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .sessionInfo {
+    display: block;
+  }
+}
+
+.mono {
+  font-family: var(--font-inter), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.desktopMain {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  min-width: 0;
+  height: 100%;
+  flex: 1;
+  flex-direction: column;
+  overflow-y: auto;
+  background: #f1efe9;
+  color: var(--carbon-black);
+}
+
+.desktopFormCenter {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 96px;
+}
+
+.loginCard {
+  width: 100%;
+  max-width: 420px;
+  border: 1px solid rgb(196 200 193 / 30%);
+  border-radius: 8px;
+  background: var(--white);
+  padding: 40px;
+  box-shadow: 0 1px 2px rgb(23 26 22 / 5%);
+}
+
+.cardHeader {
+  margin-bottom: 32px;
+}
+
+.cardTitle {
+  margin: 0 0 8px;
+  color: var(--carbon-black);
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+}
+
+.cardSubtitle {
+  margin: 0;
+  color: var(--technical-grey);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.formStack {
+  display: grid;
+  gap: 24px;
+}
+
+.formField {
+  display: grid;
+  gap: 8px;
+}
+
+.fieldTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.formLabel {
+  display: block;
+  color: var(--carbon-black);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.mobileLabel {
+  color: var(--technical-grey);
+}
+
+.fieldShell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--outline-variant);
+  border-radius: 2px;
+  background: var(--surface-container-lowest);
+  color: var(--carbon-black);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.fieldShell:hover {
+  border-color: var(--outline);
+}
+
+.fieldShell:focus-within {
+  border-color: var(--safety-amber);
+  box-shadow: 0 0 0 2px rgb(216 138 36 / 20%);
+}
+
+.desktopField {
+  height: 56px;
+}
+
+.compactField {
+  min-height: 48px;
+  border-color: var(--limestone);
+}
+
+.compactField:focus-within {
+  border-color: var(--forest-olive);
+  box-shadow: 0 0 0 2px var(--safety-amber);
+}
+
+.fieldIcon {
+  position: absolute;
+  left: 16px;
+  width: 22px;
+  height: 22px;
+  color: var(--technical-grey);
+  pointer-events: none;
+}
+
+.compactField .fieldIcon {
+  left: 12px;
+  color: var(--outline);
+}
+
+.textInput {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--carbon-black);
+  font: inherit;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.desktopInput {
+  height: 54px;
+  padding: 0 48px;
+}
+
+.compactInput {
+  min-height: 46px;
+  padding: 12px 44px 12px 40px;
+}
+
+.emailInput {
+  padding-right: 16px;
+}
+
+.textInput::placeholder {
+  color: var(--outline);
+  opacity: 1;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 14px;
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: var(--technical-grey);
+  cursor: pointer;
+  transition: color 180ms ease;
+}
+
+.passwordToggle:hover,
+.passwordToggle:focus-visible {
+  color: var(--safety-amber);
+  outline: none;
+}
+
+.passwordToggleIcon {
+  width: 22px;
+  height: 22px;
+}
+
+.forgotLink,
+.supportLink,
+.footerLink,
+.recoveryBackLink {
+  color: var(--technical-grey);
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.forgotLink {
+  color: var(--safety-amber);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.forgotLink:hover,
+.supportLink:hover,
+.footerLink:hover,
+.recoveryBackLink:hover {
+  color: var(--safety-amber);
+}
+
+.forgotLink:hover {
+  color: var(--carbon-black);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.desktopOptions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 8px;
+}
+
+.rememberLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  color: var(--technical-grey);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.rememberLabel:hover {
+  color: var(--carbon-black);
+}
+
+.rememberControl {
+  position: relative;
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.rememberInput {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  appearance: none;
+  border: 1px solid var(--outline-variant);
+  border-radius: 2px;
+  background: var(--surface-container-lowest);
+  cursor: pointer;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.rememberInput:checked {
+  border-color: var(--safety-amber);
+  background: var(--safety-amber);
+}
+
+.rememberInput:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--white), 0 0 0 4px var(--safety-amber);
+}
+
+.rememberCheck {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  color: var(--white);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.rememberInput:checked + .rememberCheck {
+  opacity: 1;
+}
+
+.submitButton {
+  display: inline-flex;
+  width: 100%;
+  height: 56px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--safety-amber);
+  color: var(--white);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.desktopSubmit {
+  margin-top: 8px;
+}
+
+.submitButton:hover {
+  background: var(--safety-amber-hover);
+}
+
+.submitButton:active {
+  transform: scale(0.98);
+}
+
+.submitButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--white), 0 0 0 4px var(--safety-amber);
+}
+
+.submitIcon {
+  width: 20px;
+  height: 20px;
+  transition: transform 180ms ease;
+}
+
+.submitButton:hover .submitIcon {
+  transform: translateX(4px);
+}
+
+.loginFooter {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px solid rgb(196 200 193 / 20%);
+  background: #f1efe9;
+  padding: 24px 48px;
+  color: var(--technical-grey);
+}
+
+.copyright,
+.recoveryCopyright {
+  margin: 0;
+  color: var(--technical-grey);
+  font-family: var(--font-source-serif), "Source Serif 4", Georgia, serif;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.loginFooterNav,
+.recoveryFooterNav {
+  display: flex;
+  gap: 24px;
+}
+
+.footerLink {
+  font-family: var(--font-source-serif), "Source Serif 4", Georgia, serif;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.mobileMain {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  max-width: 448px;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 48px 16px;
+}
+
+.mobileHeader {
+  margin-bottom: 48px;
+  text-align: center;
+}
+
+.mobileBrand {
+  margin: 0;
+  color: var(--primary);
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.mobileSystem {
+  margin: 8px 0 0;
+  color: var(--technical-grey);
+  font-family: var(--font-source-serif), "Source Serif 4", Georgia, serif;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.mobileCard {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--limestone);
+  border-radius: 4px;
+  background: #f1efe9;
+}
+
+.mobileAccent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--safety-amber);
+}
+
+.mobileCardBody {
+  padding: 24px;
+}
+
+.mobileCardTitle {
+  margin: 0 0 24px;
+  color: var(--carbon-black);
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+}
+
+.mobileForgot {
+  flex-shrink: 0;
+  color: var(--technical-grey);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.mobileForgot:hover {
+  color: var(--safety-amber);
+}
+
+.mobileSubmit {
+  height: 48px;
+  min-height: 48px;
+  color: var(--white);
+}
+
+.secureStrip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-top: 1px solid var(--limestone);
+  background: var(--surface-container-low);
+  padding: 16px 24px;
+}
+
+.secureIcon {
+  width: 18px;
+  height: 18px;
+  color: var(--success-green);
+}
+
+.secureText {
+  color: var(--technical-grey);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+}
+
+.mobileSupportWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 32px;
+  text-align: center;
+}
+
+.supportLink {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--technical-grey);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.supportIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.recoveryPage {
+  --surface-container-low: #f6f3ed;
+  --outline-variant: #c4c8c1;
+  --surface: #fbf9f3;
+  --technical-grey: #6b706a;
+  --surface-tint: #556256;
+  --on-surface: #1b1c18;
+  --on-surface-variant: #434843;
+  --primary: #0a150c;
+  --limestone: #e6e1d7;
+  --safety-amber: #d88a24;
+  --success-green: #15803d;
+  --surface-container-lowest: #ffffff;
+  --white: #ffffff;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background: var(--surface);
+  color: var(--on-surface);
+  font-family: var(--font-manrope), Manrope, ui-sans-serif, system-ui, sans-serif;
+}
+
+.recoveryPage * {
+  box-sizing: border-box;
+  letter-spacing: 0;
+}
+
+.recoveryMain {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  max-width: 1440px;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+@media (min-width: 768px) {
+  .recoveryMain {
+    padding: 32px;
+  }
+}
+
+.recoveryCard {
+  position: relative;
+  width: 100%;
+  max-width: 448px;
+  overflow: hidden;
+  border: 1px solid var(--limestone);
+  background: var(--surface-container-lowest);
+  padding: 32px;
+  box-shadow: 0 1px 2px rgb(23 26 22 / 5%);
+}
+
+@media (min-width: 768px) {
+  .recoveryCard {
+    padding: 48px;
+  }
+}
+
+.recoveryCardSuccess {
+  text-align: center;
+}
+
+.recoveryHeader {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.recoveryBrand {
+  margin: 0 0 8px;
+  color: var(--primary);
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 700;
+}
+
+.recoverySystem {
+  margin: 0;
+  color: var(--technical-grey);
+  font-family: var(--font-source-serif), "Source Serif 4", Georgia, serif;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.divider {
+  width: 64px;
+  height: 1px;
+  margin: 24px auto 0;
+  background: var(--limestone);
+}
+
+.recoveryIntro {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 32px;
+}
+
+.recoveryTitle {
+  margin: 0 0 8px;
+  color: var(--on-surface);
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+}
+
+.recoveryCopy {
+  margin: 0;
+  color: var(--on-surface-variant);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.recoveryForm {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 24px;
+}
+
+.recoverySubmit {
+  margin-top: 16px;
+  background: var(--primary);
+}
+
+.recoverySubmit:hover {
+  background: var(--surface-tint);
+}
+
+.recoveryBackArea {
+  padding-top: 16px;
+  border-top: 1px solid var(--limestone);
+  text-align: center;
+}
+
+.recoveryBackLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--technical-grey);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.backIcon,
+.checkCircleIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.successIcon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+  color: var(--success-green);
+}
+
+.successTitle {
+  margin: 0 0 8px;
+  color: var(--primary);
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 700;
+}
+
+.successCopyWrap {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 32px;
+}
+
+.recoveryFooter {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: auto;
+  border-top: 1px solid rgb(196 200 193 / 20%);
+  background: var(--surface-container-low);
+  padding: 16px;
+}
+
+@media (min-width: 768px) {
+  .recoveryFooter {
+    flex-direction: row;
+  }
+}
+
+.recoveryCopyright {
+  color: var(--primary);
+}
+
+.recoveryFooterNav {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.errorBox {
+  display: none;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 24px;
+  border: 1px solid rgb(185 28 28 / 20%);
+  border-radius: 2px;
+  background: var(--error-container);
+  color: var(--error-red);
+  padding: 12px 16px;
+}
+
+.errorIcon {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+
+.errorText {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+}

@@ -1,11 +1,21 @@
 "use client";
 
+import { IconChevronDown } from "@tabler/icons-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ServiceGroup } from "../data/services";
+import {
+  getPrimaryPhone,
+  getWhatsAppPhones,
+  telLink,
+  waLink,
+  type ResolvedSettings,
+} from "@/app/lib/settings-shared";
+import { pushMarketingEvent } from "@/app/lib/marketing/data-layer";
 
 type NavbarProps = {
   serviceGroups: ServiceGroup[];
+  settings: ResolvedSettings;
 };
 
 const navLinks = [
@@ -15,10 +25,17 @@ const navLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
-export function Navbar({ serviceGroups }: NavbarProps) {
+export function Navbar({ serviceGroups, settings }: NavbarProps) {
+  const primaryPhone = getPrimaryPhone(settings);
+  const whatsappPhone = getWhatsAppPhones(settings)[0] ?? null;
+  const { announcement } = settings;
+  const showTopBar = Boolean(primaryPhone) || announcement.enabled;
+
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   function closeMobileMenu() {
     setIsMobileOpen(false);
@@ -28,6 +45,12 @@ export function Navbar({ serviceGroups }: NavbarProps) {
   function toggleMobileMenu() {
     if (isMobileOpen) {
       setIsMobileServicesOpen(false);
+    } else {
+      pushMarketingEvent({
+        event: "pc_mobile_menu_open",
+        placement: "navbar",
+        source: "navbar",
+      });
     }
 
     setIsMobileOpen((open) => !open);
@@ -41,32 +64,105 @@ export function Navbar({ serviceGroups }: NavbarProps) {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
+    // Focus trap + Escape: meniul mobil se comportă ca un dialog modal (a11y).
+    const focusableSelector =
+      'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const getFocusable = () =>
+      Array.from(
+        menuRef.current?.querySelectorAll<HTMLElement>(focusableSelector) ?? [],
+      ).filter((el) => el.offsetParent !== null);
+
+    // Mută focusul în meniu la deschidere.
+    getFocusable()[0]?.focus();
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeMobileMenu();
+        toggleRef.current?.focus();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const items = getFocusable();
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+
     return () => {
       document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKeyDown);
     };
   }, [isMobileOpen]);
 
   return (
     <>
-      <div className="relative z-50 hidden w-full bg-carbon text-white md:block">
-        <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-2 px-5 py-2 text-center text-[11px] font-bold uppercase leading-4 md:flex-row md:px-10 lg:px-16">
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1 text-white/80">
-            <a href="tel:+40700000000" className="hover:text-amber">
-              +40 700 000 000
-            </a>
-            <a href="https://wa.me/40700000000" className="hover:text-amber">
-              WhatsApp
-            </a>
+      {showTopBar ? (
+        <div className="relative z-50 hidden w-full bg-carbon text-white md:block">
+          <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-2 px-5 py-2 text-center text-[11px] font-bold uppercase leading-4 md:flex-row md:px-10 lg:px-16">
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1 text-white/80">
+              {primaryPhone ? (
+                <a
+                  href={telLink(primaryPhone)}
+                  className="hover:text-amber"
+                  onClick={() =>
+                    pushMarketingEvent({
+                      event: "pc_phone_click",
+                      placement: "topbar",
+                      source: "navbar",
+                    })
+                  }
+                >
+                  {primaryPhone.display}
+                </a>
+              ) : null}
+              {whatsappPhone ? (
+                <a
+                  href={waLink(whatsappPhone)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-amber"
+                  onClick={() =>
+                    pushMarketingEvent({
+                      event: "pc_whatsapp_click",
+                      placement: "topbar",
+                      source: "navbar",
+                    })
+                  }
+                >
+                  WhatsApp
+                </a>
+              ) : null}
+            </div>
+            {announcement.enabled && announcement.text ? (
+              announcement.href ? (
+                <Link href={announcement.href} className="text-amber hover:underline">
+                  {announcement.text}
+                </Link>
+              ) : (
+                <p className="text-amber">{announcement.text}</p>
+              )
+            ) : null}
           </div>
-          <p className="text-amber">Evaluare si ofertare pentru proiectul tau</p>
         </div>
-      </div>
+      ) : null}
 
       <header className="sticky top-0 z-40 border-b border-olive/15 bg-limestone/90 backdrop-blur-xl">
         <div className="mx-auto grid w-full max-w-7xl grid-cols-[44px_1fr_auto] items-center gap-3 px-5 py-4 md:flex md:justify-between md:px-10 lg:px-16">
           <button
+            ref={toggleRef}
             aria-expanded={isMobileOpen}
             aria-controls="mobile-navigation"
+            aria-haspopup="dialog"
             className="flex h-11 w-11 items-center justify-center text-olive lg:hidden"
             onClick={toggleMobileMenu}
             type="button"
@@ -141,6 +237,14 @@ export function Navbar({ serviceGroups }: NavbarProps) {
                 key={link.href}
                 href={link.href}
                 className="py-3 text-sm font-semibold uppercase text-stone hover:text-amber"
+                onClick={() =>
+                  pushMarketingEvent({
+                    event: "pc_nav_click",
+                    placement: "navbar",
+                    source: "navbar",
+                    link_id: link.href,
+                  })
+                }
               >
                 {link.label}
               </Link>
@@ -151,6 +255,14 @@ export function Navbar({ serviceGroups }: NavbarProps) {
             <Link
               href="/contact#form-section"
               className="bg-amber px-4 py-2 text-[10px] font-bold uppercase text-carbon transition hover:bg-[#fea943] md:px-6 md:py-3 md:text-sm"
+              onClick={() =>
+                pushMarketingEvent({
+                  event: "pc_cta_click",
+                  placement: "navbar",
+                  source: "navbar",
+                  link_id: "cere_oferta",
+                })
+              }
             >
               Cere oferta
             </Link>
@@ -159,7 +271,11 @@ export function Navbar({ serviceGroups }: NavbarProps) {
 
         {isMobileOpen ? (
           <div
+            ref={menuRef}
             id="mobile-navigation"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Meniu de navigare"
             className="absolute inset-x-0 top-full max-h-[calc(100dvh-8.5rem)] overflow-y-auto overscroll-contain border-t border-olive/15 bg-white px-5 py-5 shadow-2xl shadow-carbon/15 lg:hidden"
           >
             <div className="space-y-5">
@@ -214,7 +330,15 @@ export function Navbar({ serviceGroups }: NavbarProps) {
                     key={link.href}
                     href={link.href}
                     className="text-sm font-bold uppercase text-stone"
-                    onClick={closeMobileMenu}
+                    onClick={() => {
+                      pushMarketingEvent({
+                        event: "pc_nav_click",
+                        placement: "mobile_menu",
+                        source: "navbar",
+                        link_id: link.href,
+                      });
+                      closeMobileMenu();
+                    }}
                   >
                     {link.label}
                   </Link>
@@ -222,7 +346,15 @@ export function Navbar({ serviceGroups }: NavbarProps) {
                 <Link
                   href="/contact#form-section"
                   className="bg-amber px-5 py-3 text-center text-sm font-bold uppercase text-carbon"
-                  onClick={closeMobileMenu}
+                  onClick={() => {
+                    pushMarketingEvent({
+                      event: "pc_cta_click",
+                      placement: "mobile_menu",
+                      source: "navbar",
+                      link_id: "cere_oferta",
+                    });
+                    closeMobileMenu();
+                  }}
                 >
                   Cere oferta
                 </Link>
@@ -236,18 +368,5 @@ export function Navbar({ serviceGroups }: NavbarProps) {
 }
 
 function ChevronDown({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      aria-hidden="true"
-      className={`h-4 w-4 ${className}`}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="square"
-      strokeLinejoin="miter"
-    >
-      <path d="m6 9 6 6 6-6" />
-    </svg>
-  );
+  return <IconChevronDown aria-hidden="true" className={`h-4 w-4 ${className}`} />;
 }
