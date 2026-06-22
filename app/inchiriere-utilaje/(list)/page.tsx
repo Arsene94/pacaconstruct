@@ -87,17 +87,19 @@ export default async function RentalListingPage() {
               </p>
               <div className="mt-9 flex flex-col gap-4 sm:flex-row">
                 <Link
-                  href="#flota"
+                  href={featuredMachine ? "#flota" : "/contact#form-section"}
                   className="inline-flex items-center justify-center bg-amber px-8 py-4 text-sm font-bold uppercase text-carbon transition hover:bg-[#fea943]"
                 >
-                  Explorează flota
+                  {featuredMachine ? "Explorează flota" : "Cere o ofertă"}
                 </Link>
-                <Link
-                  href={`/inchiriere-utilaje/${featuredMachine.slug}`}
-                  className="inline-flex items-center justify-center border border-olive/25 px-8 py-4 text-sm font-bold uppercase text-olive transition hover:border-olive hover:bg-white"
-                >
-                  Închiriază utilaj
-                </Link>
+                {featuredMachine ? (
+                  <Link
+                    href={`/inchiriere-utilaje/${featuredMachine.slug}`}
+                    className="inline-flex items-center justify-center border border-olive/25 px-8 py-4 text-sm font-bold uppercase text-olive transition hover:border-olive hover:bg-white"
+                  >
+                    Închiriază utilaj
+                  </Link>
+                ) : null}
               </div>
             </div>
 
@@ -134,59 +136,61 @@ export default async function RentalListingPage() {
           </SectionContainer>
         </section>
 
-        <section className="py-20 md:py-28">
-          <SectionContainer>
-            <div className="mb-10 max-w-2xl">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-strong">
-                Utilaj recomandat
-              </p>
-              <h2 className="mt-3 font-serif-display text-4xl font-semibold text-olive md:text-5xl">
-                Performanță pentru lucrări complexe
-              </h2>
-            </div>
-
-            <article className="grid overflow-hidden border border-olive/10 bg-white shadow-xl shadow-carbon/5 md:grid-cols-2">
-              <div className="relative min-h-[320px] bg-[#f6f3ed]">
-                <Image
-                  src={featuredMachine.imageSrc}
-                  alt={featuredMachine.imageAlt}
-                  fill
-                  sizes="(min-width: 768px) 50vw, 100vw"
-                  className="object-cover"
-                />
-              </div>
-              <div className="flex flex-col justify-center p-8 md:p-12 lg:p-16">
+        {featuredMachine ? (
+          <section className="py-20 md:py-28">
+            <SectionContainer>
+              <div className="mb-10 max-w-2xl">
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-strong">
-                  {featuredMachine.category}
+                  Utilaj recomandat
                 </p>
-                <h3 className="mt-4 font-serif-display text-4xl font-semibold text-olive">
-                  {featuredMachine.title}
-                </h3>
-                <p className="mt-5 border-b border-olive/10 pb-8 text-base leading-7 text-stone">
-                  {featuredMachine.shortDescription}
-                </p>
-                <dl className="mt-8 grid gap-5 sm:grid-cols-2">
-                  {featuredMachine.specs.map((spec) => (
-                    <div key={spec.label}>
-                      <dt className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted">
-                        {spec.label}
-                      </dt>
-                      <dd className="mt-1 font-mono text-sm font-semibold text-olive">
-                        {spec.value}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
-                <Link
-                  href={`/inchiriere-utilaje/${featuredMachine.slug}`}
-                  className="mt-10 inline-flex w-fit bg-olive px-8 py-4 text-sm font-bold uppercase text-white transition hover:bg-carbon"
-                >
-                  Închiriază utilaj
-                </Link>
+                <h2 className="mt-3 font-serif-display text-4xl font-semibold text-olive md:text-5xl">
+                  Performanță pentru lucrări complexe
+                </h2>
               </div>
-            </article>
-          </SectionContainer>
-        </section>
+
+              <article className="grid overflow-hidden border border-olive/10 bg-white shadow-xl shadow-carbon/5 md:grid-cols-2">
+                <div className="relative min-h-[320px] bg-[#f6f3ed]">
+                  <Image
+                    src={featuredMachine.imageSrc}
+                    alt={featuredMachine.imageAlt}
+                    fill
+                    sizes="(min-width: 768px) 50vw, 100vw"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="flex flex-col justify-center p-8 md:p-12 lg:p-16">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-strong">
+                    {featuredMachine.category}
+                  </p>
+                  <h3 className="mt-4 font-serif-display text-4xl font-semibold text-olive">
+                    {featuredMachine.title}
+                  </h3>
+                  <p className="mt-5 border-b border-olive/10 pb-8 text-base leading-7 text-stone">
+                    {featuredMachine.shortDescription}
+                  </p>
+                  <dl className="mt-8 grid gap-5 sm:grid-cols-2">
+                    {featuredMachine.specs.map((spec) => (
+                      <div key={spec.label}>
+                        <dt className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted">
+                          {spec.label}
+                        </dt>
+                        <dd className="mt-1 font-mono text-sm font-semibold text-olive">
+                          {spec.value}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <Link
+                    href={`/inchiriere-utilaje/${featuredMachine.slug}`}
+                    className="mt-10 inline-flex w-fit bg-olive px-8 py-4 text-sm font-bold uppercase text-white transition hover:bg-carbon"
+                  >
+                    Închiriază utilaj
+                  </Link>
+                </div>
+              </article>
+            </SectionContainer>
+          </section>
+        ) : null}
 
         <section id="flota" className="bg-topo py-20 md:py-28">
           <SectionContainer>
