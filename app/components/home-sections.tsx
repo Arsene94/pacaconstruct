@@ -1,44 +1,37 @@
-import Image, { getImageProps } from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { getFeaturedServices } from "../data/services";
 import { SectionContainer } from "./section-container";
 
+// Placeholder blur (12x7 JPEG) derivat din hero.jpg — îmbunătățește percepția
+// la încărcare fără să schimbe LCP-ul. Vezi docs next/image > placeholder.
+const HERO_BLUR_DATA_URL =
+  "data:image/jpeg;base64,/9j/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAHAAwDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAP/xAAfEAABAwMFAAAAAAAAAAAAAAABAAIDBBMhBRIUMYH/xAAUAQEAAAAAAAAAAAAAAAAAAAAD/8QAFREBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhEDEQA/AIy61UyAOuYI72jCnz5H5vO8aERFC1//2Q==";
+
 export function HeroSection() {
-  // Hero LCP art-directed (mobil vs. desktop) prin `<picture>` + getImageProps:
-  // doar UNA dintre surse se descarcă (cea care matchuiește media query-ul),
-  // spre deosebire de două `<Image>` suprapuse care încărcau ambele eager.
-  // `fetchPriority="high"` + `loading="eager"` urcă imaginea pe calea critică
-  // (înlocuiesc prop-ul `priority`, deprecat în Next 16). Vezi docs next/image.
+  // Hero LCP: o singură imagine `next/image` cu `preload` (înlocuitorul lui
+  // `priority`, deprecat în Next 16). `preload` injectează automat
+  // `<link rel="preload" as="image" imagesrcset imagesizes>` în `<head>`, deci
+  // browserul descoperă imaginea LCP imediat după HTML — nu după parsarea CSS.
+  // Renunțăm la `<picture>` art-directat: sursele desktop/mobil erau fișiere
+  // identice (același md5), deci o singură sursă responsive (sizes=100vw) e
+  // suficientă și e calea recomandată pentru LCP. Vezi docs next/image > preload.
   const heroAlt = "Utilaj de terasamente lucrand pe un teren in lumina calda";
-  const heroCommon = {
-    alt: heroAlt,
-    width: 1376,
-    height: 768,
-    quality: 60,
-    sizes: "100vw",
-  } as const;
-  const {
-    props: { srcSet: heroDesktop },
-  } = getImageProps({ ...heroCommon, src: "/hero.png" });
-  const {
-    props: { srcSet: heroMobile, ...heroImg },
-  } = getImageProps({ ...heroCommon, src: "/hero-mobile.png" });
 
   return (
     <section className="relative order-1 flex min-h-[600px] items-end overflow-hidden bg-carbon py-12 text-white md:order-none md:min-h-[760px] md:items-center md:py-24">
-      <picture>
-        <source media="(min-width: 768px)" srcSet={heroDesktop} />
-        <source srcSet={heroMobile} />
-        {}
-        <img
-          {...heroImg}
-          fetchPriority="high"
-          loading="eager"
-          decoding="async"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-      </picture>
+      <Image
+        src="/hero.jpg"
+        alt={heroAlt}
+        fill
+        preload
+        quality={50}
+        sizes="100vw"
+        placeholder="blur"
+        blurDataURL={HERO_BLUR_DATA_URL}
+        className="absolute inset-0 h-full w-full object-cover"
+      />
       <div className="absolute inset-0 bg-carbon/65 md:hidden" />
       <div className="absolute inset-0 hidden bg-gradient-to-r from-carbon via-carbon/85 to-carbon/20 md:block" />
       <div className="absolute inset-x-0 bottom-0 hidden h-32 bg-gradient-to-t from-carbon/60 to-transparent md:block" />
@@ -147,7 +140,6 @@ function ServicePath({
         src="/hero.png"
         alt=""
         fill
-        loading="eager"
         sizes="(max-width: 767px) 350px, 50vw"
         className={`object-cover transition duration-700 ${
           dark ? "opacity-80" : "opacity-95"

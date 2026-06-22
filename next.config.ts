@@ -130,6 +130,10 @@ const nextConfig: NextConfig = {
   // Reduce First Load JS pe paginile cu butoane flotante / formulare.
   experimental: {
     optimizePackageImports: ["@tabler/icons-react"],
+    // Inline CSS-ul critic în `<head>` (Next 15.2+): scoate cele ~15 KiB de CSS
+    // din calea critică (request blocant separat), eliminând un round-trip și
+    // auditul Lighthouse „Solicitări de blocare a redării".
+    inlineCss: true,
   },
   images: {
     formats: ["image/avif", "image/webp"],
