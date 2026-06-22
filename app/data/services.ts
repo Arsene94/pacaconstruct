@@ -149,7 +149,9 @@ export const getServiceGroups = unstable_cache(
     const supabase = createPublicClient();
     const { data, error } = await supabase
       .from("service_groups")
-      .select("title, href, slug, sort_order, services(title, slug, sort_order)")
+      .select(
+        "title, href, slug, sort_order, services(title, short_title, slug, sort_order)",
+      )
       .order("sort_order")
       .returns<
         {
@@ -157,7 +159,14 @@ export const getServiceGroups = unstable_cache(
           href: string;
           slug: string;
           sort_order: number;
-          services: { title: string; slug: string; sort_order: number }[] | null;
+          services:
+            | {
+                title: string;
+                short_title: string | null;
+                slug: string;
+                sort_order: number;
+              }[]
+            | null;
         }[]
       >();
 
@@ -176,7 +185,7 @@ export const getServiceGroups = unstable_cache(
         .slice()
         .sort((a, b) => a.sort_order - b.sort_order)
         .map((item) => ({
-          title: item.title,
+          title: item.short_title || item.title,
           href: `/servicii/${item.slug}`,
         })),
     }));
@@ -293,4 +302,56 @@ export async function getServiceGroupOptions(): Promise<
     .returns<{ slug: string; title: string }[]>();
   if (error) throw new Error(`Nu am putut încărca grupurile: ${error.message}`);
   return (data ?? []).map((g) => ({ value: g.slug, label: g.title }));
+}
+
+// ─── Admin grupuri meniu (service_groups, rânduri complete cu id) ─────────────
+
+export type AdminServiceGroup = {
+  id: string;
+  slug: string;
+  title: string;
+  href: string;
+  sort_order: number;
+  /** Câte servicii sunt asignate acestui grup (pentru lista din admin). */
+  service_count: number;
+};
+
+/** Toate grupurile din meniu, cu numărul de servicii asignate. */
+export async function getServiceGroupsAdmin(): Promise<AdminServiceGroup[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("service_groups")
+    .select("id, slug, title, href, sort_order, services(count)")
+    .order("sort_order")
+    .returns<
+      {
+        id: string;
+        slug: string;
+        title: string;
+        href: string;
+        sort_order: number;
+        services: { count: number }[] | null;
+      }[]
+    >();
+  if (error) throw new Error(`Nu am putut încărca grupurile: ${error.message}`);
+  return (data ?? []).map((g) => ({
+    id: g.id,
+    slug: g.slug,
+    title: g.title,
+    href: g.href,
+    sort_order: g.sort_order,
+    service_count: g.services?.[0]?.count ?? 0,
+  }));
+}
+
+/** Un grup de meniu după id (pentru editare). */
+export async function getServiceGroupById(id: string): Promise<AdminServiceGroup | null> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("service_groups")
+    .select("id, slug, title, href, sort_order")
+    .eq("id", id)
+    .maybeSingle<Omit<AdminServiceGroup, "service_count">>();
+  if (error) throw new Error(`Nu am putut încărca grupul: ${error.message}`);
+  return data ? { ...data, service_count: 0 } : null;
 }

@@ -13,6 +13,7 @@ type NavItem = { label: string; icon: AdminIconName; href: string };
 const navItems: NavItem[] = [
   { label: "Dashboard", icon: "dashboard", href: "/admin" },
   { label: "Servicii", icon: "engineering", href: "/admin/servicii" },
+  { label: "Grupuri servicii", icon: "web", href: "/admin/grupuri-servicii" },
   { label: "Utilaje de închiriat", icon: "construction", href: "/admin/utilaje" },
   { label: "FAQ", icon: "help", href: "/admin/faq" },
   { label: "Blogs", icon: "article", href: "/admin/blog" },
@@ -72,6 +73,7 @@ function SidebarLink({ active, href, icon, label }: NavItem & { active: boolean 
 const breadcrumbLabels: Record<string, string> = {
   "/admin": "Prezentare Generală",
   "/admin/servicii": "Servicii",
+  "/admin/grupuri-servicii": "Grupuri servicii",
   "/admin/utilaje": "Utilaje de închiriat",
   "/admin/faq": "Întrebări frecvente",
   "/admin/blog": "Articole blog",

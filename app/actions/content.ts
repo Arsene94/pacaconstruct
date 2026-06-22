@@ -160,6 +160,81 @@ export async function deleteService(form: FormData): Promise<void> {
   revalidatePath("/admin/servicii");
 }
 
+// ─── Grupuri meniu servicii ──────────────────────────────────────────────────
+
+function readServiceGroupPayload(form: FormData) {
+  const title = str(form, "title");
+  const slug = str(form, "slug") || slugify(title);
+  // Implicit, grupul trimite spre pagina serviciului „cap de grup" cu același slug.
+  const href = str(form, "href") || `/servicii/${slug}`;
+  return { slug, title, href, sort_order: int(form, "sort_order") };
+}
+
+/** Grupurile alimentează meniul (getServiceGroups, tag „services"). */
+function revalidateServiceGroups() {
+  revalidatePath("/admin/grupuri-servicii");
+  revalidatePath("/servicii", "layout");
+  revalidatePath("/");
+  revalidateTag("services", "max");
+}
+
+export async function createServiceGroup(
+  _prev: FormState,
+  form: FormData,
+): Promise<FormState> {
+  await requireAdmin();
+  const payload = readServiceGroupPayload(form);
+  if (!payload.title || !payload.slug) {
+    return { error: "Titlul și slug-ul sunt obligatorii." };
+  }
+  const supabase = await createClient();
+  const { error } = await supabase.from("service_groups").insert(payload);
+  if (error) {
+    return { error: `Nu am putut salva grupul: ${error.message}` };
+  }
+  revalidateServiceGroups();
+  redirect("/admin/grupuri-servicii");
+}
+
+export async function updateServiceGroup(
+  _prev: FormState,
+  form: FormData,
+): Promise<FormState> {
+  await requireAdmin();
+  const id = str(form, "id");
+  const title = str(form, "title");
+  if (!id) return { error: "Lipsește identificatorul grupului." };
+  if (!title) return { error: "Titlul este obligatoriu." };
+  // Slug-ul e cheia stabilă referită de `services.group_slug` (FK fără ON UPDATE),
+  // deci nu îl modificăm la editare — doar titlul, href-ul și ordinea.
+  const payload = {
+    title,
+    href: str(form, "href"),
+    sort_order: int(form, "sort_order"),
+  };
+  if (!payload.href) return { error: "Link-ul (href) este obligatoriu." };
+  const supabase = await createClient();
+  const { error } = await supabase.from("service_groups").update(payload).eq("id", id);
+  if (error) {
+    return { error: `Nu am putut actualiza grupul: ${error.message}` };
+  }
+  revalidateServiceGroups();
+  redirect("/admin/grupuri-servicii");
+}
+
+export async function deleteServiceGroup(form: FormData): Promise<void> {
+  await requireAdmin();
+  const id = str(form, "id");
+  if (id) {
+    const supabase = await createClient();
+    // FK `services.group_slug` are ON DELETE SET NULL: serviciile asignate devin
+    // „fără grup" (cap de grup), nu sunt șterse.
+    await supabase.from("service_groups").delete().eq("id", id);
+    revalidateServiceGroups();
+  }
+  revalidatePath("/admin/grupuri-servicii");
+}
+
 // ─── Utilaje ─────────────────────────────────────────────────────────────────
 
 function readRentalPayload(form: FormData) {
