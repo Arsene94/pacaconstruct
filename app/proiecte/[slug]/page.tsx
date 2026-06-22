@@ -75,11 +75,11 @@ export default async function ProiectDetailPage({ params }: ProiectRouteProps) {
               aria-label="Breadcrumb"
               className="mb-8 flex items-center gap-2 text-sm font-medium text-stone"
             >
-              <Link href="/" className="hover:text-amber">
+              <Link href="/" className="hover:text-amber-strong">
                 Acasă
               </Link>
               <span aria-hidden="true">/</span>
-              <Link href="/proiecte" className="hover:text-amber">
+              <Link href="/proiecte" className="hover:text-amber-strong">
                 Proiecte
               </Link>
               <span aria-hidden="true">/</span>

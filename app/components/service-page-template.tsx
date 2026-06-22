@@ -181,10 +181,10 @@ async function ServiceFaqSection({ service }: ServicePageTemplateProps) {
               className="group border border-olive/15 bg-white p-6 open:border-amber/60"
             >
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
-                <h3 className="font-serif-display text-xl font-medium text-olive transition group-open:text-amber">
+                <h3 className="font-serif-display text-xl font-medium text-olive transition group-open:text-amber-strong">
                   {item.question}
                 </h3>
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center border border-olive/15 text-lg text-olive transition group-open:rotate-45 group-open:border-amber group-open:text-amber">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center border border-olive/15 text-lg text-olive transition group-open:rotate-45 group-open:border-amber group-open:text-amber-strong">
                   +
                 </span>
               </summary>
@@ -215,7 +215,7 @@ function ServiceAreas({ service }: ServicePageTemplateProps) {
             <li key={area.slug}>
               <Link
                 href={`/zona/${area.slug}`}
-                className="inline-flex border border-olive/20 bg-white px-4 py-2 text-sm font-semibold text-olive transition hover:border-amber hover:text-amber"
+                className="inline-flex border border-olive/20 bg-white px-4 py-2 text-sm font-semibold text-olive transition hover:border-amber hover:text-amber-strong"
               >
                 {area.name}
               </Link>

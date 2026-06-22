@@ -16,6 +16,11 @@
   --color-muted: #656963;
   --color-sage: #d8e6d7;
   --color-amber: #d88a24;
+  /* Amber pentru TEXT pe suprafețe deschise: #d88a24 dă doar ~2.5:1 pe
+     bg/limestone/alb și pică WCAG AA. Această variantă mai închisă dă ≥4.8:1
+     pe cele mai întunecate fundaluri „deschise". Pe fundal închis (carbon/
+     olive) se folosește în continuare --color-amber, care acolo are contrast bun. */
+  --color-amber-strong: #985811;
 
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-serif-display: "Source Serif 4", Georgia, serif;
@@ -76,6 +81,22 @@ body {
 
 .service-organic-mask {
   clip-path: polygon(0 0, 100% 4%, 100% 96%, 0 100%);
+}
+
+/* Corecții a11y pentru widget-ul terț CookieScript (cookie-script.com),
+   injectat la runtime (probabil prin GTM) — nu există în acest repo, dar se
+   randează în DOM-ul paginii cu ID-uri stabile, deci îl putem corecta de aici.
+   1.4.1: linkul „Politica de confidențialitate" nu se baza decât pe culoare →
+   îl subliniem. 1.4.3: butonul de accept avea contrast insuficient → fundal
+   închis + text alb (≥4.5:1). Configurarea durabilă se face în dashboard-ul
+   CookieScript; acestea sunt plase de siguranță. */
+#cookiescript_readmore {
+  text-decoration: underline !important;
+}
+#cookiescript_accept,
+#cookiescript_accept:hover {
+  background-color: var(--color-olive) !important;
+  color: #ffffff !important;
 }
 
 @media (max-width: 1023px) {

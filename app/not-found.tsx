@@ -21,7 +21,7 @@ export default function NotFound() {
       className="bg-topo flex min-h-[70vh] flex-1 items-center justify-center bg-background px-5 py-24"
     >
       <div className="mx-auto w-full max-w-2xl text-center">
-        <p className="font-mono text-sm font-bold uppercase tracking-[0.18em] text-amber">
+        <p className="font-mono text-sm font-bold uppercase tracking-[0.18em] text-amber-strong">
           Eroare 404
         </p>
         <h1 className="mt-5 font-serif-display text-5xl font-semibold leading-[1.05] text-olive md:text-6xl">
@@ -40,7 +40,7 @@ export default function NotFound() {
               className={
                 i === 0
                   ? "bg-amber px-6 py-3 text-sm font-bold uppercase text-carbon transition hover:bg-[#fea943]"
-                  : "border border-olive/20 px-6 py-3 text-sm font-bold uppercase text-olive transition hover:border-olive/50 hover:text-amber"
+                  : "border border-olive/20 px-6 py-3 text-sm font-bold uppercase text-olive transition hover:border-olive/50 hover:text-amber-strong"
               }
             >
               {link.label}

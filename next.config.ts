@@ -133,6 +133,13 @@ const nextConfig: NextConfig = {
   },
   images: {
     formats: ["image/avif", "image/webp"],
+    // Calități permise pentru optimizatorul next/image (obligatoriu în Next 16,
+    // default `[75]`). Hero-ul stă sub un overlay întunecat (`bg-carbon/65`), iar
+    // imaginile decorative sunt la opacity ~10% — q=50/60 e invizibil vizual dar
+    // taie byții livrați la LCP (Lighthouse: „Îmbunătățește livrarea imaginilor").
+    qualities: [50, 60, 75],
+    // Cache mai lung pe derivatele optimizate (sursele sunt statice).
+    minimumCacheTTL: 31536000,
     remotePatterns: [
       {
         protocol: "https",

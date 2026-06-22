@@ -75,7 +75,7 @@ export default async function ServicesListingPage() {
           <div className="absolute inset-0 -z-10 bg-limestone/80" />
           <SectionContainer className="grid min-h-[560px] items-center gap-10 py-20 md:grid-cols-12 lg:py-28">
             <div className="md:col-span-7">
-              <p className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-amber">
+              <p className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-amber-strong">
                 <span className="h-px w-10 bg-amber" />
                 Servicii complete
               </p>
@@ -127,7 +127,7 @@ export default async function ServicesListingPage() {
                 key={item}
                 className="border border-olive/10 bg-white p-5 text-center shadow-sm shadow-carbon/5"
               >
-                <span className="block font-mono text-xs font-bold uppercase text-amber">
+                <span className="block font-mono text-xs font-bold uppercase text-amber-strong">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <p className="mt-2 text-sm font-bold uppercase text-olive">{item}</p>
@@ -143,7 +143,7 @@ export default async function ServicesListingPage() {
           >
             <SectionContainer>
               <div className="mb-10 max-w-2xl">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-strong">
                   Categorie servicii
                 </p>
                 <h2 className="mt-3 font-serif-display text-4xl font-semibold text-olive md:text-5xl">
@@ -183,7 +183,7 @@ export default async function ServicesListingPage() {
                         </p>
                         <Link
                           href={item.href}
-                          className="mt-6 inline-flex w-fit items-center gap-2 border-b border-olive pb-1 text-sm font-bold uppercase text-olive transition hover:border-amber hover:text-amber"
+                          className="mt-6 inline-flex w-fit items-center gap-2 border-b border-olive pb-1 text-sm font-bold uppercase text-olive transition hover:border-amber hover:text-amber-strong"
                         >
                           Vezi serviciul
                           <span aria-hidden="true">-&gt;</span>

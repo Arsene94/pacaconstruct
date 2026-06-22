@@ -225,13 +225,13 @@ function ContactHero({ whatsappHref }: { whatsappHref?: string }) {
               aria-label="Breadcrumb"
               className="mb-8 flex items-center gap-2 text-sm font-medium text-stone"
             >
-              <Link href="/" className="hover:text-amber">
+              <Link href="/" className="hover:text-amber-strong">
                 Acasă
               </Link>
               <span aria-hidden="true">/</span>
               <span className="font-bold text-olive">Contact</span>
             </nav>
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-amber">
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-amber-strong">
               Contact și evaluare
             </p>
             <h1 className="mt-5 max-w-3xl font-serif-display text-5xl font-semibold leading-[1.08] text-olive lg:text-6xl">
@@ -310,7 +310,7 @@ function IntentSelector() {
                   </span>
                 </span>
                 <span
-                  className="mt-1 text-xl text-muted transition group-hover:text-amber"
+                  className="mt-1 text-xl text-muted transition group-hover:text-amber-strong"
                   aria-hidden="true"
                 >
                   -&gt;
@@ -336,7 +336,7 @@ function IntentSelector() {
                     <Icon name={card.icon} className="h-5 w-5" />
                   </span>
                   <span
-                    className="text-2xl text-muted transition group-hover:text-amber"
+                    className="text-2xl text-muted transition group-hover:text-amber-strong"
                     aria-hidden="true"
                   >
                     -&gt;
@@ -382,7 +382,7 @@ function ContactStrip({ details }: { details: ContactDetail[] }) {
             <a
               key={detail.label}
               href={detail.href}
-              className="flex items-start gap-4 transition hover:text-amber"
+              className="flex items-start gap-4 transition hover:text-amber-strong"
             >
               {content}
             </a>
@@ -402,7 +402,7 @@ function ProjectForm() {
     <section id="form-section" className="bg-limestone py-16 md:py-24">
       <SectionContainer className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-strong">
             Date proiect · Evaluare gratuită
           </p>
           <h2 className="mt-4 font-serif-display text-4xl font-semibold leading-tight text-olive md:text-5xl">
@@ -425,7 +425,7 @@ function ResponseTimeline() {
     <section className="bg-[#e4e2dc] py-16 md:py-24">
       <SectionContainer className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-strong">
             După solicitare
           </p>
           <h2 className="mt-4 font-serif-display text-4xl font-semibold leading-tight text-olive md:text-5xl">

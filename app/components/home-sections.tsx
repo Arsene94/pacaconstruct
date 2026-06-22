@@ -1,33 +1,44 @@
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { getFeaturedServices } from "../data/services";
 import { SectionContainer } from "./section-container";
 
 export function HeroSection() {
+  // Hero LCP art-directed (mobil vs. desktop) prin `<picture>` + getImageProps:
+  // doar UNA dintre surse se descarcă (cea care matchuiește media query-ul),
+  // spre deosebire de două `<Image>` suprapuse care încărcau ambele eager.
+  // `fetchPriority="high"` + `loading="eager"` urcă imaginea pe calea critică
+  // (înlocuiesc prop-ul `priority`, deprecat în Next 16). Vezi docs next/image.
+  const heroAlt = "Utilaj de terasamente lucrand pe un teren in lumina calda";
+  const heroCommon = {
+    alt: heroAlt,
+    width: 1376,
+    height: 768,
+    quality: 60,
+    sizes: "100vw",
+  } as const;
+  const {
+    props: { srcSet: heroDesktop },
+  } = getImageProps({ ...heroCommon, src: "/hero.png" });
+  const {
+    props: { srcSet: heroMobile, ...heroImg },
+  } = getImageProps({ ...heroCommon, src: "/hero-mobile.png" });
+
   return (
     <section className="relative order-1 flex min-h-[600px] items-end overflow-hidden bg-carbon py-12 text-white md:order-none md:min-h-[760px] md:items-center md:py-24">
-      {/* Hero LCP art-directed (desktop + mobil): `priority` => eager + fetch
-          high + preload. Ambele imagini sunt oricum încărcate eager, iar `sizes`
-          cu `0px` ține varianta din afara viewport-ului la cel mai mic candidat,
-          deci preload-ul nu adaugă fetch real. `priority` e și fix-ul pe care îl
-          cere detectorul LCP din Next (verifică `priority`, nu `loading`). */}
-      <Image
-        src="/hero.png"
-        alt="Utilaj de terasamente lucrand pe un teren in lumina calda"
-        fill
-        priority
-        sizes="(min-width: 768px) 100vw, 0px"
-        className="hidden object-cover md:block"
-      />
-      <Image
-        src="/hero-mobile.png"
-        alt="Utilaj de terasamente lucrand pe un teren in lumina calda"
-        fill
-        priority
-        sizes="(max-width: 767px) 100vw, 0px"
-        className="object-cover md:hidden"
-      />
+      <picture>
+        <source media="(min-width: 768px)" srcSet={heroDesktop} />
+        <source srcSet={heroMobile} />
+        {}
+        <img
+          {...heroImg}
+          fetchPriority="high"
+          loading="eager"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      </picture>
       <div className="absolute inset-0 bg-carbon/65 md:hidden" />
       <div className="absolute inset-0 hidden bg-gradient-to-r from-carbon via-carbon/85 to-carbon/20 md:block" />
       <div className="absolute inset-x-0 bottom-0 hidden h-32 bg-gradient-to-t from-carbon/60 to-transparent md:block" />
@@ -35,7 +46,7 @@ export function HeroSection() {
       <SectionContainer className="relative z-10">
         <div className="mx-auto flex max-w-[320px] flex-col items-center text-center md:mx-0 md:max-w-3xl md:items-start md:text-left">
           <div className="hidden md:block">
-            <Eyebrow>AMENAJĂRI · TERASAMENTE · EXCAVĂRI</Eyebrow>
+            <Eyebrow onDark>AMENAJĂRI · TERASAMENTE · EXCAVĂRI</Eyebrow>
           </div>
           <h1 className="font-serif-display text-4xl font-semibold leading-[1.12] text-white md:mt-6 md:text-7xl">
             De la teren brut la spațiu viu
@@ -150,14 +161,14 @@ function ServicePath({
     <article className="overflow-hidden border border-olive/15 bg-[#f6f3ed] md:hidden">
       {mobileImage}
       <div className="flex flex-col p-8">
-        <p className="mb-3 text-sm font-medium text-amber">SRV-{index}</p>
+        <p className="mb-3 text-sm font-medium text-amber-strong">SRV-{index}</p>
         <h3 className="font-serif-display text-[28px] font-medium leading-9 text-olive">
           {title}
         </h3>
         <p className="mt-4 line-clamp-3 text-base leading-6 text-stone">{description}</p>
         <Link
           href={href}
-          className="mt-8 inline-flex self-start border-b border-olive pb-1 text-xs font-bold uppercase text-olive transition hover:border-amber hover:text-amber"
+          className="mt-8 inline-flex self-start border-b border-olive pb-1 text-xs font-bold uppercase text-olive transition hover:border-amber-strong hover:text-amber-strong"
         >
           Vezi serviciul
           <span aria-hidden="true" className="ml-2">
@@ -206,7 +217,7 @@ function ServicePath({
 
   const content = (
     <div className={imageAlign === "right" ? "lg:text-right" : ""}>
-      <p className="mb-6 text-xs font-bold uppercase text-amber">
+      <p className="mb-6 text-xs font-bold uppercase text-amber-strong">
         {index} / {label}
       </p>
       <h2 className="font-serif-display text-4xl font-semibold leading-[1.08] text-olive sm:text-5xl lg:text-6xl">
@@ -221,7 +232,7 @@ function ServicePath({
       </p>
       <Link
         href={href}
-        className={`mt-9 inline-flex items-center gap-4 border-b border-olive/20 pb-2 text-sm font-bold uppercase text-olive transition hover:text-amber ${
+        className={`mt-9 inline-flex items-center gap-4 border-b border-olive/20 pb-2 text-sm font-bold uppercase text-olive transition hover:text-amber-strong ${
           imageAlign === "right" ? "lg:justify-end" : ""
         }`}
       >
@@ -256,7 +267,7 @@ export function TransformationStatement() {
     <section className="relative order-2 overflow-hidden border-y border-olive/10 bg-[#fbf9f3] py-20 text-center md:order-none md:bg-[#f1efe9] md:py-28">
       <div className="bg-topo absolute right-0 top-0 h-full w-full opacity-60 md:w-1/2" />
       <SectionContainer className="relative z-10 text-center">
-        <p className="mx-auto mb-6 flex h-12 w-12 items-center justify-center border border-transparent text-3xl font-semibold text-amber md:mb-8 md:h-16 md:w-16 md:border-olive/15 md:text-2xl">
+        <p className="mx-auto mb-6 flex h-12 w-12 items-center justify-center border border-transparent text-3xl font-semibold text-amber-strong md:mb-8 md:h-16 md:w-16 md:border-olive/15 md:text-2xl">
           01
         </p>
         <h2 className="mx-auto max-w-[400px] font-serif-display text-3xl font-medium leading-tight text-olive md:max-w-4xl md:text-6xl md:font-semibold md:leading-[1.14]">
@@ -312,6 +323,7 @@ export async function ServicesMosaic() {
                     src="/hero.png"
                     alt=""
                     fill
+                    quality={50}
                     sizes="(min-width: 768px) 66vw, 350px"
                     className="object-cover opacity-10 transition duration-500 group-hover:opacity-20"
                   />
@@ -320,7 +332,7 @@ export async function ServicesMosaic() {
               ) : null}
               <div className="relative z-10 flex h-full flex-col justify-between gap-8">
                 <div>
-                  <span className="mb-5 inline-flex h-11 w-11 items-center justify-center border border-olive/15 text-sm font-bold text-amber">
+                  <span className="mb-5 inline-flex h-11 w-11 items-center justify-center border border-olive/15 text-sm font-bold text-amber-strong">
                     {service.icon}
                   </span>
                   <h3
@@ -338,7 +350,7 @@ export async function ServicesMosaic() {
                 </div>
                 <Link
                   href={service.href}
-                  className="text-sm font-bold uppercase text-olive transition group-hover:text-amber"
+                  className="text-sm font-bold uppercase text-olive transition group-hover:text-amber-strong"
                 >
                   Vezi serviciul -&gt;
                 </Link>
@@ -380,7 +392,7 @@ export function ProcessSection() {
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
           <div>
             <div className="hidden md:block">
-              <Eyebrow>CUM LUCRĂM</Eyebrow>
+              <Eyebrow onDark>CUM LUCRĂM</Eyebrow>
             </div>
             <h2 className="border-b border-olive/20 pb-4 font-serif-display text-3xl font-medium leading-[1.12] text-olive md:mt-5 md:border-0 md:pb-0 md:text-5xl md:font-semibold md:text-white">
               O lucrare clară, de la teren până la predare.
@@ -397,7 +409,7 @@ export function ProcessSection() {
                 key={step.title}
                 className="grid grid-cols-[32px_1fr_24px] gap-4 border-b border-olive/15 py-6 md:block md:border md:border-white/10 md:bg-white/[0.03] md:p-6"
               >
-                <span className="mt-1 text-sm font-bold text-amber md:mt-0">
+                <span className="mt-1 text-sm font-bold text-amber-strong md:mt-0 md:text-amber">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <div>
@@ -447,10 +459,20 @@ export function ContactCta() {
   );
 }
 
-function Eyebrow({ children }: { children: ReactNode }) {
+function Eyebrow({
+  children,
+  onDark = false,
+}: {
+  children: ReactNode;
+  onDark?: boolean;
+}) {
   return (
-    <p className="flex items-center gap-4 text-sm font-bold uppercase text-amber">
-      <span className="h-px w-8 bg-amber" />
+    <p
+      className={`flex items-center gap-4 text-sm font-bold uppercase ${
+        onDark ? "text-amber" : "text-amber-strong"
+      }`}
+    >
+      <span className={`h-px w-8 ${onDark ? "bg-amber" : "bg-amber-strong"}`} />
       {children}
     </p>
   );

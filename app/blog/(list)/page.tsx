@@ -98,7 +98,7 @@ export default async function BlogPage({
                       Articol recomandat
                     </p>
                     <Link href={`/blog/${featuredBlogPost.slug}`}>
-                      <h2 className="font-serif-display text-4xl font-semibold leading-tight text-olive transition hover:text-amber md:text-5xl">
+                      <h2 className="font-serif-display text-4xl font-semibold leading-tight text-olive transition hover:text-amber-strong md:text-5xl">
                         {featuredBlogPost.title}
                       </h2>
                     </Link>
@@ -106,7 +106,7 @@ export default async function BlogPage({
                       {featuredBlogPost.excerpt}
                     </p>
                     <div className="mt-7 flex flex-wrap items-center gap-4 text-sm font-medium text-muted">
-                      <span className="font-bold uppercase text-amber">
+                      <span className="font-bold uppercase text-amber-strong">
                         {featuredBlogPost.category}
                       </span>
                       <span aria-hidden="true">•</span>
@@ -167,7 +167,7 @@ export default async function BlogPage({
 
             <section className="bg-[#f6f3ed] py-20 md:py-28">
               <SectionContainer>
-                <p className="mb-8 text-xs font-bold uppercase text-amber">
+                <p className="mb-8 text-xs font-bold uppercase text-amber-strong">
                   Studiu de caz
                 </p>
                 <div className="grid items-center gap-10 lg:grid-cols-2">
@@ -228,7 +228,7 @@ export default async function BlogPage({
                   </div>
                   <Link
                     href="/servicii/amenajare-spatii-verzi"
-                    className="text-xs font-bold uppercase text-olive hover:text-amber"
+                    className="text-xs font-bold uppercase text-olive hover:text-amber-strong"
                   >
                     Servicii peisagistică -&gt;
                   </Link>
@@ -309,7 +309,9 @@ function SearchResults({ query, results }: { query: string; results: BlogPost[] 
   return (
     <section className="bg-[#fbf9f3] py-16 md:py-24">
       <SectionContainer>
-        <p className="mb-2 text-xs font-bold uppercase text-amber">Rezultate căutare</p>
+        <p className="mb-2 text-xs font-bold uppercase text-amber-strong">
+          Rezultate căutare
+        </p>
         <h2 className="font-serif-display text-3xl font-semibold text-olive md:text-4xl">
           {results.length} {results.length === 1 ? "articol găsit" : "articole găsite"}{" "}
           pentru &bdquo;{query}&rdquo;
@@ -318,7 +320,7 @@ function SearchResults({ query, results }: { query: string; results: BlogPost[] 
         {results.length === 0 ? (
           <p className="mt-8 text-lg text-stone">
             Nu am găsit articole pentru căutarea ta.{" "}
-            <Link href="/blog" className="font-bold text-olive hover:text-amber">
+            <Link href="/blog" className="font-bold text-olive hover:text-amber-strong">
               Vezi toate articolele
             </Link>
             .
@@ -369,11 +371,19 @@ function ArticleCard({
           className="object-cover opacity-90 transition duration-700 group-hover:scale-105 group-hover:opacity-100"
         />
       </Link>
-      <p className="mb-3 text-xs font-bold uppercase text-amber">{post.category}</p>
+      <p
+        className={`mb-3 text-xs font-bold uppercase ${
+          dark ? "text-amber" : "text-amber-strong"
+        }`}
+      >
+        {post.category}
+      </p>
       <Link href={`/blog/${post.slug}`}>
         <h3
-          className={`font-serif-display text-3xl font-medium leading-tight transition group-hover:text-amber ${
-            dark ? "text-white" : "text-olive"
+          className={`font-serif-display text-3xl font-medium leading-tight transition ${
+            dark
+              ? "text-white group-hover:text-amber"
+              : "text-olive group-hover:text-amber-strong"
           }`}
         >
           {post.title}

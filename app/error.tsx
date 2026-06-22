@@ -29,7 +29,7 @@ export default function Error({
       className="bg-topo flex min-h-[70vh] flex-1 items-center justify-center bg-background px-5 py-24"
     >
       <div className="mx-auto w-full max-w-2xl text-center">
-        <p className="font-mono text-sm font-bold uppercase tracking-[0.18em] text-amber">
+        <p className="font-mono text-sm font-bold uppercase tracking-[0.18em] text-amber-strong">
           A apărut o eroare
         </p>
         <h1 className="mt-5 font-serif-display text-4xl font-semibold leading-[1.1] text-olive md:text-5xl">
@@ -55,7 +55,7 @@ export default function Error({
           </button>
           <Link
             href="/"
-            className="border border-olive/20 px-6 py-3 text-sm font-bold uppercase text-olive transition hover:border-olive/50 hover:text-amber"
+            className="border border-olive/20 px-6 py-3 text-sm font-bold uppercase text-olive transition hover:border-olive/50 hover:text-amber-strong"
           >
             Pagina principală
           </Link>

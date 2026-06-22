@@ -192,7 +192,7 @@ export function Navbar({ serviceGroups, settings }: NavbarProps) {
           <nav className="hidden items-center gap-7 lg:flex">
             <Link
               href="/"
-              className="py-3 text-sm font-semibold uppercase text-stone hover:text-amber"
+              className="py-3 text-sm font-semibold uppercase text-stone hover:text-amber-strong"
               onClick={() =>
                 pushMarketingEvent({
                   event: "pc_nav_click",
@@ -212,7 +212,7 @@ export function Navbar({ serviceGroups, settings }: NavbarProps) {
               <button
                 aria-expanded={isServicesOpen}
                 aria-haspopup="true"
-                className="flex items-center gap-2 py-3 text-sm font-semibold uppercase text-stone hover:text-amber"
+                className="flex items-center gap-2 py-3 text-sm font-semibold uppercase text-stone hover:text-amber-strong"
                 type="button"
               >
                 Servicii
@@ -230,7 +230,7 @@ export function Navbar({ serviceGroups, settings }: NavbarProps) {
                     <div key={group.title} className="border-l border-olive/10 pl-4">
                       <Link
                         href={group.href}
-                        className="mb-4 block text-sm font-bold leading-5 text-olive hover:text-amber"
+                        className="mb-4 block text-sm font-bold leading-5 text-olive hover:text-amber-strong"
                         onClick={() => setIsServicesOpen(false)}
                       >
                         {group.title}
@@ -257,7 +257,7 @@ export function Navbar({ serviceGroups, settings }: NavbarProps) {
               <Link
                 key={link.href}
                 href={link.href}
-                className="py-3 text-sm font-semibold uppercase text-stone hover:text-amber"
+                className="py-3 text-sm font-semibold uppercase text-stone hover:text-amber-strong"
                 onClick={() =>
                   pushMarketingEvent({
                     event: "pc_nav_click",
@@ -302,7 +302,7 @@ export function Navbar({ serviceGroups, settings }: NavbarProps) {
             <div className="space-y-5">
               <Link
                 href="/"
-                className="block text-xs font-bold uppercase text-amber"
+                className="block text-xs font-bold uppercase text-amber-strong"
                 onClick={() => {
                   pushMarketingEvent({
                     event: "pc_nav_click",
@@ -319,7 +319,7 @@ export function Navbar({ serviceGroups, settings }: NavbarProps) {
                 <button
                   aria-expanded={isMobileServicesOpen}
                   aria-controls="mobile-services-list"
-                  className="flex w-full items-center justify-between py-1 text-xs font-bold uppercase text-amber"
+                  className="flex w-full items-center justify-between py-1 text-xs font-bold uppercase text-amber-strong"
                   onClick={() => setIsMobileServicesOpen((open) => !open)}
                   type="button"
                 >

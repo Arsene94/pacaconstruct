@@ -84,7 +84,7 @@ export function ContactForm() {
         role="status"
         aria-live="polite"
       >
-        <p className="text-xs font-bold uppercase tracking-[0.14em] text-amber">
+        <p className="text-xs font-bold uppercase tracking-[0.14em] text-amber-strong">
           Solicitare trimisă
         </p>
         <h3 className="mt-4 font-serif-display text-3xl font-semibold text-olive">

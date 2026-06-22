@@ -73,7 +73,7 @@ export default async function RentalListingPage() {
           <div className="absolute inset-0 -z-10 bg-limestone/80" />
           <SectionContainer className="grid min-h-[680px] items-center gap-10 py-20 md:grid-cols-12 lg:py-28">
             <div className="md:col-span-5">
-              <p className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-amber">
+              <p className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-amber-strong">
                 <span className="h-px w-10 bg-amber" />
                 Divizia închirieri utilaje
               </p>
@@ -125,7 +125,7 @@ export default async function RentalListingPage() {
                 key={item}
                 className="border border-olive/10 bg-white p-5 text-center shadow-sm shadow-carbon/5"
               >
-                <span className="block font-mono text-xs font-bold uppercase text-amber">
+                <span className="block font-mono text-xs font-bold uppercase text-amber-strong">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <p className="mt-2 text-sm font-bold uppercase text-olive">{item}</p>
@@ -137,7 +137,7 @@ export default async function RentalListingPage() {
         <section className="py-20 md:py-28">
           <SectionContainer>
             <div className="mb-10 max-w-2xl">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-strong">
                 Utilaj recomandat
               </p>
               <h2 className="mt-3 font-serif-display text-4xl font-semibold text-olive md:text-5xl">
@@ -156,7 +156,7 @@ export default async function RentalListingPage() {
                 />
               </div>
               <div className="flex flex-col justify-center p-8 md:p-12 lg:p-16">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-strong">
                   {featuredMachine.category}
                 </p>
                 <h3 className="mt-4 font-serif-display text-4xl font-semibold text-olive">
@@ -218,7 +218,7 @@ export default async function RentalListingPage() {
                     <p className="w-fit bg-olive px-2 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-white">
                       {machine.category}
                     </p>
-                    <p className="mt-4 font-mono text-sm font-bold text-amber">
+                    <p className="mt-4 font-mono text-sm font-bold text-amber-strong">
                       {machine.price}
                     </p>
                     <h3 className="mt-3 font-serif-display text-3xl font-medium text-olive">
@@ -240,7 +240,7 @@ export default async function RentalListingPage() {
                     </ul>
                     <Link
                       href={`/inchiriere-utilaje/${machine.slug}`}
-                      className="inline-flex w-fit items-center gap-2 border-b border-olive pb-1 text-sm font-bold uppercase text-olive transition hover:border-amber hover:text-amber"
+                      className="inline-flex w-fit items-center gap-2 border-b border-olive pb-1 text-sm font-bold uppercase text-olive transition hover:border-amber hover:text-amber-strong"
                     >
                       Închiriază utilaj
                       <span aria-hidden="true">-&gt;</span>

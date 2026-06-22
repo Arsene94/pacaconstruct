@@ -80,13 +80,13 @@ export default async function ZonaPage({ params }: ZonaRouteProps) {
               aria-label="Breadcrumb"
               className="mb-8 flex items-center gap-2 text-sm font-medium text-stone"
             >
-              <Link href="/" className="hover:text-amber">
+              <Link href="/" className="hover:text-amber-strong">
                 Acasă
               </Link>
               <span aria-hidden="true">/</span>
               <span className="font-bold text-olive">Zona {area.name}</span>
             </nav>
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-amber">
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-amber-strong">
               Zonă deservită · {area.county}
             </p>
             <h1 className="mt-5 max-w-4xl font-serif-display text-4xl font-semibold leading-[1.08] text-olive md:text-6xl">
@@ -128,13 +128,13 @@ export default async function ZonaPage({ params }: ZonaRouteProps) {
                   href={`/servicii/${service.slug}`}
                   className="group border border-olive/15 bg-white p-6 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-carbon/10"
                 >
-                  <h3 className="font-serif-display text-2xl font-medium text-olive group-hover:text-amber">
+                  <h3 className="font-serif-display text-2xl font-medium text-olive group-hover:text-amber-strong">
                     {service.title}
                   </h3>
                   <p className="mt-3 text-sm leading-6 text-stone">
                     {service.description}
                   </p>
-                  <span className="mt-4 inline-flex text-xs font-bold uppercase text-olive group-hover:text-amber">
+                  <span className="mt-4 inline-flex text-xs font-bold uppercase text-olive group-hover:text-amber-strong">
                     Vezi serviciul →
                   </span>
                 </Link>
@@ -165,7 +165,7 @@ export default async function ZonaPage({ params }: ZonaRouteProps) {
                   <span key={a.slug}>
                     <Link
                       href={`/zona/${a.slug}`}
-                      className="text-amber underline underline-offset-2 hover:text-olive"
+                      className="text-amber-strong underline underline-offset-2 hover:text-olive"
                     >
                       {a.name}
                     </Link>

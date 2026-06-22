@@ -69,13 +69,13 @@ export default async function DesprePage() {
               aria-label="Breadcrumb"
               className="mb-8 flex items-center gap-2 text-sm font-medium text-stone"
             >
-              <Link href="/" className="hover:text-amber">
+              <Link href="/" className="hover:text-amber-strong">
                 Acasă
               </Link>
               <span aria-hidden="true">/</span>
               <span className="font-bold text-olive">Despre noi</span>
             </nav>
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-amber">
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-amber-strong">
               Despre {siteConfig.legalName}
             </p>
             <h1 className="mt-5 max-w-4xl font-serif-display text-5xl font-semibold leading-[1.05] text-olive md:text-6xl">
@@ -137,7 +137,7 @@ export default async function DesprePage() {
                   <li key={area.slug}>
                     <Link
                       href={`/zona/${area.slug}`}
-                      className="inline-flex border border-olive/20 bg-white/70 px-3 py-1 text-sm font-semibold text-olive transition hover:border-amber hover:text-amber"
+                      className="inline-flex border border-olive/20 bg-white/70 px-3 py-1 text-sm font-semibold text-olive transition hover:border-amber hover:text-amber-strong"
                     >
                       {area.name}
                     </Link>
@@ -167,7 +167,7 @@ export default async function DesprePage() {
                   <dt className="font-bold uppercase text-muted">Telefon</dt>
                   <dd className="text-right text-olive">
                     {phone ? (
-                      <a href={telLink(phone)} className="hover:text-amber">
+                      <a href={telLink(phone)} className="hover:text-amber-strong">
                         {phone.display}
                       </a>
                     ) : null}

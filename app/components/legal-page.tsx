@@ -43,7 +43,7 @@ export async function LegalPage({
             aria-label="Breadcrumb"
             className="mb-8 flex items-center gap-2 text-sm font-medium text-stone"
           >
-            <Link href="/" className="hover:text-amber">
+            <Link href="/" className="hover:text-amber-strong">
               Acasă
             </Link>
             <span aria-hidden="true">/</span>
@@ -57,9 +57,9 @@ export async function LegalPage({
             className={[
               "mt-10 max-w-3xl text-base leading-7 text-stone",
               "[&_h2]:mt-10 [&_h2]:mb-3 [&_h2]:font-serif-display [&_h2]:text-2xl [&_h2]:font-medium [&_h2]:text-olive",
-              "[&_h3]:mt-8 [&_h3]:mb-2 [&_h3]:font-bold [&_h3]:uppercase [&_h3]:tracking-[0.08em] [&_h3]:text-sm [&_h3]:text-amber",
+              "[&_h3]:mt-8 [&_h3]:mb-2 [&_h3]:font-bold [&_h3]:uppercase [&_h3]:tracking-[0.08em] [&_h3]:text-sm [&_h3]:text-amber-strong",
               "[&_p]:mt-4 [&_ul]:mt-4 [&_ul]:grid [&_ul]:gap-2 [&_ul>li]:ml-5 [&_ul>li]:list-disc",
-              "[&_a]:text-amber [&_a]:underline [&_a]:underline-offset-2",
+              "[&_a]:text-amber-strong [&_a]:underline [&_a]:underline-offset-2",
               "[&_strong]:font-bold [&_strong]:text-olive",
               "[&_table]:mt-6 [&_table]:w-full [&_table]:border-collapse [&_table]:text-sm [&_table]:leading-6",
               "[&_th]:border [&_th]:border-olive/15 [&_th]:bg-white [&_th]:p-3 [&_th]:text-left [&_th]:align-top [&_th]:font-bold [&_th]:text-olive",

@@ -98,13 +98,13 @@ export default async function ProiectePage() {
               aria-label="Breadcrumb"
               className="mb-8 flex items-center gap-2 text-sm font-medium text-stone"
             >
-              <Link href="/" className="hover:text-amber">
+              <Link href="/" className="hover:text-amber-strong">
                 Acasă
               </Link>
               <span aria-hidden="true">/</span>
               <span className="font-bold text-olive">Proiecte</span>
             </nav>
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-amber">
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-amber-strong">
               Portofoliu
             </p>
             <h1 className="mt-5 max-w-4xl font-serif-display text-4xl font-semibold leading-[1.08] text-olive md:text-6xl">
@@ -148,7 +148,7 @@ export default async function ProiectePage() {
                       {project.summary}
                     </p>
                     {project.slug ? (
-                      <span className="mt-4 inline-flex text-xs font-bold uppercase text-olive group-hover:text-amber">
+                      <span className="mt-4 inline-flex text-xs font-bold uppercase text-olive group-hover:text-amber-strong">
                         Vezi proiectul →
                       </span>
                     ) : null}

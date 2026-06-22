@@ -69,7 +69,7 @@ const PROSE_CLASS = [
   "[&>ul]:mt-5 [&>ul]:grid [&>ul]:gap-3 [&>ul]:border [&>ul]:border-olive/15 [&>ul]:bg-white/70 [&>ul]:p-6",
   "[&>ul>li]:list-disc [&>ul>li]:ml-5",
   "[&>ol]:mt-5 [&>ol]:grid [&>ol]:gap-3 [&>ol>li]:list-decimal [&>ol>li]:ml-5",
-  "[&_a]:text-amber [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-olive",
+  "[&_a]:text-amber-strong [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-olive",
   "[&_strong]:font-bold [&_strong]:text-olive",
   "[&_blockquote]:border-l-4 [&_blockquote]:border-amber [&_blockquote]:bg-white [&_blockquote]:p-6 [&_blockquote]:font-serif-display [&_blockquote]:text-2xl [&_blockquote]:leading-9 [&_blockquote]:text-olive",
   "[&_table]:w-full [&_table]:border-collapse [&_table]:text-left [&_table]:text-base",
@@ -111,7 +111,7 @@ export default async function BlogArticlePage(props: PageProps<"/blog/[slug]">) 
               <div className="flex flex-wrap items-center gap-4 text-sm text-muted">
                 {post.category ? (
                   <>
-                    <span className="font-bold uppercase text-amber">
+                    <span className="font-bold uppercase text-amber-strong">
                       {post.category}
                     </span>
                     <span className="h-4 w-px bg-olive/20" />
@@ -198,7 +198,7 @@ export default async function BlogArticlePage(props: PageProps<"/blog/[slug]">) 
                             href={source.url}
                             target="_blank"
                             rel="noreferrer nofollow"
-                            className="text-olive underline underline-offset-2 hover:text-amber"
+                            className="text-olive underline underline-offset-2 hover:text-amber-strong"
                           >
                             {source.title}
                           </a>
@@ -221,7 +221,7 @@ export default async function BlogArticlePage(props: PageProps<"/blog/[slug]">) 
                     </p>
                     <a
                       href="/contact#form-section"
-                      className="mt-5 inline-flex text-xs font-bold uppercase text-olive hover:text-amber"
+                      className="mt-5 inline-flex text-xs font-bold uppercase text-olive hover:text-amber-strong"
                     >
                       Cere o evaluare -&gt;
                     </a>
@@ -240,7 +240,7 @@ export default async function BlogArticlePage(props: PageProps<"/blog/[slug]">) 
                           <li key={item.href}>
                             <Link
                               href={item.href}
-                              className="text-sm leading-6 text-stone underline underline-offset-2 transition hover:text-amber"
+                              className="text-sm leading-6 text-stone underline underline-offset-2 transition hover:text-amber-strong"
                             >
                               {item.title}
                             </Link>

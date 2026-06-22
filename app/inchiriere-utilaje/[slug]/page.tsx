@@ -94,11 +94,11 @@ export default async function RentalProductPage({ params }: RentalRouteProps) {
             aria-label="Breadcrumb"
             className="mb-8 flex items-center gap-2 text-sm font-medium text-stone"
           >
-            <Link href="/" className="hover:text-amber">
+            <Link href="/" className="hover:text-amber-strong">
               Acasă
             </Link>
             <span aria-hidden="true">/</span>
-            <Link href="/inchiriere-utilaje" className="hover:text-amber">
+            <Link href="/inchiriere-utilaje" className="hover:text-amber-strong">
               Închirieri utilaje
             </Link>
             <span aria-hidden="true">/</span>
@@ -118,7 +118,7 @@ export default async function RentalProductPage({ params }: RentalRouteProps) {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-carbon/25 to-transparent" />
               </div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-strong">
                 Operator inclus
               </p>
               <div className="mt-3 flex flex-wrap items-center gap-3">
@@ -166,7 +166,7 @@ export default async function RentalProductPage({ params }: RentalRouteProps) {
                   ["Logistică", "Distanța, accesul și mobilizarea utilajului."],
                 ].map(([title, text]) => (
                   <div key={title}>
-                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber">
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-strong">
                       {title}
                     </p>
                     <p className="mt-2 text-base leading-7 text-stone">{text}</p>

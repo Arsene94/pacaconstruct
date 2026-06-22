@@ -95,7 +95,7 @@ function FaqHero() {
       />
       <div className="absolute inset-0 -z-10 bg-limestone/80" />
       <SectionContainer className="text-center">
-        <p className="text-xs font-bold uppercase text-amber">
+        <p className="text-xs font-bold uppercase text-amber-strong">
           Centrul de informații PACA
         </p>
         <h1 className="mx-auto mt-5 max-w-4xl font-serif-display text-5xl font-semibold leading-[1.05] text-olive md:text-7xl">
@@ -162,7 +162,7 @@ function CategoryNav({ sections }: { sections: FaqSection[] }) {
     <div className="sticky top-[76px] z-30 mt-16 hidden border-y border-olive/10 bg-limestone/90 backdrop-blur lg:block">
       <SectionContainer className="flex h-16 items-center justify-center gap-10">
         <a
-          className="text-xs font-bold uppercase text-olive hover:text-amber"
+          className="text-xs font-bold uppercase text-olive hover:text-amber-strong"
           href="#frecvente"
         >
           Cele mai frecvente
@@ -170,7 +170,7 @@ function CategoryNav({ sections }: { sections: FaqSection[] }) {
         {sections.map((section) => (
           <a
             key={section.id}
-            className="text-xs font-bold uppercase text-stone transition hover:text-amber"
+            className="text-xs font-bold uppercase text-stone transition hover:text-amber-strong"
             href={`#${section.id}`}
           >
             {section.title}
@@ -186,7 +186,9 @@ function FrequentQuestions() {
     <section id="frecvente" className="py-20 md:py-28">
       <SectionContainer>
         <div className="mb-12 text-center">
-          <p className="text-xs font-bold uppercase text-amber">Cele mai căutate</p>
+          <p className="text-xs font-bold uppercase text-amber-strong">
+            Cele mai căutate
+          </p>
           <h2 className="mt-4 font-serif-display text-4xl font-semibold text-olive md:text-5xl">
             Cele mai frecvente întrebări
           </h2>
@@ -261,10 +263,10 @@ function FaqCategories({ sections }: { sections: FaqSection[] }) {
                 className="group border border-olive/15 bg-white p-6 shadow-xl shadow-carbon/5 open:border-amber/60"
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-6">
-                  <h3 className="font-serif-display text-2xl font-medium text-olive transition group-open:text-amber">
+                  <h3 className="font-serif-display text-2xl font-medium text-olive transition group-open:text-amber-strong">
                     {item.question}
                   </h3>
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center border border-olive/15 text-xl text-olive transition group-open:rotate-45 group-open:border-amber group-open:text-amber">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center border border-olive/15 text-xl text-olive transition group-open:rotate-45 group-open:border-amber group-open:text-amber-strong">
                     +
                   </span>
                 </summary>

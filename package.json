@@ -2,6 +2,15 @@
   "name": "paca-construct",
   "version": "0.1.0",
   "private": true,
+  "_browserslist_note": "Target browsere moderne (Baseline ~2022) ca SWC/Next sa NU mai injecteze polyfills pentru Array.prototype.at/flat/flatMap, Object.fromEntries/hasOwn, String trimStart/trimEnd (Lighthouse: «JavaScript vechi»). Safari 16 = iOS 16+, acopera practic toate iPhone-urile active.",
+  "browserslist": [
+    "chrome >= 100",
+    "edge >= 100",
+    "firefox >= 100",
+    "safari >= 16",
+    "ios_saf >= 16",
+    "not dead"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -55,7 +64,7 @@
     "@types/node": "^26",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^10",
+    "eslint": "^9",
     "eslint-config-next": "16.2.9",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
