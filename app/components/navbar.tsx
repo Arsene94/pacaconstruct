@@ -12,6 +12,7 @@ import {
   type ResolvedSettings,
 } from "@/app/lib/settings-shared";
 import { pushMarketingEvent } from "@/app/lib/marketing/data-layer";
+import { Logo } from "@/app/components/ui/logo";
 
 type NavbarProps = {
   serviceGroups: ServiceGroup[];
@@ -178,9 +179,14 @@ export function Navbar({ serviceGroups, settings }: NavbarProps) {
 
           <Link
             href="/"
-            className="justify-self-center text-center font-serif-display text-xl font-semibold leading-none text-olive md:justify-self-auto md:text-left md:text-3xl"
+            aria-label="PACA CONSTRUCT — Acasă"
+            className="justify-self-center md:justify-self-auto"
           >
-            PACA CONSTRUCT
+            <Logo
+              priority
+              className="h-10 w-auto md:h-14"
+              sizes="(min-width: 768px) 240px, 160px"
+            />
           </Link>
 
           <nav className="hidden items-center gap-7 lg:flex">

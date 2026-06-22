@@ -66,7 +66,9 @@ export const getRentalMachines = unstable_cache(
       .returns<RentalRow[]>();
 
     if (error) {
-      throw new Error(`Nu am putut încărca utilajele: ${error.message}`);
+      // Degradare grațioasă pentru prerender-ul ISR al listei de utilaje.
+      console.warn(`[rentals] getRentalMachines a eșuat, întorc gol: ${error.message}`);
+      return [];
     }
     return (data ?? []).map(mapRental);
   },

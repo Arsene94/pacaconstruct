@@ -125,6 +125,12 @@ const nextConfig: NextConfig = {
       "./node_modules/uncrypto/**/*",
     ],
   },
+  // Tree-shaking pe barrel-uri mari: importăm doar iconurile folosite din
+  // @tabler/icons-react, altfel intră tot pachetul în bundle-ul client.
+  // Reduce First Load JS pe paginile cu butoane flotante / formulare.
+  experimental: {
+    optimizePackageImports: ["@tabler/icons-react"],
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [

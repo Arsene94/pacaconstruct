@@ -51,7 +51,9 @@ export const getFaqSections = unstable_cache(
       .returns<FaqSectionRow[]>();
 
     if (error) {
-      throw new Error(`Nu am putut încărca secțiunile de FAQ: ${error.message}`);
+      // Degradare grațioasă pentru prerender-ul ISR al paginii FAQ.
+      console.warn(`[faq] getFaqSections a eșuat, întorc gol: ${error.message}`);
+      return [];
     }
 
     return (data ?? []).map((section) => ({

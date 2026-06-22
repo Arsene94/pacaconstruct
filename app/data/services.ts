@@ -114,7 +114,9 @@ export const getServicePages = unstable_cache(
       .returns<ServiceRow[]>();
 
     if (error) {
-      throw new Error(`Nu am putut încărca serviciile: ${error.message}`);
+      // Degradare grațioasă pentru prerender-ul ISR al listei de servicii.
+      console.warn(`[services] getServicePages a eșuat, întorc gol: ${error.message}`);
+      return [];
     }
     return (data ?? []).map(mapService);
   },
@@ -146,24 +148,26 @@ export const getServiceGroups = unstable_cache(
   async (): Promise<ServiceGroup[]> => {
     const supabase = createPublicClient();
     const { data, error } = await supabase
-    .from("service_groups")
-    .select(
-      "title, href, slug, sort_order, services(title, slug, sort_order)",
-    )
-    .order("sort_order")
-    .returns<
-      {
-        title: string;
-        href: string;
-        slug: string;
-        sort_order: number;
-        services: { title: string; slug: string; sort_order: number }[] | null;
-      }[]
-    >();
+      .from("service_groups")
+      .select("title, href, slug, sort_order, services(title, slug, sort_order)")
+      .order("sort_order")
+      .returns<
+        {
+          title: string;
+          href: string;
+          slug: string;
+          sort_order: number;
+          services: { title: string; slug: string; sort_order: number }[] | null;
+        }[]
+      >();
 
-  if (error) {
-    throw new Error(`Nu am putut încărca grupurile de servicii: ${error.message}`);
-  }
+    if (error) {
+      // Degradare grațioasă: navbar-ul folosește acest getter pe FIECARE pagină
+      // (inclusiv la prerender-ul ISR). O eroare de DB nu trebuie să strice
+      // build-ul sau pagina; întoarcem gol și cache-ul reîncearcă la revalidare.
+      console.warn(`[services] getServiceGroups a eșuat, întorc gol: ${error.message}`);
+      return [];
+    }
 
     return (data ?? []).map((group) => ({
       title: group.title,
@@ -204,7 +208,12 @@ export const getFeaturedServices = unstable_cache(
       >();
 
     if (error) {
-      throw new Error(`Nu am putut încărca serviciile featured: ${error.message}`);
+      // Degradare grațioasă: mozaicul de pe homepage (pagina-țintă pentru
+      // Core Web Vitals) nu trebuie să strice prerender-ul ISR la o eroare DB.
+      console.warn(
+        `[services] getFeaturedServices a eșuat, întorc gol: ${error.message}`,
+      );
+      return [];
     }
 
     return (data ?? []).map((service, index) => ({

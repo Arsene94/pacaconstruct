@@ -2,11 +2,7 @@ import { unstable_cache } from "next/cache";
 import { createClient } from "@/app/lib/supabase/server";
 import { createPublicClient } from "@/app/lib/supabase/public";
 
-export type ProjectType =
-  | "Excavări"
-  | "Terasamente"
-  | "Amenajări"
-  | "Închiriere";
+export type ProjectType = "Excavări" | "Terasamente" | "Amenajări" | "Închiriere";
 
 export type ProjectStatus =
   | "Ofertat"
@@ -154,7 +150,9 @@ export const getPublishedProjects = unstable_cache(
       .order("sort_order")
       .returns<PublicProjectRow[]>();
     if (error) {
-      throw new Error(`Nu am putut încărca proiectele publice: ${error.message}`);
+      // Degradare grațioasă pentru prerender-ul ISR al listei de proiecte.
+      console.warn(`[projects] getPublicProjects a eșuat, întorc gol: ${error.message}`);
+      return [];
     }
     return (data ?? []).map(mapPublicProject);
   },

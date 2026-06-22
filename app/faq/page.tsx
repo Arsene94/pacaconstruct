@@ -10,7 +10,7 @@ import { JsonLd } from "@/app/components/json-ld";
 import { breadcrumbSchema, faqPageSchema } from "@/app/lib/schema";
 
 // Conținut din DB, randare dinamică; datele vin din cache-ul Upstash.
-export const dynamic = "force-dynamic";
+export const revalidate = 3600; // ISR: shell static + reîmprospătare; datele vin din unstable_cache (cookie-free)
 
 export const metadata: Metadata = {
   title: "Întrebări frecvente",

@@ -4,7 +4,7 @@ import { LegalPage } from "../components/legal-page";
 import { getSiteSettings } from "../data/settings";
 
 // Navbar-ul citește din DB (cache Upstash) → randare dinamică, ca în restul app.
-export const dynamic = "force-dynamic";
+export const revalidate = 86400; // ISR: conținut care se schimbă rar
 
 export const metadata: Metadata = {
   title: "Politica de cookie-uri",

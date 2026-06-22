@@ -1,7 +1,9 @@
+import Link from "next/link";
 import { SectionContainer } from "./section-container";
 import { getSiteSettings } from "@/app/data/settings";
 import { getPrimaryPhone, telLink } from "@/app/lib/settings-shared";
 import { TrackedAnchor, TrackedLink } from "@/app/components/ui/tracked-link";
+import { Logo } from "@/app/components/ui/logo";
 
 export async function Footer() {
   const settings = await getSiteSettings();
@@ -12,9 +14,9 @@ export async function Footer() {
     <footer id="contact" className="border-t border-white/10 bg-olive text-white">
       <SectionContainer className="grid gap-10 py-16 md:grid-cols-4 lg:py-24">
         <div className="md:col-span-1">
-          <p className="font-serif-display text-3xl font-semibold text-sage">
-            PACA CONSTRUCT
-          </p>
+          <Link href="/" aria-label="PACA CONSTRUCT — Acasă" className="inline-block">
+            <Logo variant="footer" className="h-14 w-auto" sizes="200px" />
+          </Link>
           <p className="mt-5 max-w-xs text-sm leading-6 text-white/70">
             Tehnicitate în armonie cu natura. Amenajări, terasamente și excavări pentru
             proiecte rezidențiale, comerciale și industriale.

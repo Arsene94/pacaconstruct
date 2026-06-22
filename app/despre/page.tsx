@@ -13,7 +13,7 @@ import { serviceAreas } from "../data/service-areas";
 
 // Navbar-ul citește grupurile de servicii din DB (cache Upstash) → randare
 // dinamică, ca în restul aplicației. Conținutul rămâne server-rendered (SEO ok).
-export const dynamic = "force-dynamic";
+export const revalidate = 86400; // ISR: conținut care se schimbă rar
 
 export const metadata: Metadata = {
   title: "Despre noi",

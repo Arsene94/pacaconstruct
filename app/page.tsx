@@ -13,7 +13,7 @@ import { getServiceGroups } from "./data/services";
 // Conținut din DB: randare dinamică, dar datele vin din cache-ul Upstash
 // (getterii `unstable_cache` din app/data/*), deci build-ul nu depinde de DB
 // și pe cache hit nu lovim Postgres.
-export const dynamic = "force-dynamic";
+export const revalidate = 3600; // ISR: shell static + reîmprospătare; datele vin din unstable_cache (cookie-free)
 
 export default async function Home() {
   const serviceGroups = await getServiceGroups();

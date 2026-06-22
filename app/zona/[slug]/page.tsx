@@ -13,7 +13,7 @@ import { getPrimaryPhone, telLink } from "@/app/lib/settings-shared";
 
 // Navbar + lista de servicii vin din DB (cache Upstash) → randare dinamică, ca
 // în restul aplicației. Conținutul rămâne server-rendered (SEO ok).
-export const dynamic = "force-dynamic";
+export const revalidate = 3600; // ISR: shell static + reîmprospătare; datele vin din unstable_cache (cookie-free)
 
 type ZonaRouteProps = { params: Promise<{ slug: string }> };
 

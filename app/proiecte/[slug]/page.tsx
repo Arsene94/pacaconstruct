@@ -12,7 +12,7 @@ import { breadcrumbSchema, projectSchema } from "@/app/lib/schema";
 
 // Navbar + proiectul vin din DB (cache Upstash) → randare dinamică, ca în restul
 // aplicației. Conținutul rămâne server-rendered (SEO ok).
-export const dynamic = "force-dynamic";
+export const revalidate = 3600; // ISR: shell static + reîmprospătare; datele vin din unstable_cache (cookie-free)
 
 type ProiectRouteProps = { params: Promise<{ slug: string }> };
 
