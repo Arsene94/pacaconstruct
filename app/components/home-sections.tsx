@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { getFeaturedServices } from "../data/services";
+import { Reveal } from "./reveal";
 import { SectionContainer } from "./section-container";
 
 // Placeholder blur (12x7 JPEG) derivat din hero.jpg — îmbunătățește percepția
@@ -235,7 +236,7 @@ function ServicePath({
   );
 
   return (
-    <div className="py-0 md:grid md:items-center md:gap-12 md:py-10 lg:grid-cols-2 lg:gap-16 lg:py-16">
+    <Reveal className="py-0 md:grid md:items-center md:gap-12 md:py-10 lg:grid-cols-2 lg:gap-16 lg:py-16">
       {mobileCard}
       <div className="hidden md:contents">
         {imageAlign === "left" ? (
@@ -250,7 +251,7 @@ function ServicePath({
           </>
         )}
       </div>
-    </div>
+    </Reveal>
   );
 }
 
@@ -285,7 +286,7 @@ export async function ServicesMosaic() {
       className="order-4 bg-limestone py-16 md:order-none md:py-28 lg:py-32"
     >
       <SectionContainer>
-        <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+        <Reveal className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
             <Eyebrow>CE FACEM</Eyebrow>
             <h2 className="mt-5 font-serif-display text-4xl font-semibold text-carbon md:text-5xl">
@@ -298,14 +299,16 @@ export async function ServicesMosaic() {
           >
             Toate serviciile
           </Link>
-        </div>
+        </Reveal>
 
         <div className="grid auto-rows-[minmax(210px,auto)] grid-cols-1 gap-5 md:grid-cols-3">
-          {featuredServices.map((service) => (
-            <article
+          {featuredServices.map((service, index) => (
+            <Reveal
+              as="article"
               key={service.id}
               id={service.id}
-              className={`group relative overflow-hidden border border-olive/15 bg-white p-6 transition hover:border-amber/60 hover:shadow-xl hover:shadow-carbon/5 ${
+              delay={(index % 3) * 0.08}
+              className={`group relative overflow-hidden border border-olive/15 bg-white p-6 transition-[border-color,box-shadow] duration-300 hover:border-amber/60 hover:shadow-xl hover:shadow-carbon/5 ${
                 service.featured ? "md:col-span-2 md:row-span-1 md:p-8" : ""
               } ${service.wide ? "md:col-span-2" : ""}`}
             >
@@ -347,7 +350,7 @@ export async function ServicesMosaic() {
                   Vezi serviciul -&gt;
                 </Link>
               </div>
-            </article>
+            </Reveal>
           ))}
         </div>
       </SectionContainer>
@@ -397,8 +400,10 @@ export function ProcessSection() {
 
           <div className="grid gap-0 md:grid-cols-2 md:gap-4">
             {steps.map((step, index) => (
-              <article
+              <Reveal
+                as="article"
                 key={step.title}
+                delay={(index % 2) * 0.08}
                 className="grid grid-cols-[32px_1fr_24px] gap-4 border-b border-olive/15 py-6 md:block md:border md:border-white/10 md:bg-white/[0.03] md:p-6"
               >
                 <span className="mt-1 text-sm font-bold text-amber-strong md:mt-0 md:text-amber">
@@ -415,7 +420,7 @@ export function ProcessSection() {
                 <span className="mt-1 text-olive/60 md:hidden" aria-hidden="true">
                   -&gt;
                 </span>
-              </article>
+              </Reveal>
             ))}
           </div>
         </div>
